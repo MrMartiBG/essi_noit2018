@@ -1,16 +1,15 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var db_user = require('./config/database_user.js');
 
+console.log(db_user);
 
 http.listen(3030, function(){
   console.log('Server started! At http://localhost:3030');
 });
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
-app.get('/test', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
