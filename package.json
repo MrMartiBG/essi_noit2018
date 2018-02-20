@@ -1,0 +1,28 @@
+{
+  "name": "essi_noit2018",
+  "version": "1.0.0",
+  "description": "NOIT project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrMartiBG/essi_noit2018.git"
+  },
+  "keywords": [
+    "essi",
+    "NOIT",
+    "project"
+  ],
+  "author": "Ivan Nikolov, Martin Dimitrov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrMartiBG/essi_noit2018/issues"
+  },
+  "homepage": "https://github.com/MrMartiBG/essi_noit2018#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  }
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Ivan Socket.IO chat</title>
+  </head>
+  <body>
+    <form>
+    <button onclick="return buttonPressed()">Press!</button>
+    <p id="count"></p>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+      var socket = io();
+
+      function buttonPressed() {
+        socket.emit('buttonPressed');
+        return false;
+      }
+
+      socket.on("buttonPressedCount" , function(count) {
+        var p = document.getElementById("count");
+        p.innerHTML = count;
+      });
+
+    </script>
+  </body>
+</html>
