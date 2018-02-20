@@ -5,21 +5,38 @@
   </head>
   <body>
     <form>
-    <button onclick="return buttonPressed()">Press!</button>
-    <p id="count"></p>
+      <p>data:</p><input id="data" autocomplete="off"/>
+      <p>index:</p><input id="index" autocomplete="off"/>
+      <button onclick="return setData()">Set</button>  
+      <button onclick="return getData()">Get</button><br>
+    </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
 
       var socket = io();
 
-      function buttonPressed() {
-        socket.emit('buttonPressed');
+      function setData() {
+        var data = document.getElementById('data').value;
+        var index = document.getElementById('index').value;
+        console.log(socket.emit('setData',index,data));
         return false;
       }
 
-      socket.on("buttonPressedCount" , function(count) {
-        var p = document.getElementById("count");
-        p.innerHTML = count;
+      function getData() {
+        var index = document.getElementById('index').value;
+        document.getElementById("data").readOnly = true; 
+        document.getElementById("index").readOnly = true; 
+        console.log(socket.emit('getData', index));
+        return false;
+      }
+
+      socket.on("reciveData" , function(index,data) {
+        var d = document.getElementById('data');
+        var i = document.getElementById('index');
+        d.readOnly = false;
+        i.readOnly = false;
+        d.value = data;
+        i.value = index;
       });
 
     </script>

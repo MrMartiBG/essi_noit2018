@@ -11,20 +11,23 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-var buttonPressedCount = 0;
+var data_array = [];
 
 io.on('connection', function(socket){
   console.log('a user connected');
-  socket.emit('buttonPressedCount', buttonPressedCount);
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
 
-	socket.on('buttonPressed', function(){
-    buttonPressedCount++;
-		console.log('button pressed', buttonPressedCount);
-    io.emit('buttonPressedCount', buttonPressedCount);
- 	});
+  socket.on('setData', function(index, data){
+    data_array[index] = data;
+    console.log("data_array[" + index + "] = " + data + ";");
+  });
+
+  socket.on('getData', function(index){
+    socket.emit('reciveData', index, data_array[index]);
+    console.log("socket.io('reciveData', " + index + ", " + data_array[index] + ");");  
+  });
 
 });
