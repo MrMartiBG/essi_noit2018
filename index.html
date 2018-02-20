@@ -18,7 +18,9 @@
       function setData() {
         var data = document.getElementById('data').value;
         var index = document.getElementById('index').value;
-        console.log(socket.emit('setData',index,data));
+        document.getElementById('data').value = "";
+        document.getElementById('index').value = "";
+        socket.emit('setData',index,data)
         return false;
       }
 
@@ -26,7 +28,7 @@
         var index = document.getElementById('index').value;
         document.getElementById("data").readOnly = true; 
         document.getElementById("index").readOnly = true; 
-        console.log(socket.emit('getData', index));
+        socket.emit('getData', index)
         return false;
       }
 

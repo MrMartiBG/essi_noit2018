@@ -10,11 +10,14 @@ http.listen(3030, function(){
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
+app.get('/test', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
 
 var data_array = [];
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  console.log('user connected');
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
@@ -28,6 +31,10 @@ io.on('connection', function(socket){
   socket.on('getData', function(index){
     socket.emit('reciveData', index, data_array[index]);
     console.log("socket.io('reciveData', " + index + ", " + data_array[index] + ");");  
+  });
+
+  socket.on("new-message", function(msg){
+    console.log("new-message", msg);
   });
 
 });
