@@ -6,17 +6,32 @@ var db_user = require('./config/database_user.js');
 var connection = require('./config/configure_database.js')(mysql,db_user);
 var db = require('./database.js')(connection);
 
-//test:
-  // var today = new Date();
-  // var user={
-  //   "email":"ab@martin.bg",
-  //   "user_name":"ab",
-  //   "password":"12345678",
-  //   "created":today,
-  //   "modified":today
-  // }
-  // db.register(user);
-//end
+//// test:
+  var today = new Date();
+  var user={
+    "email":"abc@martin.bg",
+    "user_name":"abc",
+    "password":"12345678",
+    "created":today,
+    "modified":today
+  }
+  console.log("server.js - db.register(user, function (err, results)");
+  db.register(user, function (err, results){
+    if (err){
+      console.log("server.js - if");
+      console.log("err adding user");
+      // console.log("err", err);
+      // console.log('results', results);
+      return false;
+    }else{
+      console.log("server.js - else");
+      console.log("succ adding user");
+      // console.log("err", err);
+      // console.log('results', results);
+      return true;
+    }
+  });
+//// end
 
 http.listen(3030, function(){
   console.log('Server started! At http://localhost:3030');
