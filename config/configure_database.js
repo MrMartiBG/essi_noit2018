@@ -8,13 +8,22 @@ var db_conf  = function(mysql,db_user){
 	  console.log("Connected to DB!");
 	});
 
-	var sql = "CREATE TABLE IF NOT EXISTS `users` (`id` int(11) NOT NULL AUTO_INCREMENT,`first_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,`last_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,`email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,`password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,`created` datetime NOT NULL,`modified` datetime NOT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+	var sql = "	CREATE TABLE IF NOT EXISTS `users` ( \
+					`id` int NOT NULL AUTO_INCREMENT, \
+					`user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL UNIQUE, \
+					`password` varchar(256) COLLATE utf8_unicode_ci NOT NULL, \
+					`email` varchar(128) COLLATE utf8_unicode_ci NOT NULL UNIQUE, \
+					`created` datetime NOT NULL, \
+					`modified` datetime NOT NULL, \
+					PRIMARY KEY (`id`) \
+				) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	connection.query(sql, function (err, result) {
 	    if (err) throw err;
-	    console.log("Table created");
+	    console.log("Table created!");
 	 });
 
-	return connection
+	return connection;
 };
 
 module.exports = db_conf;
+
