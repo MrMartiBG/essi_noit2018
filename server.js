@@ -4,19 +4,25 @@ var io = require('socket.io')(http);
 var mysql = require('mysql');
 var db_user = require('./config/database_user.js');
 var db_conf = require('./config/configure_database.js');
-
+var db = require('./database.js');
 
 
 console.log(db_user);
-var connection = mysql.createConnection(db_user)
-connection.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected to DB!");
-});
-console.log(db_conf);
-db_conf.configure(connection);
+var connection = db_conf(mysql,db_user);
 
 
+//test:
+  var today = new Date();
+  var user={
+    "first_name":"ivan",
+    "last_name":"martin",
+    "email":"ivan@martin.bg",
+    "password":"12345678",
+    "created":today,
+    "modified":today
+  }
+  db.register(user);
+//end
 
 http.listen(3030, function(){
   console.log('Server started! At http://localhost:3030');
