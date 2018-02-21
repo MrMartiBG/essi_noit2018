@@ -3,13 +3,8 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
 var db_user = require('./config/database_user.js');
-var db_conf = require('./config/configure_database.js');
-var db = require('./database.js');
-
-
-console.log(db_user);
-var connection = db_conf(mysql,db_user);
-
+var connection = require('./config/configure_database.js')(mysql,db_user);
+var db = require('./database.js')(connection);
 
 //test:
   var today = new Date();
