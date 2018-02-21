@@ -7,15 +7,15 @@ var connection = require('./config/configure_database.js')(mysql,db_user);
 var db = require('./database.js')(connection);
 
 //test:
-  var today = new Date();
-  var user={
-    "email":"ab@martin.bg",
-    "user_name":"ab",
-    "password":"12345678",
-    "created":today,
-    "modified":today
-  }
-  db.register(user);
+  // var today = new Date();
+  // var user={
+  //   "email":"ab@martin.bg",
+  //   "user_name":"ab",
+  //   "password":"12345678",
+  //   "created":today,
+  //   "modified":today
+  // }
+  // db.register(user);
 //end
 
 http.listen(3030, function(){
@@ -23,7 +23,23 @@ http.listen(3030, function(){
 });
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/client/index.html');
+});
+
+app.get('/favicon.ico', function(req, res){
+  res.sendFile(__dirname + '/client/favicon.ico');
+});
+app.get('/inline.318b50c57b4eba3d437b.bundle.js', function(req, res){
+  res.sendFile(__dirname + '/client/inline.318b50c57b4eba3d437b.bundle.js');
+});
+app.get('/main.921f4d1d8212caade0e4.bundle.js', function(req, res){
+  res.sendFile(__dirname + '/client/main.921f4d1d8212caade0e4.bundle.js');
+});
+app.get('/polyfills.01a6a20f81fe7bf9e073.bundle.js', function(req, res){
+  res.sendFile(__dirname + '/client/polyfills.01a6a20f81fe7bf9e073.bundle.js');
+});
+app.get('/styles.ac89bfdd6de82636b768.bundle.css', function(req, res){
+  res.sendFile(__dirname + '/client/styles.ac89bfdd6de82636b768.bundle.css');
 });
 
 var data_array = [];
