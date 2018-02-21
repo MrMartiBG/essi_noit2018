@@ -1,5 +1,6 @@
 module.exports = {
-	host: "192.168.1.104",
+	host: "localhost",
 	user: "root",
-	password: "1234asdf"
+	password: "1234asdf",
+	database: "essi"
 }

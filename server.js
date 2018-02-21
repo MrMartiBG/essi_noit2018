@@ -5,6 +5,8 @@ var mysql = require('mysql');
 var db_user = require('./config/database_user.js');
 var db_conf = require('./config/configure_database.js');
 
+
+
 console.log(db_user);
 var connection = mysql.createConnection(db_user)
 connection.connect(function(err) {
@@ -13,6 +15,8 @@ connection.connect(function(err) {
 });
 console.log(db_conf);
 db_conf.configure(connection);
+
+
 
 http.listen(3030, function(){
   console.log('Server started! At http://localhost:3030');
