@@ -13,8 +13,6 @@ var db_conf  = function(mysql,db_user){
 							`user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL UNIQUE, \
 							`password` varchar(256) COLLATE utf8_unicode_ci NOT NULL, \
 							`email` varchar(128) COLLATE utf8_unicode_ci NOT NULL UNIQUE, \
-							`created` datetime NOT NULL, \
-							`modified` datetime NOT NULL, \
 							PRIMARY KEY (`id`) \
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	connection.query(sql_table_users, function (err, result) {

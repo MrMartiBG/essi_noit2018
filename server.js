@@ -7,13 +7,10 @@ var connection = require('./config/configure_database.js')(mysql,db_user);
 var db = require('./database.js')(connection);
 
 //// test:
-  var today = new Date();
   var user={
-    "email":"abcd@martin.bg",
     "user_name":"abcd",
     "password":"12345678",
-    "created":today,
-    "modified":today
+    "email":"abcd@martin.bg"
   }
   console.log("server.js - db.register(user, function (err, results)");
   db.register(user, function (err, results){
