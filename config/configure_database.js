@@ -30,7 +30,7 @@ var db_conf  = function(mysql,db_user){
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	connection.query(sql_table_cars, function (err, result) {
 	    if (err) throw err;
-	    console.log("Table `users` done!");
+	    console.log("Table `cars` done!");
 	 });
 
 	return connection;

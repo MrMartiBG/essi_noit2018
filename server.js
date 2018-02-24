@@ -6,32 +6,36 @@ var db_user = require('./config/database_user.js');
 var connection = require('./config/configure_database.js')(mysql,db_user);
 var db = require('./database.js')(connection);
 
-//// test:
-  var user={
-    "user_name":"abcd",
-    "password":"12345678",
-    "email":"abcd@martin.bg"
-  }
-  console.log("server.js - db.register(user, function (err, results)");
-  db.register(user, function (err, results){
-    if (err){
-      console.log("server.js - if");
-      console.log("err adding user");
-      // console.log("err", err);
-      // console.log('results', results);
-      return false;
-    }else{
-      console.log("server.js - else");
-      console.log("succ adding user");
-      // console.log("err", err);
-      // console.log('results', results);
-      return true;
-    }
-  });
-//// end
+// //// test:
+//   var user={
+//     "user_name":"abcd",
+//     "password":"12345678",
+//     "email":"abcd@martin.bg"
+//   }
+//   console.log("server.js - db.register(user, function (err, results)");
+//   db.register(user, function (err, results){
+//     if (err){
+//       console.log("server.js - if");
+//       console.log("err adding user");
+//       // console.log("err", err);
+//       // console.log('results', results);
+//       return false;
+//     }else{
+//       console.log("server.js - else");
+//       console.log("succ adding user");
+//       // console.log("err", err);
+//       // console.log('results', results);
+//       return true;
+//     }
+//   });
+// //// end
 
 http.listen(3030, function(){
   console.log('Server started! At http://localhost:3030');
+});
+
+app.get('/test', function(req, res){
+  res.sendFile(__dirname + '/test.html');
 });
 
 app.get('/', function(req, res){
@@ -58,19 +62,69 @@ var data_array = [];
 
 io.on('connection', function(socket){
   console.log('user connected');
+  socket.authenticated = false;
+
+  socket.register_user_fail = function register_user_fail(code){
+    socket.emit('registration fail');
+    console.log('registration fail', code);
+  }
+  socket.register_user_successful = function register_user_successful(user){
+    socket.authenticated = true;
+    socket.user_name = user.user_name;
+    socket.emit('registration successful');
+    console.log('registration successful', socket.user_name);
+  }
+
+  socket.login_user_fail = function login_user_fail(code){
+    socket.emit('login fail');
+    console.log('login fail', code);
+  }
+  socket.login_user_successful = function login_user_successful(user){
+    socket.authenticated = true;
+    socket.user_name = user.user_name;
+    socket.emit('login successful');
+    console.log('login successful', socket.user_name);
+  }
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
 
-  socket.on('setData', function(index, data){
-    data_array[index] = data;
-    console.log("data_array[" + index + "] = " + data + ";");
+  socket.on('register user', function(user){
+    console.log('socket.on register user', user);
+    if( user.user_name!=null  && user.user_name!='' &&
+        user.password!=null   && user.password!='' &&
+        user.email!=null      && user.email!='' ){
+      db.register_user(user, function(err, results){
+        if(err){
+          socket.register_user_fail(1);
+        }else{
+          socket.register_user_successful(user);
+        }
+      });
+    }else{
+      socket.register_user_fail(0);
+    }
   });
 
-  socket.on('getData', function(index){
-    socket.emit('reciveData', index, data_array[index]);
-    console.log("socket.io('reciveData', " + index + ", " + data_array[index] + ");");  
+  socket.on('login user', function(user){
+    console.log('socket.on login user', user);
+    if( user.user_name!=null  && user.user_name!='' &&
+        user.password!=null   && user.password!=''){
+      db.login_user(user, function(err, results){
+        if(err){
+          socket.login_user_fail(1);
+        }else{
+          if(results[0].password == user.password){
+            socket.login_user_successful(user);
+          }else{
+            socket.login_user_fail(-1);
+          }
+        }
+      });
+    }else{
+      socket.login_user_fail(0);
+    }
   });
 
   socket.on("new-message", function(msg){
