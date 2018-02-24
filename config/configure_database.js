@@ -20,6 +20,19 @@ var db_conf  = function(mysql,db_user){
 	    console.log("Table `users` done!");
 	 });
 
+	var sql_table_cars = "	CREATE TABLE IF NOT EXISTS `cars` ( \
+							`id` int NOT NULL AUTO_INCREMENT, \
+							`owner` varchar(64) COLLATE utf8_unicode_ci NOT NULL UNIQUE, \
+							`year` int(4) UNSIGNED NOT NULL, \
+							`manufacturer` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
+							`model` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
+							PRIMARY KEY (`id`) \
+						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+	connection.query(sql_table_cars, function (err, result) {
+	    if (err) throw err;
+	    console.log("Table `users` done!");
+	 });
+
 	return connection;
 };
 
