@@ -9,8 +9,8 @@ var db = require('./database.js')(connection);
 //// test:
   var today = new Date();
   var user={
-    "email":"abc@martin.bg",
-    "user_name":"abc",
+    "email":"abcd@martin.bg",
+    "user_name":"abcd",
     "password":"12345678",
     "created":today,
     "modified":today
