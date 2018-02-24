@@ -30,10 +30,6 @@ var db = require('./database.js')(connection);
 //   });
 // //// end
 
-http.listen(3030, function(){
-  console.log('Server started! At http://localhost:3030');
-});
-
 app.get('/test', function(req, res){
   res.sendFile(__dirname + '/test.html');
 });
@@ -61,7 +57,8 @@ app.get('/styles.ac89bfdd6de82636b768.bundle.css', function(req, res){
 var data_array = [];
 
 io.on('connection', function(socket){
-  console.log('user connected');
+  console.log('user connected', socket.id);
+  console.log('user remoteAddress',socket.request.connection.remoteAddress);
   socket.authenticated = false;
 
   socket.register_user_fail = function register_user_fail(code){
@@ -158,4 +155,8 @@ io.on('connection', function(socket){
     console.log("new-message", msg);
   });
 
+});
+
+http.listen(3030, function(){
+  console.log('Server started! At http://localhost:3030');
 });
