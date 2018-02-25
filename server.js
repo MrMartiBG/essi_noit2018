@@ -1,35 +1,11 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var socket = require('./socket.js');
 var mysql = require('mysql');
 var db_user = require('./config/database_user.js');
 var connection = require('./config/configure_database.js')(mysql,db_user);
-var db = require('./database.js')(connection);
-
-// //// test:
-//   var user={
-//     "user_name":"abcd",
-//     "password":"12345678",
-//     "email":"abcd@martin.bg"
-//   }
-//   console.log("server.js - db.register(user, function (err, results)");
-//   db.register(user, function (err, results){
-//     if (err){
-//       console.log("server.js - if");
-//       console.log("err adding user");
-//       // console.log("err", err);
-//       // console.log('results', results);
-//       return false;
-//     }else{
-//       console.log("server.js - else");
-//       console.log("succ adding user");
-//       // console.log("err", err);
-//       // console.log('results', results);
-//       return true;
-//     }
-//   });
-// //// end
+var database = require('./database.js')(connection);
+var socket = require('./socket.js')(database);
 
 app.get('/test', function(req, res){
   res.sendFile(__dirname + '/test.html');
@@ -57,7 +33,7 @@ app.get('/styles.ac89bfdd6de82636b768.bundle.css', function(req, res){
 
 var data_array = [];
 
-io.on('connection', socket);
+io.on('connection', socket.handler);
 
 http.listen(3030, function(){
   console.log('Server started! At http://localhost:3030');
