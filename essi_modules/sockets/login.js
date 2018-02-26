@@ -7,26 +7,22 @@ module.exports = function(socket,database){
 		console.log('registration_fail', code);
 		return code;
 	}
-	socket.register_user_successful = function register_user_successful(user, user_info){
+	socket.register_user_successful = function register_user_successful(user){
 		socket.authenticated = true;
 		socket.username = user.username;
 		socket.email = user.email;
-		socket.firstname = user_info.firstname;
-		socket.lastname = user_info.lastname;
 
 		socket.emit('registration_successful');
 		console.log('registration_successful', socket.username);
 		
 		return user;
 	}
-	socket.on('register_user', function(user, user_info){
-		console.log('socket.on register_user', user, user_info);
+	socket.on('register_user', function(user){
+		console.log('socket.on register_user', user);
 
 		if(socket.authenticated) return socket.register_user_fail(0);
 
-		if( user_info.firstname!=null   && user_info.firstname!='' &&
-			user_info.lastname!=null   && user_info.lastname!='' &&
-			user.username!=null  && user.username!='' &&
+		if( user.username!=null  && user.username!='' &&
 			user.password!=null   && user.password!='' &&
 			user.email!=null      && user.email!='' ){
 			
@@ -34,15 +30,7 @@ module.exports = function(socket,database){
 				if(err){
 					return socket.register_user_fail(3);
 				}else{
-					console.log(results);
-					database.add_user_info(user_info, function(err, results){
-						if(err){
-							return socket.register_user_fail(4)
-						}else{
-							return socket.register_user_successful(user);
-
-						}
-					});
+					return socket.register_user_successful(user);
 				}
 			});
 		}else{
