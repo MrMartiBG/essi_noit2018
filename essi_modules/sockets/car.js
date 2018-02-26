@@ -5,10 +5,10 @@ module.exports = function(socket,database){
 		console.log('add_car_fail', code);
 		return code;
 	}
-	socket.add_car_successful = function add_car_successful(){
+	socket.add_car_successful = function add_car_successful(results){
 
-		socket.emit('add_car_successful');
-		console.log('add_car_successful');
+		socket.emit('add_car_successful',results.insertId);
+		console.log('add_car_successful',results.insertId);
 		
 		return true;
 	}
@@ -23,7 +23,7 @@ module.exports = function(socket,database){
 			if(err){
 				return socket.add_car_fail(2);
 			}else{
-				return socket.add_car_successful();
+				return socket.add_car_successful(results);
 			}
 		});
 	});
