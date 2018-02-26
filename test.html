@@ -1,12 +1,30 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Ivan Socket.IO chat</title>
-  </head>
-  <body>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-    </script>
-  </body>
+	<head>
+		<title>Ivan Socket.IO chat</title>
+	</head>
+	<body>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io();
+			socket.on("registration_successful" , function() {
+				console.log("registration_successful");
+			});
+			socket.on("login_successful" , function() {
+				console.log("login_successful");
+			});
+			socket.on("logout_successful" , function() {
+				console.log("logout_successful");
+			});
+			socket.on("registration_fail" , function(code) {
+				console.log("registration_fail", code);
+			});
+			socket.on("login_fail" , function(code) {
+				console.log("login_fail", code);
+			});
+			socket.on("logout_fail" , function(code) {
+				console.log("logout_fail", code);
+			});
+		</script>
+	</body>
 </html>

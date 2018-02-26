@@ -19,20 +19,13 @@ module.exports = function(socket,database){
 
 		if(socket.authenticated) return socket.register_user_fail(0);
 
-		if( user.username!=null  && user.username!='' &&
-			user.password!=null   && user.password!='' &&
-			user.email!=null      && user.email!='' ){
-			
-			database.register_user(user, function(err, results){
-				if(err){
-					return socket.register_user_fail(3);
-				}else{
-					return socket.register_user_successful(user);
-				}
-			});
-		}else{
-			return socket.register_user_fail(2);
-		}
+		database.register_user(user, function(err, results){
+			if(err){
+				return socket.register_user_fail(2);
+			}else{
+				return socket.register_user_successful(user);
+			}
+		});
 	});
 
 
@@ -55,22 +48,17 @@ module.exports = function(socket,database){
 
 		if(socket.authenticated) return socket.login_user_fail(0);
 
-		if( user.username!=null  && user.username!='' &&
-				user.password!=null   && user.password!=''){
-			database.fetch_user(user.username, function(err, results){
-				if(err){
-					return socket.login_user_fail(3);
+		database.fetch_user(user.username, function(err, results){
+			if(err){
+				return socket.login_user_fail(2);
+			}else{
+				if(results[0].password == user.password){
+					return socket.login_user_successful(user);
 				}else{
-					if(results[0].password == user.password){
-						return socket.login_user_successful(user);
-					}else{
-						return socket.login_user_fail(1);
-					}
+					return socket.login_user_fail(1);
 				}
-			});
-		}else{
-			socket.login_user_fail(2);
-		}
+			}
+		});
 	});
 
 
