@@ -3,8 +3,8 @@ var db  = function(connection){
 		connection.query('INSERT INTO users SET ?',user, func);
 	}
 
-	this.fetch_user = function fetch_user(user_name, func){
-		connection.query("SELECT * FROM users WHERE user_name = '" + user_name + "'", func);
+	this.fetch_user = function fetch_user(username, func){
+		connection.query("SELECT * FROM users WHERE username = '" + username + "'", func);
 	}
 
 	this.register_car = function register_car(car, func){

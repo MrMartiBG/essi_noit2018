@@ -9,9 +9,9 @@ module.exports = function(socket,database){
   }
   socket.register_user_successful = function register_user_successful(user){
     socket.authenticated = true;
-    socket.user_name = user.user_name;
+    socket.username = user.username;
     socket.emit('registration successful');
-    console.log('registration successful', socket.user_name);
+    console.log('registration successful', socket.username);
     return user;
   }
 
@@ -22,9 +22,9 @@ module.exports = function(socket,database){
   }
   socket.login_user_successful = function login_user_successful(user){
     socket.authenticated = true;
-    socket.user_name = user.user_name;
+    socket.username = user.username;
     socket.emit('login successful');
-    console.log('login successful', socket.user_name);
+    console.log('login successful', socket.username);
     return user;
   }
 
@@ -36,14 +36,14 @@ module.exports = function(socket,database){
   socket.logout_user_successful = function logout_user_successful(){
     socket.authenticated = false;
     socket.emit('logout successful');
-    console.log('logout successful', socket.user_name);
+    console.log('logout successful', socket.username);
     return true;
   }
 
   socket.on('register user', function(user){
     console.log('socket.on register user', user);
     if(socket.authenticated) return socket.register_user_fail(0);
-    if( user.user_name!=null  && user.user_name!='' &&
+    if( user.username!=null  && user.username!='' &&
         user.password!=null   && user.password!='' &&
         user.email!=null      && user.email!='' ){
       database.register_user(user, function(err, results){
@@ -61,9 +61,9 @@ module.exports = function(socket,database){
   socket.on('login user', function(user){
     console.log('socket.on login user', user);
     if(socket.authenticated) return socket.login_user_fail(0);
-    if( user.user_name!=null  && user.user_name!='' &&
+    if( user.username!=null  && user.username!='' &&
         user.password!=null   && user.password!=''){
-      database.fetch_user(user.user_name, function(err, results){
+      database.fetch_user(user.username, function(err, results){
         if(err){
           socket.login_user_fail(2);
         }else{
@@ -80,7 +80,7 @@ module.exports = function(socket,database){
   });
 
   socket.on('logout user', function(){
-    console.log('socket.on logout user', socket.user_name);
+    console.log('socket.on logout user', socket.username);
     if(!socket.authenticated){
       return socket.logout_user_fail(0);
     }else{
