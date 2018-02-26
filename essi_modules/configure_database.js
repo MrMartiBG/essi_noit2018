@@ -22,7 +22,7 @@ var db_conf  = function(mysql,db_user){
 
 	var sql_table_cars = "	CREATE TABLE IF NOT EXISTS `cars` ( \
 							`id` int NOT NULL AUTO_INCREMENT, \
-							`owner` varchar(64) COLLATE utf8_unicode_ci NOT NULL UNIQUE, \
+							`owner_id` int NOT NULL, \
 							`year` int(4) UNSIGNED NOT NULL, \
 							`manufacturer` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
 							`model` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
@@ -31,6 +31,19 @@ var db_conf  = function(mysql,db_user){
 	connection.query(sql_table_cars, function (err, result) {
 	    if (err) throw err;
 	    console.log("Table `cars` done!");
+	 });
+
+	var sql_table_modifications = "	CREATE TABLE IF NOT EXISTS `modifications` ( \
+							`id` int NOT NULL AUTO_INCREMENT, \
+							`car_id` int NOT NULL, \
+							`date` datetime NOT NULL, \
+							`type` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
+							`description` varchar(256) COLLATE utf8_unicode_ci NOT NULL, \
+							PRIMARY KEY (`id`) \
+						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+	connection.query(sql_table_modifications, function (err, result) {
+	    if (err) throw err;
+	    console.log("Table `modifications` done!");
 	 });
 
 	return connection;
