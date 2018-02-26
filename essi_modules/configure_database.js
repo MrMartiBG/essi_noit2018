@@ -33,19 +33,6 @@ var db_conf  = function(mysql,db_user){
 	    console.log("Table `cars` done!");
 	 });
 
-	var sql_table_services = "	CREATE TABLE IF NOT EXISTS `services` ( \
-							`id` int NOT NULL AUTO_INCREMENT, \
-							`owner` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
-							`year` int(4) UNSIGNED NOT NULL, \
-							`manufacturer` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
-							`model` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
-							PRIMARY KEY (`id`) \
-						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-	connection.query(sql_table_cars, function (err, result) {
-	    if (err) throw err;
-	    console.log("Table `cars` done!");
-	 });
-
 	var sql_table_modifications = "	CREATE TABLE IF NOT EXISTS `modifications` ( \
 							`id` int NOT NULL AUTO_INCREMENT, \
 							`car_id` int NOT NULL, \
