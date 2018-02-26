@@ -1,16 +1,16 @@
 module.exports = function(socket,database){
 
 	socket.register_user_fail = function register_user_fail(code){
-		socket.emit('registration_fail', code);
-		console.log('registration_fail', code);
+		socket.emit('register_user_fail', code);
+		console.log('register_user_fail', code);
 		return code;
 	}
 	socket.register_user_successful = function register_user_successful(user){
 		socket.authenticated = true;
 		socket.user = user;
 
-		socket.emit('registration_successful');
-		console.log('registration_successful', socket.username);
+		socket.emit('register_user_successful');
+		console.log('register_user_successful', socket.username);
 		
 		return user;
 	}
@@ -31,16 +31,16 @@ module.exports = function(socket,database){
 
 
 	socket.login_user_fail = function login_user_fail(code){
-		socket.emit('login_fail', code);
-		console.log('login_fail', code);
+		socket.emit('login_user_fail', code);
+		console.log('login_user_fail', code);
 		return code;
 	}
 	socket.login_user_successful = function login_user_successful(user){
 		socket.authenticated = true;
 		socket.user = user;
 
-		socket.emit('login_successful');
-		console.log('login_successful', socket.username);
+		socket.emit('login_user_successful');
+		console.log('login_user_successful', socket.username);
 		return user;
 	}
 	socket.on('login_user', function(user){
@@ -64,14 +64,14 @@ module.exports = function(socket,database){
 
 
 	socket.logout_user_fail = function logout_user_fail(code){
-		socket.emit('logout_fail', code);
-		console.log('logout_fail', code);
+		socket.emit('logout_user_fail', code);
+		console.log('logout_user_fail', code);
 		return code;
 	}
 	socket.logout_user_successful = function logout_user_successful(){
 		socket.authenticated = false;
-		socket.emit('logout_successful');
-		console.log('logout_successful', socket.username);
+		socket.emit('logout_user_successful');
+		console.log('logout_user_successful', socket.username);
 		return true;
 	}
 	socket.on('logout_user', function(){
