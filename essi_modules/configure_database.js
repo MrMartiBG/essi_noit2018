@@ -88,7 +88,7 @@ var db_conf  = function(mysql,db_user){
 							`id` int NOT NULL AUTO_INCREMENT, \
 							`car_id` int NOT NULL, \
 							`service_id` int NOT NULL, \
-							`status` varchar(64) NOT NULL, \
+							`status` varchar(64), \
 							`mileage` int(64) NOT NULL, \
 							`date` datetime NOT NULL, \
 							PRIMARY KEY (`id`) \
