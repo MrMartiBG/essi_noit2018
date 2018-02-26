@@ -63,7 +63,7 @@ module.exports = function(socket,database){
     if(socket.authenticated) return socket.login_user_fail(0);
     if( user.user_name!=null  && user.user_name!='' &&
         user.password!=null   && user.password!=''){
-      database.login_user(user, function(err, results){
+      database.fetch_user(user, function(err, results){
         if(err){
           socket.login_user_fail(2);
         }else{

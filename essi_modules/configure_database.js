@@ -22,7 +22,7 @@ var db_conf  = function(mysql,db_user){
 
 	var sql_table_cars = "	CREATE TABLE IF NOT EXISTS `cars` ( \
 							`id` int NOT NULL AUTO_INCREMENT, \
-							`owner_id` int NOT NULL, \
+							`owner` int NOT NULL, \
 							`year` int(4) UNSIGNED NOT NULL, \
 							`manufacturer` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
 							`model` varchar(64) COLLATE utf8_unicode_ci NOT NULL, \
