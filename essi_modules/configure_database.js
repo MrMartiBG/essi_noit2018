@@ -61,7 +61,7 @@ var db_conf  = function(mysql,db_user){
 	// table service_info
 	var sql_table_service_info = "	CREATE TABLE IF NOT EXISTS `service_info` ( \
 							`id` int NOT NULL AUTO_INCREMENT, \
-							`name` varchar(64) NOT NULL UNIQUE, \
+							`name` varchar(64) NOT NULL, \
 							`address` varchar(64) NOT NULL, \
 							`email` varchar(64) NOT NULL UNIQUE, \
 							`mobile` varchar(64) NOT NULL, \
