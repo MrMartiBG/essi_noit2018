@@ -1,7 +1,5 @@
 module.exports = function(socket,database){
 
-	socket.authenticated = false;
-
 	socket.register_user_fail = function register_user_fail(code){
 		socket.emit('registration_fail', code);
 		console.log('registration_fail', code);
@@ -9,8 +7,7 @@ module.exports = function(socket,database){
 	}
 	socket.register_user_successful = function register_user_successful(user){
 		socket.authenticated = true;
-		socket.username = user.username;
-		socket.email = user.email;
+		socket.user = user;
 
 		socket.emit('registration_successful');
 		console.log('registration_successful', socket.username);
@@ -47,7 +44,8 @@ module.exports = function(socket,database){
 	}
 	socket.login_user_successful = function login_user_successful(user){
 		socket.authenticated = true;
-		socket.username = user.username;
+		socket.user = user;
+
 		socket.emit('login_successful');
 		console.log('login_successful', socket.username);
 		return user;
