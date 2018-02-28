@@ -7,8 +7,8 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			var socket = io();
-			socket.on("registration_user_successful" , function(info) {
-				console.log("registration_user_successful",info);
+			socket.on("register_user_successful" , function(info) {
+				console.log("register_user_successful",info);
 			});
 			socket.on("login_user_successful" , function(info) {
 				console.log("login_user_successful",info);
@@ -16,8 +16,8 @@
 			socket.on("logout_user_successful" , function(info) {
 				console.log("logout_user_successful",info);
 			});
-			socket.on("registration_user_fail" , function(info) {
-				console.log("registration_user_fail", info);
+			socket.on("register_user_fail" , function(info) {
+				console.log("register_user_fail", info);
 			});
 			socket.on("login_user_fail" , function(info) {
 				console.log("login_user_fail", info);
