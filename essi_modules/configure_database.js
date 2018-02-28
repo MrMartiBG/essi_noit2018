@@ -83,6 +83,16 @@ var db_conf  = function(mysql,db_user){
 	    console.log("Table `service_user` done!");
 	 });
 
+	// table service_car
+	var sql_table_service_car = "	CREATE TABLE IF NOT EXISTS `service_car` ( \
+							`service_id` int NOT NULL, \
+							`car_id` int NOT NULL \
+						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+	connection.query(sql_table_service_car, function (err, result) {
+	    if (err) throw err;
+	    console.log("Table `service_car` done!");
+	 });
+
 	// table modification
 	var sql_table_modification = "	CREATE TABLE IF NOT EXISTS `modification` ( \
 							`id` int NOT NULL AUTO_INCREMENT, \
