@@ -37,6 +37,7 @@ var db_conf  = function(mysql,db_user){
 	var sql_table_car = "	CREATE TABLE IF NOT EXISTS `car` ( \
 							`id` int NOT NULL AUTO_INCREMENT, \
 							`owner_id` int NOT NULL, \
+							`public` bool DEFAULT false, \
 							PRIMARY KEY (`id`) \
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	connection.query(sql_table_car, function (err, result) {
@@ -51,7 +52,7 @@ var db_conf  = function(mysql,db_user){
 							`model` varchar(64)  NOT NULL, \
 							`generation` varchar(64)  NOT NULL, \
 							`engine` varchar(64)  NOT NULL, \
-							`vin_number` varchar(64)  NOT NULL \
+							`vin_number` varchar(64)  NOT NULL UNIQUE\
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	connection.query(sql_table_car_info, function (err, result) {
 	    if (err) throw err;

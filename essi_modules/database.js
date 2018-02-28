@@ -14,20 +14,15 @@ var db  = function(connection){
 		connection.query("SELECT * FROM user_info WHERE ?", user_info, func);
 	}
 
-
-
 	this.add_car = function add_car(car, func){
 		connection.query('INSERT INTO car SET ?',car, func);
 	}
-	this.fetch_car = function fetch_car(car, func){
-		connection.query("SELECT * FROM car WHERE ?", car, func);
-	}
-
 	this.add_car_info = function add_car_info(car_info, func){
 		connection.query('INSERT INTO car_info SET ?',car_info, func);
 	}
-	this.fetch_car_info = function fetch_car_info(car_info, func){
-		connection.query("SELECT * FROM car_info WHERE ?", car_info, func);
+
+	this.fetch_car = function fetch_car(car, func){
+		connection.query("SELECT * FROM car JOIN car_info ON car.id = car_info.car_id WHERE ?", car, func);
 	}
 
 
@@ -63,7 +58,7 @@ var db  = function(connection){
 	// }
 	// this.fetch_modification_info = function fetch_modification_info(modification_id, func){
 	// 	connection.query("SELECT * FROM modification_info WHERE modification_id = '" + modification_id + "'", func);
-	}
+	// }
 	return this;
 };
 

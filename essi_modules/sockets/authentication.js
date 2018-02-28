@@ -7,10 +7,10 @@ module.exports = function(socket,database){
 		return code;
 	}
 	socket.register_user_successful = function register_user_successful(results){
-		socket.emit('register_user_successful', {id: results.insertId});
-		console.log('register_user_successful', {id: results.insertId});
+		socket.emit('register_user_successful', results);
+		console.log('register_user_successful', results);
 	
-		return {id: results.insertId};
+		return results;
 	}
 	socket.on('register_user', function(user){
 		console.log('socket.on register_user', user);
@@ -21,7 +21,7 @@ module.exports = function(socket,database){
 			if(err){
 				return socket.register_user_fail(2);
 			}else{
-				return socket.register_user_successful(results);
+				return socket.register_user_successful({id: results.insertId});
 			}
 		});
 	});
