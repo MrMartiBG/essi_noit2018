@@ -12,18 +12,18 @@ module.exports = function(socket,database){
 		
 		return results;
 	}
-	socket.on('add_car', function(car_info){
-		console.log('socket.on add_car');
+	socket.on('add_car', function(info){
+		console.log('socket.on add_car', info);
 
 		if(!socket.authenticated) return socket.add_car_fail(0);
 		
 		var car = 		{	owner_id: socket.user.id 	};
 		var car_info = 	{
-							brand: car_info.brand,
-							model: car_info.model,
-							generation: car_info.generation,
-							engine: car_info.engine,
-							vin_number: car_info.vin_number
+							brand: info.brand,
+							model: info.model,
+							generation: info.generation,
+							engine: info.engine,
+							vin_number: info.vin_number
 					   	};
 		database.add_car(car, function(err, results){
 			if(err){
@@ -59,8 +59,6 @@ module.exports = function(socket,database){
 		if(!socket.authenticated) return socket.fetch_car_fail(0);
 
 		database.fetch_car({owner_id: socket.user.id}, function(err, results){
-			console.log("ERROR: ", err);
-			console.log("results: ", results);
 			if(err){
 				return socket.fetch_car_fail(2);
 			}else{

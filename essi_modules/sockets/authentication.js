@@ -12,16 +12,28 @@ module.exports = function(socket,database){
 	
 		return results;
 	}
-	socket.on('register_user', function(user){
-		console.log('socket.on register_user', user);
+	socket.on('register_user', function(info){
+		console.log('socket.on register_user', info);
 
 		if(socket.authenticated) return socket.register_user_fail(0);
 
-		database.register_user({username: user.username, password: user.password, email: user.email}, function(err, results){
+		var user = {username: info.username, password: info.password, email: info.email};
+		var user_info = {firstname: info.firstname, lastname: info.lastname, mobile: info.mobile};
+
+		database.register_user(user, function(err, results){
 			if(err){
 				return socket.register_user_fail(2);
 			}else{
-				return socket.register_user_successful({id: results.insertId});
+				user_info.user_id = results.insertId;
+				database.add_user_info(user_info, function(err, results){
+					console.log(err);
+					if(err){
+						return socket.register_user_fail(2);
+					}else{
+						
+						return socket.register_user_successful(user);
+					}
+				});
 			}
 		});
 	});
@@ -40,7 +52,7 @@ module.exports = function(socket,database){
 
 		socket.emit('login_user_successful', socket.user);
 		console.log('login_user_successful', socket.user);
-		return results;
+		return socket.user;
 	}
 	socket.on('login_user', function(user){
 		console.log('socket.on login_user', user);
