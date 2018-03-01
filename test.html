@@ -7,49 +7,22 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			var socket = io();
-			socket.on("register_user_successful" , function(info) {
-				console.log("register_user_successful",info);
-			});
-			socket.on("login_user_successful" , function(info) {
-				console.log("login_user_successful",info);
-			});
-			socket.on("logout_user_successful" , function(info) {
-				console.log("logout_user_successful",info);
-			});
-			socket.on("register_user_fail" , function(info) {
-				console.log("register_user_fail", info);
-			});
-			socket.on("login_user_fail" , function(info) {
-				console.log("login_user_fail", info);
-			});
-			socket.on("logout_user_fail" , function(info) {
-				console.log("logout_user_fail", info);
-			});
 
-			socket.on("add_car_fail" , function(info) {
-				console.log("add_car_fail", info);
-			});
-			socket.on("add_car_successful" , function(info) {
-				console.log("add_car_successful", info);
-			});
-			socket.on("fetch_car_fail" , function(info) {
-				console.log("fetch_car_fail", info);
-			});
-			socket.on("fetch_car_successful" , function(info) {
-				console.log("fetch_car_successful", info);
-			});
-			socket.on("add_car_info_fail" , function(info) {
-				console.log("add_car_info_fail", info);
-			});
-			socket.on("add_car_info_successful" , function(info) {
-				console.log("add_car_info_successful", info);
-			});
-			socket.on("fetch_car_info_fail" , function(info) {
-				console.log("fetch_car_info_fail", info);
-			});
-			socket.on("fetch_car_info_successful" , function(info) {
-				console.log("fetch_car_info_successful", info);
-			});
+			var func_names = 	[	
+									"register_user", "login_user", "logout_user",
+									"add_car", "fetch_car",
+									"add_service_info", "fetch_service_info"
+								];
+
+			for(var i = 0; i < func_names.length; i++){
+				socket.on(func_names[i] + "_successful" , function(info) {
+					console.log("successful",info);
+				});
+				socket.on(func_names[i] + "_fail" , function(info) {
+					console.log("fail", info);
+				});
+			}
+
 
 		</script>
 	</body>
