@@ -1,21 +1,9 @@
 module.exports = function(socket,database){
-	
-	socket.add_service_info_fail = function add_service_info_fail(code){
-		socket.emit('add_service_info_fail', code);
-		console.log('add_service_info_fail', code);
-		return code;
-	}
-	socket.add_service_info_successful = function add_service_info_successful(results){
 
-		socket.emit('add_service_info_successful',results);
-		console.log('add_service_info_successful',results);
-		
-		return results;
-	}
 	socket.on('add_service_info', function(info){
 		console.log('socket.on add_service_info', info);
 
-		if(!socket.authenticated) return socket.add_service_info_fail(0);
+		if(!socket.authenticated) return socket.fail("add_service_info", {code: 101});
 
 		var service_owner = 	{	
 									user_id: socket.user.id, 
@@ -29,43 +17,31 @@ module.exports = function(socket,database){
 					   			};
 		database.add_service_info(service_info, function(err, results){
 			if(err){
-				return socket.add_service_info_fail(2);
+				return socket.fail("add_service_info", {code: 201});
 			}else{
 				service_owner.service_id = results.insertId;
 				console.log(service_owner);
 				database.add_service_user(service_owner, function(err, results){
 					if(err){
-						return socket.add_service_info_fail(2);
+						return socket.fail("add_service_info", {code: 202});
 					}else{
-						return socket.add_service_info_successful({id: service_owner.service_id});
+						return socket.successful("add_service_info", {id: service_owner.service_id});
 					}
 				});
 			}
 		});
 	});
-
-	socket.fetch_service_info_fail = function fetch_service_info_fail(code){
-		socket.emit('fetch_service_info_fail', code);
-		console.log('fetch_service_info_fail', code);
-		return code;
-	}
-	socket.fetch_service_info_successful = function fetch_service_info_successful(results){
-
-		socket.emit('fetch_service_info_successful',results);
-		console.log('fetch_service_info_successful',results);
-		
-		return results;
-	}
+	
 	socket.on('fetch_service_info', function(service_id){
 		console.log('socket.on fetch_service_info');
 
-		if(!socket.authenticated) return socket.fetch_service_info_fail(0);
+		if(!socket.authenticated) return socket.fail("fetch_service_info", {code: 101});
 
 		database.fetch_service_info({service_id: service_id}, function(err, results){
 			if(err){
-				return socket.fetch_service_info_fail(2);
+				return socket.fail("fetch_service_info", {code: 201});
 			}else{
-				return socket.fetch_service_info_successful(results);
+				return socket.successful("fetch_service_info", results);
 			}
 		});
 	});
