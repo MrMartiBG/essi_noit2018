@@ -6,6 +6,7 @@ module.exports = function(database){
 
 		require('./authentication.js')(socket, database);
 		require('./car.js')(socket, database);
+		require('./service.js')(socket, database);
 
 		socket.on("new-message", function(msg){
 			console.log("new-message", msg);

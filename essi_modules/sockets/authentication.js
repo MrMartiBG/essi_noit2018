@@ -63,11 +63,9 @@ module.exports = function(socket,database){
 			if(err){
 				return socket.login_user_fail(2);
 			}else{
-				if(results[0].password == user.password){
-					return socket.login_user_successful(results);
-				}else{
-					return socket.login_user_fail(1);
-				}
+				if(results.length == 0) return socket.login_user_fail(2);
+				if(results[0].password != user.password) return socket.login_user_fail(1);
+				return socket.login_user_successful(results);
 			}
 		});
 	});
