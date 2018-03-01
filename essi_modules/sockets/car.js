@@ -36,13 +36,6 @@ module.exports = function(socket,database){
 		});
 	});
 
-	socket.fetch_car_successful = function fetch_car_successful(results){
-
-		socket.emit('fetch_car_successful',results);
-		console.log('fetch_car_successful',results);
-		
-		return results;
-	}
 	socket.on('fetch_car', function(){
 		console.log('socket.on fetch_car');
 

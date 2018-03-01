@@ -32,9 +32,47 @@ var db  = function(connection){
 	this.add_service_user = function add_service_user(service_user, func){
 		connection.query('INSERT INTO service_user SET ?', service_user, func);
 	}
+	this.add_service_car = function add_service_car(service_car, func){
+		connection.query('INSERT INTO service_car SET ?', service_car, func);
+	}
 
 	this.fetch_service_info = function fetch_service_info(service_info, func){
 		connection.query("SELECT * FROM service_info WHERE ?", service_info, func);
+	}
+	this.fetch_service_user = function fetch_service_info(service_user, func){
+		var query_str;
+		var info;
+		if(service_user.user_id != undefined){
+			if(service_user.user_type != undefined){
+				query_str = "SELECT * FROM service_user WHERE service_id = ? AND user_id = ? AND user_type = ?";
+				info = [service_user.service_id, service_user.user_id, service_user.user_type];
+			}else{
+				query_str = "SELECT * FROM service_user WHERE service_id = ? AND user_id = ?";
+				info = [service_user.service_id, service_user.user_id];
+			}
+		}else{
+			if(service_user.user_type != undefined){
+				query_str = "SELECT * FROM service_user WHERE service_id = ? AND user_type = ?";
+				info = [service_user.service_id, service_user.user_type];
+			}else{
+				query_str = "SELECT * FROM service_user WHERE service_id = ?";
+				info = [service_user.service_id];
+			}
+
+		}
+		connection.query(query_str, info, func);
+	}
+	this.fetch_service_car = function fetch_service_car(service_car, func){
+		var query_str;
+		var info;
+		if(service_car.car_id != undefined){
+			query_str = "SELECT * FROM service_car WHERE service_id = ? AND car_id = ?";
+			info = [service_car.service_id, service_car.car_id];
+		}else{
+			query_str = "SELECT * FROM service_car WHERE service_id = ?";
+			info = [service_car.service_id];
+		}
+		connection.query(query_str, info, func);
 	}
 
 	return this;

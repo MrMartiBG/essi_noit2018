@@ -18,7 +18,7 @@ module.exports = function(socket,database){
 					if(err){
 						return socket.fail("register_user",{code: 202});
 					}else{
-						
+						user.password = undefined; 
 						return socket.successful("register_user", user);
 					}
 				});
@@ -49,7 +49,7 @@ module.exports = function(socket,database){
 	});
 
 	socket.on('logout_user', function(){
-		console.log('socket.on logout_user', socket.user.username);
+		console.log('socket.on logout_user', socket.user);
 		if(!socket.authenticated){
 			return socket.fail("logout_user",{code: 100});
 		}else{
