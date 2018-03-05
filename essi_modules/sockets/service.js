@@ -139,20 +139,3 @@ module.exports = function(socket,database){
 	});
 
 }
-
-// service_info
-// id
-// name
-// address
-// email
-// mobile
-
-// service_user
-// service_id
-// user_id
-// user_type
-
-// service_service_info
-// service_id
-// service_info_id
-

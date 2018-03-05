@@ -75,6 +75,22 @@ var db  = function(connection){
 		connection.query(query_str, info, func);
 	}
 
+
+
+	this.add_modification = function add_modification(modification, func){
+		connection.query('INSERT INTO modification SET ?', modification, func);
+	}
+	this.add_modification_info = function add_modification_info(modification_info, func){
+		connection.query('INSERT INTO modification_info SET ?', modification_info, func);
+	}
+
+	this.fetch_modification = function fetch_modification(modification, func){
+		connection.query("	SELECT * FROM modification \
+							JOIN modification_info ON \
+							modification.id = modification_info.modification_id \
+							WHERE ?", modification, func);
+	}
+
 	return this;
 };
 

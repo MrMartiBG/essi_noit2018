@@ -1,12 +1,5 @@
 module.exports = function(socket,database){
 
-	socket.add_car_successful = function add_car_successful(results){
-
-		socket.emit('add_car_successful',results);
-		console.log('add_car_successful',results);
-		
-		return results;
-	}
 	socket.on('add_car', function(info){
 		console.log('socket.on add_car', info);
 
@@ -51,3 +44,4 @@ module.exports = function(socket,database){
 	});
 
 }
+
