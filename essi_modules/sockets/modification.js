@@ -5,30 +5,38 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("add_modification", {code: 101});
 
+		var today = new Date();
 		var modification = 	{		car_id: info.car_id,
 									service_id: info.service_id,
 									status: info.status,
 									mileage: info.mileage,
-									date: info.date	
+									date: today	
 							};
 		var modification_info = {	type: info.type,
 									part: info.part,
 									description: info.description
 								};
-		database.add_modification(modification, function(err, results){
-			if(err){
-				return socket.fail("add_modification", {code: 201, error: err});
-			}else{
-				modification_info.modification_id = results.insertId;
-				database.add_modification_info(modification_info, function(err, results){
+
+
+		for(var i = 0; i < socket.service_user.length ;i++){
+			if(socket.service_user[i].service_id == info.service_id){
+				return database.add_modification(modification, function(err, results){
 					if(err){
-						return socket.fail("add_modification", {code: 202, error: err});
+						return socket.fail("add_modification", {code: 201, error: err});
 					}else{
-						return socket.successful("add_modification", {id: modification_info.modification_id});
+						modification_info.modification_id = results.insertId;
+						database.add_modification_info(modification_info, function(err, results){
+							if(err){
+								return socket.fail("add_modification", {code: 202, error: err});
+							}else{
+								return socket.successful("add_modificadtion", {id: modification_info.modification_id});
+							}
+						});
 					}
 				});
 			}
-		});
+		}
+		return socket.fail("add_modification", {code: 102});
 	});
 
 	socket.on('fetch_modification', function(info){
@@ -36,13 +44,18 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("fetch_modification", {code: 101});
 
-		database.fetch_modification({car_id: info.car_id}, function(err, results){
-			if(err){
-				return socket.fail("fetch_modification", {code: 201});
-			}else{
-				return socket.successful("fetch_modification", results);
+		for(var i = 0; i < socket.car.length ;i++){
+			if(socket.car[i].id == info.car_id){
+				return database.fetch_modification({car_id: info.car_id}, function(err, results){
+					if(err){
+						return socket.fail("fetch_modification", {code: 201});
+					}else{
+						return socket.successful("fetch_modification", results);
+					}
+				});
 			}
-		});
+		}
+		return socket.fail("fetch_modification", {code: 102});
 	});
 
 }

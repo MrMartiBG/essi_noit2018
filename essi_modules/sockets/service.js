@@ -58,26 +58,19 @@ module.exports = function(socket,database){
 								user_type: info.user_type,
 								service_id: info.service_id
 							};
-		var service_owner = {	
-								user_id: socket.user.id, 
-								user_type: 'owner',
-								service_id: info.service_id
-							};
 
-		database.fetch_service_user(service_owner, function(err, results){
-			if(err){
-				return socket.fail("add_service_user", {code: 201});
-			}else{
-				if(results.length == 0) socket.fail("add_service_user", {code: 104});
-				database.add_service_user(service_user, function(err, results){
+		for(var i = 0; i < socket.service_user.length ;i++){
+			if(socket.service_user[i].service_id == info.service_id && socket.service_user[i].user_type == 'owner'){
+				return database.add_service_user(service_user, function(err, results){
 					if(err){
-						return socket.fail("add_service_user", {code: 202});
+						return socket.fail("add_service_user", {code: 201});
 					}else{
 						return socket.successful("add_service_user", service_user);
 					}
 				});
 			}
-		});
+		}
+		return socket.fail("add_service_user", {code: 102});
 	});
 	
 	socket.on('fetch_service_user', function(info){
@@ -85,13 +78,18 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("fetch_service_user", {code: 101});
 
-		database.fetch_service_user({service_id: info.service_id}, function(err, results){
-			if(err){
-				return socket.fail("fetch_service_user", {code: 201});
-			}else{
-				return socket.successful("fetch_service_user", results);
+		for(var i = 0; i < socket.service_user.length ;i++){
+			if(socket.service_user[i].service_id == info.service_id && socket.service_user[i].user_type == 'owner'){
+				return database.fetch_service_user({service_id: info.service_id}, function(err, results){
+					if(err){
+						return socket.fail("fetch_service_user", {code: 201});
+					}else{
+						return socket.successful("fetch_service_user", results);
+					}
+				});
 			}
-		});
+		}
+		return socket.fail("fetch_service_user", {code: 102});
 	});
 
 	socket.on('add_service_car', function(info){
@@ -108,20 +106,18 @@ module.exports = function(socket,database){
 								service_id: info.service_id
 							};
 
-		database.fetch_service_user(service_owner, function(err, results){
-			if(err){
-				return socket.fail("add_service_car", {code: 201});
-			}else{
-				if(results.length == 0) socket.fail("add_service_car", {code: 104});
-				database.add_service_car(service_car, function(err, results){
+		for(var i = 0; i < socket.service_user.length ;i++){
+			if(socket.service_user[i].service_id == info.service_id){
+				return database.add_service_car(service_car, function(err, results){
 					if(err){
-						return socket.fail("add_service_car", {code: 202});
+						return socket.fail("add_service_car", {code: 201});
 					}else{
 						return socket.successful("add_service_car", service_car);
 					}
 				});
 			}
-		});
+		}
+		return socket.fail("add_service_car", {code: 102});
 	});
 	
 	socket.on('fetch_service_car', function(info){
@@ -129,13 +125,29 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("fetch_service_car", {code: 101});
 
-		database.fetch_service_car({car_id: info.car_id, service_id: info.service_id}, function(err, results){
-			if(err){
-				return socket.fail("fetch_service_car", {code: 201});
-			}else{
-				return socket.successful("fetch_service_car", results);
+		for(var i = 0; i < socket.service_user.length ;i++){
+			if(socket.service_user[i].service_id == info.service_id){
+				return database.fetch_service_car({car_id: info.car_id, service_id: info.service_id}, function(err, results){
+					if(err){
+						return socket.fail("fetch_service_car", {code: 201});
+					}else{
+						return socket.successful("fetch_service_car", results);
+					}
+				});
 			}
-		});
+		}
+		for(var i = 0; i < socket.car.length ;i++){
+			if(socket.car[i].id == info.car_id){
+				return database.fetch_service_car({car_id: info.car_id, service_id: info.service_id}, function(err, results){
+					if(err){
+						return socket.fail("fetch_service_car", {code: 201});
+					}else{
+						return socket.successful("fetch_service_car", results);
+					}
+				});
+			}
+		}
+		return socket.fail("fetch_service_car", {code: 102});
 	});
 
 }

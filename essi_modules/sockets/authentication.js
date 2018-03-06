@@ -87,7 +87,7 @@ module.exports = function(socket,database){
 				socket.authenticated = true;
 				set_user_attributes(results[0].id);
 
-				return socket.successful("login_user", socket.user);
+				return socket.successful("login_user", results[0]);
 			}
 		});
 	});
