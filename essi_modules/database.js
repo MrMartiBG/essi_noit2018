@@ -23,6 +23,9 @@ var db  = function(connection){
 	this.fetch_car = function fetch_car(car, func){
 		connection.query("SELECT * FROM car JOIN car_info ON car.id = car_info.car_id WHERE ?", car, func);
 	}
+	this.fetch_car_only = function fetch_car(car, func){
+		connection.query("SELECT * FROM car WHERE ?", car, func);
+	}
 
 
 
@@ -58,7 +61,12 @@ var db  = function(connection){
 				query_str = "SELECT * FROM service_user WHERE service_id = ?";
 				info = [service_user.service_id];
 			}
-
+		}
+		if(	service_user.service_id == undefined &&
+		 	 service_user.user_type == undefined &&
+		  	   service_user.user_id != undefined){
+			query_str = "SELECT * FROM service_user WHERE user_id = ?";
+			info = [service_user.user_id];
 		}
 		connection.query(query_str, info, func);
 	}

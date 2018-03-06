@@ -1,4 +1,49 @@
 module.exports = function(socket,database){
+
+	function set_user_attributes(id){
+		database.fetch_user({id: id}, function(err, results){
+			if(err){
+				return socket.fail("authentication",{code: 0});
+			}else{
+
+				if(results.length == 0) return socket.fail("authentication",{code: 0});
+
+				results[0].password = undefined; 
+				socket.user = results[0];
+
+				console.log(socket.user);
+
+				return true;
+			}
+		});
+
+		database.fetch_car_only({owner_id: id}, function(err, results){
+			if(err){
+				return socket.fail("authentication",{code: 0});
+			}else{
+
+				socket.car = results;
+
+				console.log(socket.car);
+
+				return true;
+			}
+		});
+
+		database.fetch_service_user({user_id: id}, function(err, results){
+			if(err){
+				return socket.fail("authentication",{code: 0});
+			}else{
+
+				socket.service_user = results;
+
+				console.log(socket.service_user);
+
+				return true;
+			}
+		});
+	}
+
 	
 	socket.on('register_user', function(info){
 		console.log('socket.on register_user', info);
@@ -40,8 +85,7 @@ module.exports = function(socket,database){
 				if(results[0].password != user.password) return socket.fail("login_user",{code: 102});
 
 				socket.authenticated = true;
-				results[0].password = undefined; 
-				socket.user = results[0];
+				set_user_attributes(results[0].id);
 
 				return socket.successful("login_user", socket.user);
 			}
