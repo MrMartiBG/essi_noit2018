@@ -1,7 +1,12 @@
 module.exports = function(socket,database){
 
-	socket.on('add_car', function(info, call_back){ //
-		console.log('socket.on add_car', info); //info: brand model generation engine vin_number
+	socket.on('add_car', function(info, call_back){ //info: brand model generation engine vin_number
+		console.log('socket.on add_car', info);
+		if(info == null || call_back == null){
+			console.log('info or call_back is null(undefined)');
+			return false;
+		}
+
 		if(!socket.authenticated) return socket.fail("add_car", {code: 101}, call_back);
 		
 		var car = 		{	owner_id: socket.user.id 	};
@@ -29,8 +34,12 @@ module.exports = function(socket,database){
 		});
 	});
 
-	socket.on('fetch_my_cars', function(info, call_back){
+	socket.on('fetch_my_cars', function(info, call_back){ // info
 		console.log('socket.on fetch_my_cars');
+		if(info == null || call_back == null){
+			console.log('info or call_back is null(undefined)');
+			return false;
+		}
 
 		if(!socket.authenticated) return socket.fail("fetch_my_cars", {code: 101}, call_back);
 
@@ -56,6 +65,10 @@ module.exports = function(socket,database){
 
 	socket.on('fetch_car', function(info, call_back){ // info: id
 		console.log('socket.on fetch_car');
+		if(info == null || call_back == null){
+			console.log('info or call_back is null(undefined)');
+			return false;
+		}
 
 		if(!socket.authenticated) return socket.fail("fetch_car", {code: 101}, call_back);
 
