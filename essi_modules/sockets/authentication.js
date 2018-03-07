@@ -87,6 +87,8 @@ module.exports = function(socket,database){
 				socket.authenticated = true;
 				socket.update_user(results[0].id);
 
+				results[0].password = undefined;
+
 				return socket.successful("login_user", results[0]);
 			}
 		});

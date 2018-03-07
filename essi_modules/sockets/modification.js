@@ -39,12 +39,24 @@ module.exports = function(socket,database){
 		return socket.fail("add_modification", {code: 102});
 	});
 
+	function check_service_user_array_2d(a,b){
+		for(var i = 0 ; i < a.length ; i++){
+			for(var x = 0 ; x < b.length ; x++){
+				if(a[i].service_id == b[x].service_id){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	socket.on('fetch_modification', function(info){
 		console.log('socket.on fetch_modification');
 
 		if(!socket.authenticated) return socket.fail("fetch_modification", {code: 101});
 
-		for(var i = 0; i < socket.car.length ;i++){
+
+		for(var i = 0 ; i < socket.car.length; i++){
 			if(socket.car[i].id == info.car_id){
 				return database.fetch_modification({car_id: info.car_id}, function(err, results){
 					if(err){
@@ -55,7 +67,25 @@ module.exports = function(socket,database){
 				});
 			}
 		}
-		return socket.fail("fetch_modification", {code: 102});
+
+
+		database.fetch_service_car({car_id: info.car_id}, function(err, results){
+			if(err){
+				return socket.fail("fetch_modification", {code: 201});
+			}else{
+				if(check_service_user_array_2d(results,socket.service_user)){
+					return database.fetch_modification({car_id: info.car_id}, function(err, results){
+						if(err){
+							return socket.fail("fetch_modification", {code: 202});
+						}else{
+							return socket.successful("fetch_modification", results);
+						}
+					});
+				}
+				return socket.fail("fetch_modification", {code: 102});
+			}
+		});
 	});
 
 }
+
