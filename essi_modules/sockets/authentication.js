@@ -75,22 +75,22 @@ module.exports = function(socket,database){
 		});
 	});
 
-	socket.on('login_user', function(user, call_back){ //user: username password	
-		console.log('socket.on login_user', user);
-		if(user == null || call_back == null){
+	socket.on('login_user', function(info, call_back){ //user: username password	
+		console.log('socket.on login_user', info);
+		if(info == null || call_back == null){
 			socket.server_error("login_user",'info or call_back is null(undefined)');
 			return false;
 		}
 
-		if(socket.authenticated) return socket.fail("login_user",{code: 100, call_back});
+		if(socket.authenticated) return socket.fail("login_user",{code: 100}, call_back);
 
-		database.fetch_user({username: user.username}, function(err, results){
+		database.fetch_user({username: info.username}, function(err, results){
 			if(err){
 				return socket.fail("login_user",{code: 201}, call_back);
 			}else{
 
 				if(results.length == 0) return socket.fail("login_user",{code: 103}, call_back);
-				if(results[0].password != user.password) return socket.fail("login_user",{code: 102}, call_back);
+				if(results[0].password != info.password) return socket.fail("login_user",{code: 102}, call_back);
 
 				socket.authenticated = true;
 				socket.update_user(results[0].id);
