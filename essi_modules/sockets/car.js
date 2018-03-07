@@ -44,6 +44,17 @@ module.exports = function(socket,database){
 		});
 	});
 
+	function check_service_user(a,b){
+		for(var i = 0 ; i < a.length ; i++){
+			for(var x = 0 ; x < b.length ; x++){
+				if(a[i].service_id == b[x].service_id){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	socket.on('fetch_car', function(info){
 		console.log('socket.on fetch_car');
 
@@ -53,16 +64,16 @@ module.exports = function(socket,database){
 			if(err){
 				return socket.fail("fetch_car", {code: 201});
 			}else{
-				for(var i = 0 ; i < results.length ; i++){
-					if(results[i].service_id == socket.service_user.service_id){
-						return database.fetch_car({id: results[i].car_id}, function(err, results){
-							if(err){
-								return socket.fail("fetch_car", {code: 202});
-							}else{
-								return socket.successful("fetch_car", results);
-							}
-						});
-					}
+				if(check_service_user(results,socket.service_user)){
+					database.fetch_car({id: results[0].car_id}, function(err, results){
+						if(err){
+							return socket.fail("fetch_car", {code: 202});
+						}else{
+							return socket.successful("fetch_car", results);
+						}
+					});
+				}else{
+					 return socket.fail("fetch_car", {code: 102});
 				}
 			}
 		});

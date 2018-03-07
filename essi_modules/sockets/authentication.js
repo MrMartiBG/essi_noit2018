@@ -85,7 +85,7 @@ module.exports = function(socket,database){
 				if(results[0].password != user.password) return socket.fail("login_user",{code: 102});
 
 				socket.authenticated = true;
-				update_user(results[0].id);
+				socket.update_user(results[0].id);
 
 				return socket.successful("login_user", results[0]);
 			}

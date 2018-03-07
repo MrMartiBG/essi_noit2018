@@ -74,14 +74,30 @@ module.exports = function(socket,database){
 		}
 		return socket.fail("add_service_user", {code: 102});
 	});
-	
+
+	socket.on('fetch_my_service_user', function(){
+		console.log('socket.on fetch_my_service_userfetch_my_service_user');
+
+		if(!socket.authenticated) return socket.fail("fetch_my_service_user", {code: 101});
+
+		database.fetch_service_user({user_id: socket.user.id}, function(err, results){
+			if(err){
+				return socket.fail("fetch_my_service_user", {code: 201});
+			}else{
+				return socket.successful("fetch_my_service_user", results);
+			}
+		});
+
+	});
+
 	socket.on('fetch_service_user', function(info){
 		console.log('socket.on fetch_service_user');
 
 		if(!socket.authenticated) return socket.fail("fetch_service_user", {code: 101});
 
 		for(var i = 0; i < socket.service_user.length ;i++){
-			if(socket.service_user[i].service_id == info.service_id && socket.service_user[i].user_type == 'owner'){
+			if(socket.service_user[i].service_id == info.service_id && socket.service_user[i].user_type == "owner"){
+
 				return database.fetch_service_user({service_id: info.service_id}, function(err, results){
 					if(err){
 						return socket.fail("fetch_service_user", {code: 201});
@@ -153,3 +169,4 @@ module.exports = function(socket,database){
 	});
 
 }
+

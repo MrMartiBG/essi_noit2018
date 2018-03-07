@@ -127,4 +127,3 @@ var db_conf  = function(mysql,db_user){
 };
 
 module.exports = db_conf;
-
