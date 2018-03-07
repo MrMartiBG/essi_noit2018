@@ -39,9 +39,6 @@ var db  = function(connection){
 		connection.query('INSERT INTO service_car SET ?', service_car, func);
 	}
 
-	this.fetch_service_info = function fetch_service_info(service_info, func){
-		connection.query("SELECT * FROM service_info WHERE ?", service_info, func);
-	}
 	this.fetch_service_user = function fetch_service_info(service_user, func){
 		var query_str;
 		var info;
