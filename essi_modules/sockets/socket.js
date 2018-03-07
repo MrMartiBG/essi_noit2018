@@ -12,15 +12,15 @@ module.exports = function(database){
 		});
 
 
-		socket.fail = function fail(func_name, info){
-			socket.emit(func_name + '_fail', info);
-			console.log(func_name + '_fail', info);
+		socket.fail = function fail(func_name, info, call_back){
+			console.log(func_name + ' - fail', info);
+			call_back({func_name: func_name, status: "fail", info: info});
 			return info;
 		}
-		socket.successful = function successful(func_name, results){
-			socket.emit(func_name + '_successful',results);
-			console.log(func_name + '_successful',results);
-			return results;
+		socket.successful = function successful(func_name, info, call_back){
+			console.log(func_name + ' - successful', info);
+			call_back({func_name: func_name, status: "successful", info: info});
+			return info;
 		}
 			
 
