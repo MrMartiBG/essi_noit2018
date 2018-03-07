@@ -3,10 +3,6 @@ module.exports = function(database){
 	this.handler = function handler(socket){
 		console.log('user connected', socket.id);
 
-		socket.on("new-message", function(msg){
-			console.log("new-message", msg);
-		});
-
 		socket.on('disconnect', function(){
 			console.log('user disconnected');
 		});
@@ -20,6 +16,11 @@ module.exports = function(database){
 		socket.successful = function successful(func_name, info, call_back){
 			console.log(func_name + ' - successful', info);
 			call_back({func_name: func_name, status: "successful", info: info});
+			return info;
+		}
+		socket.server_error = function server_error(func_name, info){
+			console.log(func_name + ' - server_error', info);
+			socket.emit('server_error', {func_name: func_name, info: info});
 			return info;
 		}
 			

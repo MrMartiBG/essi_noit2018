@@ -48,7 +48,7 @@ module.exports = function(socket,database){
 	socket.on('register_user', function(info, call_back){ // info: username password email firstname lastname mobile
 		console.log('socket.on register_user', info);
 		if(info == null || call_back == null){
-			console.log('info or call_back is null(undefined)');
+			socket.server_error("register_user",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -78,7 +78,7 @@ module.exports = function(socket,database){
 	socket.on('login_user', function(user, call_back){ //user: username password	
 		console.log('socket.on login_user', user);
 		if(user == null || call_back == null){
-			console.log('info or call_back is null(undefined)');
+			socket.server_error("login_user",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -104,7 +104,7 @@ module.exports = function(socket,database){
 
 	socket.on('logout_user', function(info, call_back){
 		if(info == null || call_back == null){
-			console.log('info or call_back is null(undefined)');
+			socket.server_error("logout_user",'info or call_back is null(undefined)');
 			return false;
 		}
 		console.log('socket.on logout_user', socket.user);

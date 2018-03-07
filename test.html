@@ -13,6 +13,10 @@
 				console.log("call_back - ", data);
 			}
 
+			socket.on("server_error", function (info) {
+				console.log(info)
+			});
+
 
 		</script>
 	</body>
