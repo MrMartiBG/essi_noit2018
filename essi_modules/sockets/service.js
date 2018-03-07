@@ -25,6 +25,7 @@ module.exports = function(socket,database){
 					if(err){
 						return socket.fail("add_service_info", {code: 202});
 					}else{
+						socket.update_user(socket.user.id);
 						return socket.successful("add_service_info", {id: service_owner.service_id});
 					}
 				});
@@ -65,6 +66,7 @@ module.exports = function(socket,database){
 					if(err){
 						return socket.fail("add_service_user", {code: 201});
 					}else{
+						socket.update_user(socket.user.id);
 						return socket.successful("add_service_user", service_user);
 					}
 				});

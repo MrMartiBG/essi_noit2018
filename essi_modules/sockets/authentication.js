@@ -1,6 +1,6 @@
 module.exports = function(socket,database){
 
-	function set_user_attributes(id){
+	socket.update_user = function update_user(id){
 		database.fetch_user({id: id}, function(err, results){
 			if(err){
 				return socket.fail("authentication",{code: 0});
@@ -85,7 +85,7 @@ module.exports = function(socket,database){
 				if(results[0].password != user.password) return socket.fail("login_user",{code: 102});
 
 				socket.authenticated = true;
-				set_user_attributes(results[0].id);
+				update_user(results[0].id);
 
 				return socket.successful("login_user", results[0]);
 			}

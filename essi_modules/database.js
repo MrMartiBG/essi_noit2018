@@ -74,8 +74,13 @@ var db  = function(connection){
 		var query_str;
 		var info;
 		if(service_car.car_id != undefined){
-			query_str = "SELECT * FROM service_car WHERE service_id = ? AND car_id = ?";
-			info = [service_car.service_id, service_car.car_id];
+			if(service_car.service_id != undefined){
+				query_str = "SELECT * FROM service_car WHERE service_id = ? AND car_id = ?";
+				info = [service_car.service_id, service_car.car_id];
+			}else{
+				query_str = "SELECT * FROM service_car WHERE car_id = ?";
+				info = [service_car.car_id];
+			}
 		}else{
 			query_str = "SELECT * FROM service_car WHERE service_id = ?";
 			info = [service_car.service_id];
