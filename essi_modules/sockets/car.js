@@ -1,8 +1,7 @@
 module.exports = function(socket,database){
 
-	socket.on('add_car', function(info){
-		console.log('socket.on add_car', info);
-
+	socket.on('add_car', function(info){ //
+		console.log('socket.on add_car', info); //info: brand model generation engine vin_number
 		if(!socket.authenticated) return socket.fail("add_car", {code: 101});
 		
 		var car = 		{	owner_id: socket.user.id 	};
@@ -55,7 +54,7 @@ module.exports = function(socket,database){
 		return false;
 	}
 
-	socket.on('fetch_car', function(info){
+	socket.on('fetch_car', function(info){ // info: id
 		console.log('socket.on fetch_car');
 
 		if(!socket.authenticated) return socket.fail("fetch_car", {code: 101});

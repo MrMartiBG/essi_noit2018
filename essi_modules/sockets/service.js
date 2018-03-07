@@ -1,6 +1,6 @@
 module.exports = function(socket,database){
 
-	socket.on('add_service_info', function(info){
+	socket.on('add_service_info', function(info){ // info: name address email mobile
 		console.log('socket.on add_service_info', info);
 
 		if(!socket.authenticated) return socket.fail("add_service_info", {code: 101});
@@ -33,7 +33,7 @@ module.exports = function(socket,database){
 		});
 	});
 	
-	socket.on('fetch_service_info', function(info){
+	socket.on('fetch_service_info', function(info){ // info: id
 		console.log('socket.on fetch_service_info');
 
 		if(!socket.authenticated) return socket.fail("fetch_service_info", {code: 101});
@@ -49,7 +49,7 @@ module.exports = function(socket,database){
 
 
 
-	socket.on('add_service_user', function(info){
+	socket.on('add_service_user', function(info){ // info: user_id user_type service_id
 		console.log('socket.on add_service_user', info);
 
 		if(!socket.authenticated) return socket.fail("add_service_user", {code: 101});
@@ -90,7 +90,7 @@ module.exports = function(socket,database){
 
 	});
 
-	socket.on('fetch_service_user', function(info){
+	socket.on('fetch_service_user', function(info){ // info: service_id
 		console.log('socket.on fetch_service_user');
 
 		if(!socket.authenticated) return socket.fail("fetch_service_user", {code: 101});
@@ -110,7 +110,7 @@ module.exports = function(socket,database){
 		return socket.fail("fetch_service_user", {code: 102});
 	});
 
-	socket.on('add_service_car', function(info){
+	socket.on('add_service_car', function(info){ // info: car_id service_id
 		console.log('socket.on add_service_car', info);
 
 		if(!socket.authenticated) return socket.fail("add_service_car", {code: 101});
@@ -138,7 +138,7 @@ module.exports = function(socket,database){
 		return socket.fail("add_service_car", {code: 102});
 	});
 	
-	socket.on('fetch_service_car', function(info){
+	socket.on('fetch_service_car', function(info){ // info: car_id service_id
 		console.log('socket.on fetch_service_car');
 
 		if(!socket.authenticated) return socket.fail("fetch_service_car", {code: 101});

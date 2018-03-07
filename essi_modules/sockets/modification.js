@@ -1,6 +1,6 @@
 module.exports = function(socket,database){
 
-	socket.on('add_modification', function(info){
+	socket.on('add_modification', function(info){ //info: car_id service_id status mileage type part description
 		console.log('socket.on add_modification', info);
 
 		if(!socket.authenticated) return socket.fail("add_modification", {code: 101});
@@ -50,7 +50,7 @@ module.exports = function(socket,database){
 		return false;
 	}
 
-	socket.on('fetch_modification', function(info){
+	socket.on('fetch_modification', function(info){ // info: car_id
 		console.log('socket.on fetch_modification');
 
 		if(!socket.authenticated) return socket.fail("fetch_modification", {code: 101});

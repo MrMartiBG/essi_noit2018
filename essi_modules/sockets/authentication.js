@@ -45,7 +45,7 @@ module.exports = function(socket,database){
 	}
 
 	
-	socket.on('register_user', function(info){
+	socket.on('register_user', function(info){ // info: username password email firstname lastname mobile
 		console.log('socket.on register_user', info);
 
 		if(socket.authenticated) return socket.fail("register_user",{code: 100});
@@ -71,7 +71,7 @@ module.exports = function(socket,database){
 		});
 	});
 
-	socket.on('login_user', function(user){
+	socket.on('login_user', function(user){ //user: username password	
 		console.log('socket.on login_user', user);
 
 		if(socket.authenticated) return socket.fail("login_user",{code: 100});
