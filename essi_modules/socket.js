@@ -27,10 +27,10 @@ module.exports = function(database){
 
 		socket.authenticated = false;
 
-		require('./authentication.js')	(socket, database);
-		require('./car.js')				(socket, database);
-		require('./service.js')			(socket, database);
-		require('./modification.js')	(socket, database);
+		require('./sockets/authentication.js')	(socket, database);
+		require('./sockets/car.js')				(socket, database);
+		require('./sockets/service.js')			(socket, database);
+		require('./sockets/modification.js')	(socket, database);
 
 	}
 
