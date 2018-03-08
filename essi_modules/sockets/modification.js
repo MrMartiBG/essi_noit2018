@@ -3,7 +3,7 @@ module.exports = function(socket,database){
 	socket.on('add_modification', function(info, call_back){ //info: car_id service_id status mileage type part description
 		console.log('socket.on add_modification', info);
 		if(info == null || call_back == null){
-			socket.server_error("add_modification",'info or call_back is null(undefined)');
+			socket.client_error("add_modification",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -57,7 +57,7 @@ module.exports = function(socket,database){
 	socket.on('fetch_modification', function(info, call_back){ // info: car_id
 		console.log('socket.on fetch_modification');
 		if(info == null || call_back == null){
-			socket.server_error("fetch_modification",'info or call_back is null(undefined)');
+			socket.client_error("fetch_modification",'info or call_back is null(undefined)');
 			return false;
 		}
 

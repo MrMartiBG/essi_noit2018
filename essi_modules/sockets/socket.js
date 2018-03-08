@@ -18,9 +18,9 @@ module.exports = function(database){
 			call_back({func_name: func_name, status: "successful", info: info});
 			return info;
 		}
-		socket.server_error = function server_error(func_name, info){
-			console.log(func_name + ' - server_error', info);
-			socket.emit('server_error', {func_name: func_name, info: info});
+		socket.client_error = function client_error(func_name, info){
+			console.log(func_name + ' - client_error', info);
+			socket.emit('client_error', {func_name: func_name, info: info});
 			return info;
 		}
 			

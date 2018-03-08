@@ -3,6 +3,7 @@ var        app = express();
 var       http = require('http').Server(app);
 var         io = require('socket.io')(http);
 var      mysql = require('mysql');
+
 var    db_user = require('./config/database_user.js');
 var connection = require('./essi_modules/configure_database.js')(mysql,db_user);
 var   database = require('./essi_modules/database.js')(connection);

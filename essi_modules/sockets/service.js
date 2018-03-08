@@ -3,7 +3,7 @@ module.exports = function(socket,database){
 	socket.on('add_service_info', function(info, call_back){ // info: name address email mobile
 		console.log('socket.on add_service_info', info);
 		if(info == null || call_back == null){
-			socket.server_error("add_service_info",'info or call_back is null(undefined)');
+			socket.client_error("add_service_info",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -40,7 +40,7 @@ module.exports = function(socket,database){
 	socket.on('fetch_service_info', function(info, call_back){ // info: id
 		console.log('socket.on fetch_service_info');
 		if(info == null || call_back == null){
-			socket.server_error("fetch_service_info",'info or call_back is null(undefined)');
+			socket.client_error("fetch_service_info",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -61,7 +61,7 @@ module.exports = function(socket,database){
 															 // or user_id only
 		console.log('socket.on add_service_user', info);
 		if(info == null || call_back == null){
-			socket.server_error("add_service_user",'info or call_back is null(undefined)');
+			socket.client_error("add_service_user",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -91,7 +91,7 @@ module.exports = function(socket,database){
 	socket.on('fetch_my_service_user', function(info, call_back){
 		console.log('socket.on fetch_my_service_userfetch_my_service_user');
 		if(info == null || call_back == null){
-			socket.server_error("fetch_my_service_user",'info or call_back is null(undefined)');
+			socket.client_error("fetch_my_service_user",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -110,7 +110,7 @@ module.exports = function(socket,database){
 	socket.on('fetch_service_user', function(info, call_back){ // info: service_id
 		console.log('socket.on fetch_service_user');
 		if(info == null || call_back == null){
-			socket.server_error("fetch_service_user",'info or call_back is null(undefined)');
+			socket.client_error("fetch_service_user",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -134,7 +134,7 @@ module.exports = function(socket,database){
 	socket.on('add_service_car', function(info, call_back){ // info: car_id service_id
 		console.log('socket.on add_service_car', info);
 		if(info == null || call_back == null){
-			socket.server_error("add_service_car",'info or call_back is null(undefined)');
+			socket.client_error("add_service_car",'info or call_back is null(undefined)');
 			return false;
 		}
 
@@ -166,7 +166,7 @@ module.exports = function(socket,database){
 	socket.on('fetch_service_car', function(info, call_back){ // info: car_id and or service_id
 		console.log('socket.on fetch_service_car');
 		if(info == null || call_back == null){
-			socket.server_error("fetch_service_car",'info or call_back is null(undefined)');
+			socket.client_error("fetch_service_car",'info or call_back is null(undefined)');
 			return false;
 		}
 
