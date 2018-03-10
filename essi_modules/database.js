@@ -32,6 +32,9 @@ var db  = function(connection){
 	this.add_service_info = function add_service_info(service_info, func){
 		connection.query('INSERT INTO service_info SET ?', service_info, func);
 	}
+	this.fetch_service_info = function fetch_service_info(service_info, func){
+		connection.query('SELECT * FROM service_info WHERE ?', service_info, func);
+	}
 	this.add_service_user = function add_service_user(service_user, func){
 		connection.query('INSERT INTO service_user SET ?', service_user, func);
 	}
@@ -39,7 +42,7 @@ var db  = function(connection){
 		connection.query('INSERT INTO service_car SET ?', service_car, func);
 	}
 
-	this.fetch_service_user = function fetch_service_info(service_user, func){
+	this.fetch_service_user = function fetch_service_user(service_user, func){
 		var query_str;
 		var info;
 		if(service_user.user_id != undefined){

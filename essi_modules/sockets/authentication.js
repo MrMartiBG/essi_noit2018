@@ -8,7 +8,7 @@ module.exports = function(socket,database){
 
 				if(results.length == 0) return socket.fail("authentication",{code: 0});
 
-				results[0].password = undefined; 
+				results[0].password = undefined;
 				socket.user = results[0];
 
 				console.log(socket.user);
@@ -44,7 +44,7 @@ module.exports = function(socket,database){
 		});
 	}
 
-	
+
 	socket.on('register_user', function(info, call_back){ // info: username password email firstname lastname mobile
 		console.log('socket.on register_user', info);
 		if(info == null || call_back == null){
@@ -67,7 +67,7 @@ module.exports = function(socket,database){
 					if(err){
 						return socket.fail("register_user",{code: 202}, call_back);
 					}else{
-						user.password = undefined; 
+						user.password = undefined;
 						return socket.successful("register_user", user, call_back);
 					}
 				});
@@ -75,7 +75,7 @@ module.exports = function(socket,database){
 		});
 	});
 
-	socket.on('login_user', function(info, call_back){ //user: username password	
+	socket.on('login_user', function(info, call_back){ //user: username password
 		console.log('socket.on login_user', info);
 		if(info == null || call_back == null){
 			socket.client_error("login_user",'info or call_back is null(undefined)');
@@ -111,6 +111,7 @@ module.exports = function(socket,database){
 		if(!socket.authenticated){
 			return socket.fail("logout_user",{code: 100}, call_back);
 		}else{
+			socket.authenticated = false;
 			return socket.successful("logout_user", true, call_back);
 		}
 	});
