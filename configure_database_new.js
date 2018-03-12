@@ -44,7 +44,7 @@ connection.connect(function(err) {
 function config_tables(){
 
 	// table user
-	var sql_table_user = "	CREATE TABLE `user` (								\
+	var sql_table_user = "	CREATE TABLE `user` (											\
 							`id` 			int 			NOT NULL 	AUTO_INCREMENT,		\
 							`username` 		varchar(64) 	NOT NULL 	UNIQUE,				\
 							`password` 		varchar(256)	NOT NULL,						\
@@ -56,7 +56,7 @@ function config_tables(){
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
 	// table car
-	var sql_table_car = "	CREATE TABLE `car` ( 								\
+	var sql_table_car = "	CREATE TABLE `car` ( 											\
 							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
 							`owner_id` 		int 			NOT NULL, 						\
 							`public` 		bool 						DEFAULT false, 		\
@@ -69,7 +69,7 @@ function config_tables(){
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
 	// table service_info
-	var sql_table_service_info = "	CREATE TABLE `service_info` ( 			\
+	var sql_table_service_info = "	CREATE TABLE `service_info` ( 							\
 							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
 							`name` 			varchar(64) 	NOT NULL, 						\
 							`address` 		varchar(64) 	NOT NULL, 						\
@@ -79,20 +79,20 @@ function config_tables(){
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
 	// table service_user
-	var sql_table_service_user = "	CREATE TABLE `service_user` ( 			\
+	var sql_table_service_user = "	CREATE TABLE `service_user` ( 							\
 							`service_id` 	int 			NOT NULL, 						\
 							`user_id` 		int 			NOT NULL, 						\
 							`user_type` 	varchar(64) 	NOT NULL 						\
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
 	// table service_car
-	var sql_table_service_car = "	CREATE TABLE `service_car` ( 				\
+	var sql_table_service_car = "	CREATE TABLE `service_car` ( 							\
 							`service_id` 	int 			NOT NULL, 						\
 							`car_id` 		int 			NOT NULL						\
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
 	// table modification
-	var sql_table_modification = "	CREATE TABLE `modification` ( 			\
+	var sql_table_modification = "	CREATE TABLE `modification` ( 							\
 							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
 							`car_id` 		int 			NOT NULL, 						\
 							`service_id` 	int 			NOT NULL, 						\

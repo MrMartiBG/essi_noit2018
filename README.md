@@ -7,6 +7,10 @@ npm install
 ```
 
 ## How to start
+
+go to ./config/database_user.js
+
 ```
+node configure_database.js
 node server.js
 ```
