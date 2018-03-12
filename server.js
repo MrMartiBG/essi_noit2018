@@ -9,13 +9,15 @@ var connection = require('./essi_modules/configure_database.js')(mysql,db_user);
 var   database = require('./essi_modules/database.js')(connection);
 var     socket = require('./essi_modules/socket.js')(database);
 
+var port = 3030;
+
 app.get('/test', function(req, res){
   res.sendFile(__dirname + '/test.html');
 });
 app.use(express.static('public'));
 
-io.on('connection', socket.handler);
+io.on('connection', socket.on_connection);
 
-http.listen(3030, function(){
-  console.log('Server started! At http://localhost:3030');
+http.listen(port, function(){
+  console.log('Server started! At http://localhost:' + port);
 });
