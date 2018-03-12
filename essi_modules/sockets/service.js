@@ -9,9 +9,9 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("add_service_info", {code: 101}, call_back);
 
-		var service_owner = 	{	
-									user_id: socket.user.id, 
-									user_type: "owner"	
+		var service_owner = 	{
+									user_id: socket.user.id,
+									user_type: "owner"
 								};
 		var service_info = {
 								name: info.name,
@@ -36,7 +36,7 @@ module.exports = function(socket,database){
 			}
 		});
 	});
-	
+
 	socket.on('fetch_service_info', function(info, call_back){ // info: id
 		console.log('socket.on fetch_service_info');
 		if(info == null || call_back == null){
@@ -67,8 +67,8 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("add_service_user", {code: 101}, call_back);
 
-		var service_user = 	{	
-								user_id: info.user_id, 
+		var service_user = 	{
+								user_id: info.user_id,
 								user_type: info.user_type,
 								service_id: info.service_id
 							};
@@ -140,11 +140,11 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("add_service_car", {code: 101}, call_back);
 
-		var service_car = 	{	
+		var service_car = 	{
 								car_id: info.car_id,
 								service_id: info.service_id
 							};
-		var service_owner = {	
+		var service_owner = {
 								user_id: socket.user.id,
 								service_id: info.service_id
 							};
@@ -162,7 +162,7 @@ module.exports = function(socket,database){
 		}
 		return socket.fail("add_service_car", {code: 102}, call_back);
 	});
-	
+
 	socket.on('fetch_service_car', function(info, call_back){ // info: car_id and or service_id
 		console.log('socket.on fetch_service_car');
 		if(info == null || call_back == null){
@@ -198,4 +198,3 @@ module.exports = function(socket,database){
 	});
 
 }
-

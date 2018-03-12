@@ -14,7 +14,7 @@ module.exports = function(socket,database){
 									service_id: info.service_id,
 									status: info.status,
 									mileage: info.mileage,
-									date: today	
+									date: today
 							};
 		var modification_info = {	type: info.type,
 									part: info.part,
@@ -70,7 +70,7 @@ module.exports = function(socket,database){
 					if(err){
 						return socket.fail("fetch_modification", {code: 201}, call_back);
 					}else{
-						return socket.successful("fetch_modification", results);
+						return socket.successful("fetch_modification", results, call_back);
 					}
 				});
 			}
@@ -86,7 +86,7 @@ module.exports = function(socket,database){
 						if(err){
 							return socket.fail("fetch_modification", {code: 202}, call_back);
 						}else{
-							return socket.successful("fetch_modification", results);
+							return socket.successful("fetch_modification", results, call_back);
 						}
 					});
 				}
@@ -96,4 +96,3 @@ module.exports = function(socket,database){
 	});
 
 }
-
