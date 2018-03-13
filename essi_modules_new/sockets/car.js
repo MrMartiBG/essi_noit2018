@@ -8,10 +8,10 @@ module.exports = function(socket,database){
 
 		var car = {
 			owner_id: 	socket.user.id,
-			brand: 			info.brand,
-			model: 			info.model,
+			brand: 		info.brand,
+			model: 		info.model,
 			generation: info.generation,
-			engine: 		info.engine,
+			engine: 	info.engine,
 			vin_number: info.vin_number
 		};
 		if(info.public){

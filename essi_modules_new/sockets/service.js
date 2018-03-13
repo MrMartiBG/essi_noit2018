@@ -15,7 +15,7 @@ module.exports = function(socket,database){
 			address: info.address,
 			email: info.email,
 			mobile: info.mobile
-   	};
+   		};
 		database.add_service(service, function(err, results){
 			if(err) return socket.fail("add_service", {code: 201}, call_back);
 			service_owner.service_id = results.insertId;

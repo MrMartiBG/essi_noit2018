@@ -49,7 +49,6 @@ var db  = function(mysql,db_user){
 	}
 
 
-	//
 	// this.add_modification = function add_modification(modification, func){
 	// 	this.connection.query('INSERT INTO modification SET ?', modification, func);
 	// }

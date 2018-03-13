@@ -9,10 +9,10 @@ module.exports = function(socket,database){
 		var user = 	{
 			username: 	info.username,
 			password: 	info.password,
-			email:		  info.email,
+			email:		info.email,
 			firstname: 	info.firstname,
 			lastname: 	info.lastname,
-			mobile: 		info.mobile
+			mobile: 	info.mobile
 		};
 
 		database.register_user(user, function(err, results){

@@ -42,7 +42,7 @@ function config_tables(){
 
 	// table user
 	var sql_table_user = "	CREATE TABLE `user` (											\
-							`id` 			int 			NOT NULL 	AUTO_INCREMENT,		\
+							`id`			int 			NOT NULL 	AUTO_INCREMENT,		\
 							`username` 		varchar(64) 	NOT NULL 	UNIQUE,				\
 							`password` 		varchar(256)	NOT NULL,						\
 							`email` 		varchar(64) 	NOT NULL 	UNIQUE,				\
@@ -92,7 +92,7 @@ function config_tables(){
 	var sql_table_modification = "	CREATE TABLE `modification` ( 							\
 							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
 							`car_id` 		int 			NOT NULL, 						\
-							`service_id` 	int, 			 						\
+							`service_id` 	int, 			 								\
 							`status` 		varchar(64), 									\
 							`mileage` 		int(64) 		NOT NULL, 						\
 							`date` 			datetime		NOT NULL, 						\
