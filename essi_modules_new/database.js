@@ -41,11 +41,12 @@ var db  = function(mysql,db_user){
 	this.fetch_service_user = function fetch_service_user(service_user, func){
 		this.connection.query('SELECT * FROM service_user WHERE ?', service_user, func);
 	}
-
-
-	// this.add_service_car = function add_service_car(service_car, func){
-	// 	this.connection.query('INSERT INTO service_car SET ?', service_car, func);
-	// }
+	this.add_service_car = function add_service_car(service_car, func){
+		this.connection.query('INSERT INTO service_car SET ?', service_car, func);
+	}
+	this.fetch_service_car = function fetch_service_car(service_car, func){
+		this.connection.query('SELECT * FROM service_car WHERE ?', service_car, func);
+	}
 
 	// this.fetch_service_user = function fetch_service_user(service_user, func){
 	// 	var query_str;

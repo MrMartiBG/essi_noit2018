@@ -136,45 +136,41 @@ module.exports = function(socket,database){
 			if(err) return socket.fail("add_service_car", {code: 201}, call_back);
 			for(var i = 0; i < results.length ;i++){
 				if(results[i].user_id == socket.user.id){
-					return database... // TODO
+					return database.add_service_car(service_car, function(err, results){
+						if(err) return socket.fail("add_service_car", {code: 201}, call_back);
+						return socket.successful("add_service_car", service_car, call_back);
+					});
 				}
 			}
 			return socket.fail("add_service_car", {code: 103}, call_back);
 		});
 	});
-	//
-	// socket.on('fetch_service_car', function(info, call_back){ // info: car_id and or service_id
-	// 	console.log('socket.on fetch_service_car');
-	// 	if(info == null || call_back == null){
-	// 		socket.client_error("fetch_service_car",'info or call_back is null(undefined)');
-	// 		return false;
-	// 	}
-	//
-	// 	if(!socket.authenticated) return socket.fail("fetch_service_car", {code: 101}, call_back);
-	//
-	// 	for(var i = 0; i < socket.service_user.length ;i++){
-	// 		if(socket.service_user[i].service_id == info.service_id){
-	// 			return database.fetch_service_car({car_id: info.car_id, service_id: info.service_id}, function(err, results){
-	// 				if(err){
-	// 					return socket.fail("fetch_service_car", {code: 201}, call_back);
-	// 				}else{
-	// 					return socket.successful("fetch_service_car", results, call_back);
-	// 				}
-	// 			});
-	// 		}
-	// 	}
-	// 	for(var i = 0; i < socket.car.length ;i++){
-	// 		if(socket.car[i].id == info.car_id){
-	// 			return database.fetch_service_car({car_id: info.car_id, service_id: info.service_id}, function(err, results){
-	// 				if(err){
-	// 					return socket.fail("fetch_service_car", {code: 201}, call_back);
-	// 				}else{
-	// 					return socket.successful("fetch_service_car", results, call_back);
-	// 				}
-	// 			});
-	// 		}
-	// 	}
-	// 	return socket.fail("fetch_service_car", {code: 102}, call_back);
-	// });
 
+
+	socket.on('fetch_service_car_service', function(info, call_back){
+		console.log('socket.on fetch_service_car_service');
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(!socket.authenticated) return socket.fail("fetch_service_car_service", {code: 101}, call_back);
+
+		var service_car = {
+			service_id: info.service_id
+		};
+		var service_user = {
+			user_id: socket.user.id
+		};
+
+		database.fetch_service_user(service_user, function(err, results){
+			if(err) return socket.fail("fetch_service_car_service", {code: 201}, call_back);
+			for(var i = 0; i < results.length ;i++){
+				if(results[i].service_id == service_car.service_id){
+					return database.fetch_service_car(service_car, function (err, results){
+						if(err) return socket.fail("fetch_service_car_service", {code: 202}, call_back);
+						return socket.successful("fetch_service_car_service", results, call_back);
+					});
+				}
+			}
+			return socket.fail("fetch_service_car_service", {code: 103}, call_back);
+		});
+	});
 }
