@@ -48,53 +48,7 @@ var db  = function(mysql,db_user){
 		this.connection.query('SELECT * FROM service_car WHERE ?', service_car, func);
 	}
 
-	// this.fetch_service_user = function fetch_service_user(service_user, func){
-	// 	var query_str;
-	// 	var info;
-	// 	if(service_user.user_id != undefined){
-	// 		if(service_user.user_type != undefined){
-	// 			query_str = "SELECT * FROM service_user WHERE service_id = ? AND user_id = ? AND user_type = ?";
-	// 			info = [service_user.service_id, service_user.user_id, service_user.user_type];
-	// 		}else{
-	// 			query_str = "SELECT * FROM service_user WHERE service_id = ? AND user_id = ?";
-	// 			info = [service_user.service_id, service_user.user_id];
-	// 		}
-	// 	}else{
-	// 		if(service_user.user_type != undefined){
-	// 			query_str = "SELECT * FROM service_user WHERE service_id = ? AND user_type = ?";
-	// 			info = [service_user.service_id, service_user.user_type];
-	// 		}else{
-	// 			query_str = "SELECT * FROM service_user WHERE service_id = ?";
-	// 			info = [service_user.service_id];
-	// 		}
-	// 	}
-	// 	if(	service_user.service_id == undefined &&
-	// 	 	 service_user.user_type == undefined &&
-	// 	  	   service_user.user_id != undefined){
-	// 		query_str = "SELECT * FROM service_user WHERE user_id = ?";
-	// 		info = [service_user.user_id];
-	// 	}
-	// 	this.connection.query(query_str, info, func);
-	// }
-	// this.fetch_service_car = function fetch_service_car(service_car, func){
-	// 	var query_str;
-	// 	var info;
-	// 	if(service_car.car_id != undefined){
-	// 		if(service_car.service_id != undefined){
-	// 			query_str = "SELECT * FROM service_car WHERE service_id = ? AND car_id = ?";
-	// 			info = [service_car.service_id, service_car.car_id];
-	// 		}else{
-	// 			query_str = "SELECT * FROM service_car WHERE car_id = ?";
-	// 			info = [service_car.car_id];
-	// 		}
-	// 	}else{
-	// 		query_str = "SELECT * FROM service_car WHERE service_id = ?";
-	// 		info = [service_car.service_id];
-	// 	}
-	// 	this.connection.query(query_str, info, func);
-	// }
-	//
-	//
+
 	//
 	// this.add_modification = function add_modification(modification, func){
 	// 	this.connection.query('INSERT INTO modification SET ?', modification, func);

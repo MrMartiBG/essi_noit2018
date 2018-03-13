@@ -2,10 +2,7 @@ module.exports = function(socket,database){
 
 	socket.on('add_modification', function(info, call_back){ //info: car_id service_id status mileage type part description
 		console.log('socket.on add_modification', info);
-		if(info == null || call_back == null){
-			socket.client_error("add_modification",'info or call_back is null(undefined)');
-			return false;
-		}
+		if(!socket.arguments_valid(info, call_back)) return false;
 
 		if(!socket.authenticated) return socket.fail("add_modification", {code: 101}, call_back);
 

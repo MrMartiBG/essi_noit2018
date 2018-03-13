@@ -147,11 +147,11 @@ module.exports = function(socket,database){
 	});
 
 
-	socket.on('fetch_service_car_service', function(info, call_back){
-		console.log('socket.on fetch_service_car_service');
+	socket.on('fetch_service_car_by_service', function(info, call_back){
+		console.log('socket.on fetch_service_car_by_service');
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("fetch_service_car_service", {code: 101}, call_back);
+		if(!socket.authenticated) return socket.fail("fetch_service_car_by_service", {code: 101}, call_back);
 
 		var service_car = {
 			service_id: info.service_id
@@ -161,16 +161,45 @@ module.exports = function(socket,database){
 		};
 
 		database.fetch_service_user(service_user, function(err, results){
-			if(err) return socket.fail("fetch_service_car_service", {code: 201}, call_back);
+			if(err) return socket.fail("fetch_service_car_by_service", {code: 201}, call_back);
 			for(var i = 0; i < results.length ;i++){
 				if(results[i].service_id == service_car.service_id){
 					return database.fetch_service_car(service_car, function (err, results){
-						if(err) return socket.fail("fetch_service_car_service", {code: 202}, call_back);
-						return socket.successful("fetch_service_car_service", results, call_back);
+						if(err) return socket.fail("fetch_service_car_by_service", {code: 202}, call_back);
+						return socket.successful("fetch_service_car_by_service", results, call_back);
 					});
 				}
 			}
-			return socket.fail("fetch_service_car_service", {code: 103}, call_back);
+			return socket.fail("fetch_service_car_by_service", {code: 103}, call_back);
 		});
 	});
+
+
+	socket.on('fetch_service_car_by_current_user', function(info, call_back){
+		console.log('socket.on fetch_service_car_by_current_user');
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(!socket.authenticated) return socket.fail("fetch_service_car_by_current_user", {code: 101}, call_back);
+
+		var service_car = {
+			car_id: info.car_id
+		};
+		var car = {
+			id: info.car_id
+		};
+
+		database.fetch_car(car, function(err, results){
+			if(err) return socket.fail("fetch_service_car_by_current_user", {code: 201}, call_back);
+			if(results[0].owner_id == socket.user.id){
+				database.fetch_service_car(service_car, function (err, results){
+					if(err) return socket.fail("fetch_service_car_by_current_user", {code: 202}, call_back);
+					return socket.successful("fetch_service_car_by_current_user", results, call_back);
+				});
+			}else{
+				return socket.fail("fetch_service_car_by_current_user", {code: 103}, call_back);
+			}
+		});
+
+	});
+
 }
