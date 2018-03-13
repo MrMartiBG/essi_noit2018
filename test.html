@@ -10,11 +10,11 @@
 			var socket = io();
 
 			function call_back(data) {
-				console.log("call_back - ", data);
+				console.log("call_back - " + data.status + ", " + data.function_name, data.info);
 			}
 
-			socket.on("server_error", function (info) {
-				console.log("server_error", info);
+			socket.on("client_error", function (info) {
+				console.log("client_error", info);
 			});
 
 

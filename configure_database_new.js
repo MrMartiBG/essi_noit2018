@@ -1,12 +1,9 @@
 var      mysql = require('mysql');
 var    db_user = require('./config/database_user_new.js');
 
-var db_name = 'essi';
-
-
 console.log("Config database...");
 
-connection = mysql.createConnection(db_user);
+var connection = mysql.createConnection(db_user);
 connection.connect(function(err) {
 
 	if (err){
@@ -15,16 +12,16 @@ connection.connect(function(err) {
 	}
 	console.log("Connected to mysql!");
 
-	connection.query("CREATE DATABASE " + db_name , function (err, result) {
+	connection.query("CREATE DATABASE essi", function (err, result) {
 		if (err){
 			console.log("Error: ",	err.code);
 			process.exit(1);
 		}
-		console.log("Database `" + db_name + "` created!");
+		console.log("Database `essi` created!");
 
 		connection.end();
 
-		db_user.database = db_name;
+		db_user.database = "essi";
 		db_user.multipleStatements = true;
 
 		connection = mysql.createConnection(db_user);
@@ -35,7 +32,7 @@ connection.connect(function(err) {
 			}
 			console.log("Connected to database!");
 			config_tables();
-			
+
 		});
 	});
 });
@@ -95,7 +92,7 @@ function config_tables(){
 	var sql_table_modification = "	CREATE TABLE `modification` ( 							\
 							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
 							`car_id` 		int 			NOT NULL, 						\
-							`service_id` 	int 			NOT NULL, 						\
+							`service_id` 	int, 			 						\
 							`status` 		varchar(64), 									\
 							`mileage` 		int(64) 		NOT NULL, 						\
 							`date` 			datetime		NOT NULL, 						\
@@ -105,18 +102,18 @@ function config_tables(){
 							PRIMARY KEY (`id`)			 									\
 						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
-	connection.query(	sql_table_user + 
-						sql_table_car + 
-						sql_table_service_info + 
-						sql_table_service_user + 
-						sql_table_service_car + 
-						sql_table_modification, 
+	connection.query(	sql_table_user +
+						sql_table_car +
+						sql_table_service_info +
+						sql_table_service_user +
+						sql_table_service_car +
+						sql_table_modification,
 	function (err, result) {
-		if (err){
-			console.log("Error: ",	err.code);
-			process.exit(1);
-		}
+			if (err){
+				console.log("Error: ",	err.code);
+				process.exit(1);
+			}
 	    console.log("Tables created!");
-	    connection.end();
+			connection.end();
 	});
 }
