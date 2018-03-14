@@ -19,11 +19,12 @@ module.exports = function(socket,database){
 		database.add_service(service, function(err, results){
 			if(err) return socket.fail("add_service", {code: 201}, call_back);
 			service_owner.service_id = results.insertId;
+			service.id = results.insertId;
 			database.add_service_user(service_owner, function(err, results){
 				if(err){
 					return socket.fail("add_service", {code: 202}, call_back);
 				}else{
-					return socket.successful("add_service", {id: service_owner.service_id}, call_back);
+					return socket.successful("add_service", service, call_back);
 				}
 			});
 		});
@@ -39,7 +40,7 @@ module.exports = function(socket,database){
 
 		database.fetch_service(service, function(err, results){
 			if(err) return socket.fail("fetch_service", {code: 201}, call_back);
-			return socket.successful("fetch_service", results, call_back);
+			return socket.successful("fetch_service", results[0], call_back);
 		});
 	});
 
@@ -77,11 +78,11 @@ module.exports = function(socket,database){
 		});
 	});
 
-	socket.on('fetch_service_user_current', function(info, call_back){
-		console.log('socket.on fetch_service_user_current');
+	socket.on('fetch_service_user_current_user', function(info, call_back){
+		console.log('socket.on fetch_service_user_current_user');
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("fetch_service_user_current", {code: 101}, call_back);
+		if(!socket.authenticated) return socket.fail("fetch_service_user_current_user", {code: 101}, call_back);
 
 		var service_user = {
 			user_id: socket.user.id
@@ -89,19 +90,19 @@ module.exports = function(socket,database){
 
 		database.fetch_service_user(service_user, function(err, results){
 			if(err){
-				return socket.fail("fetch_service_user_current", {code: 201}, call_back);
+				return socket.fail("fetch_service_user_current_user", {code: 201}, call_back);
 			}else{
-				return socket.successful("fetch_service_user_current", results, call_back);
+				return socket.successful("fetch_service_user_current_user", results, call_back);
 			}
 		});
 
 	});
 
 	socket.on('fetch_service_user_service', function(info, call_back){
-		console.log('socket.on fetch_service_user_current');
+		console.log('socket.on fetch_service_user_current_user');
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("fetch_service_user_current", {code: 101}, call_back);
+		if(!socket.authenticated) return socket.fail("fetch_service_user_current_user", {code: 101}, call_back);
 
 		var service_user = {
 			service_id: info.service_id
@@ -175,11 +176,11 @@ module.exports = function(socket,database){
 	});
 
 
-	socket.on('fetch_service_car_current', function(info, call_back){
-		console.log('socket.on fetch_service_car_current');
+	socket.on('fetch_service_car_current_user', function(info, call_back){
+		console.log('socket.on fetch_service_car_current_user');
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("fetch_service_car_current", {code: 101}, call_back);
+		if(!socket.authenticated) return socket.fail("fetch_service_car_current_user", {code: 101}, call_back);
 
 		var service_car = {
 			car_id: info.car_id
@@ -189,14 +190,14 @@ module.exports = function(socket,database){
 		};
 
 		database.fetch_car(car, function(err, results){
-			if(err) return socket.fail("fetch_service_car_current", {code: 201}, call_back);
+			if(err) return socket.fail("fetch_service_car_current_user", {code: 201}, call_back);
 			if(results[0].owner_id == socket.user.id){
 				database.fetch_service_car(service_car, function (err, results){
-					if(err) return socket.fail("fetch_service_car_current", {code: 202}, call_back);
-					return socket.successful("fetch_service_car_current", results, call_back);
+					if(err) return socket.fail("fetch_service_car_current_user", {code: 202}, call_back);
+					return socket.successful("fetch_service_car_current_user", results, call_back);
 				});
 			}else{
-				return socket.fail("fetch_service_car_current", {code: 103}, call_back);
+				return socket.fail("fetch_service_car_current_user", {code: 103}, call_back);
 			}
 		});
 

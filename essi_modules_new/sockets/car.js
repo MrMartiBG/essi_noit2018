@@ -23,16 +23,16 @@ module.exports = function(socket,database){
 				return socket.fail("add_car", {code: 201}, call_back);
 			}else{
 				car.id = results.insertId;
-				return socket.successful("add_car", {car: car}, call_back);
+				return socket.successful("add_car", car, call_back);
 			}
 		});
 	});
 
-	socket.on('fetch_car_current', function(info, call_back){ // info
-		console.log('socket.on fetch_car_current', info);
+	socket.on('fetch_car_current_user', function(info, call_back){ // info
+		console.log('socket.on fetch_car_current_user', info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("fetch_car_current", {code: 101}, call_back);
+		if(!socket.authenticated) return socket.fail("fetch_car_current_user", {code: 101}, call_back);
 
 		car = {
 			owner_id: socket.user.id
@@ -40,9 +40,9 @@ module.exports = function(socket,database){
 
 		database.fetch_car(car, function(err, results){
 			if(err){
-				return socket.fail("fetch_car_current", {code: 201}, call_back);
+				return socket.fail("fetch_car_current_user", {code: 201}, call_back);
 			}else{
-				return socket.successful("fetch_car_current", results, call_back);
+				return socket.successful("fetch_car_current_user", results, call_back);
 			}
 		});
 	});
@@ -60,7 +60,7 @@ module.exports = function(socket,database){
 				return socket.fail("fetch_car_public", {code: 201}, call_back);
 			}else{
 				if(results[0].public){
-					return socket.successful("fetch_car_public", results, call_back);
+					return socket.successful("fetch_car_public", results[0], call_back);
 				}else{
 					return socket.fail("fetch_car_public", {code: 103}, call_back);
 				}

@@ -1,10 +1,10 @@
 module.exports = function(socket,database){
 
-	socket.on('add_modification_current', function(info, call_back){
-		console.log('socket.on add_modification_current', info);
+	socket.on('add_modification_current_user', function(info, call_back){
+		console.log('socket.on add_modification_current_user', info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("add_modification_current", {code: 101}, call_back);
+		if(!socket.authenticated) return socket.fail("add_modification_current_user", {code: 101}, call_back);
 
 		var modification = 	{
 			car_id: info.car_id,
@@ -20,13 +20,13 @@ module.exports = function(socket,database){
 		}
 		console.log(car, modification);
 		database.fetch_car(car, function(err, results){
-			if(err) return socket.fail("add_modification_current", {code: 201}, call_back);
-			if(results.length == 0) return socket.fail("add_modification_current", {code: 203}, call_back);
-			if(results[0].owner_id != socket.user.id) return socket.fail("add_modification_current", {code: 103}, call_back);
+			if(err) return socket.fail("add_modification_current_user", {code: 201}, call_back);
+			if(results.length == 0) return socket.fail("add_modification_current_user", {code: 203}, call_back);
+			if(results[0].owner_id != socket.user.id) return socket.fail("add_modification_current_user", {code: 103}, call_back);
 			database.add_modification(modification, function(err, results){
-				if(err) return socket.fail("add_modification_current", {code: 202}, call_back);
+				if(err) return socket.fail("add_modification_current_user", {code: 202}, call_back);
 				modification.id = results.insertId;
-				return socket.successful("add_modification_current", modification, call_back);
+				return socket.successful("add_modification_current_user", modification, call_back);
 			});
 		});
 	});
@@ -91,11 +91,11 @@ module.exports = function(socket,database){
 
 	});
 
-	socket.on('fetch_modification_current', function(info, call_back){ // info: car_id
-		console.log('socket.on fetch_modification_current');
+	socket.on('fetch_modification_current_user', function(info, call_back){ // info: car_id
+		console.log('socket.on fetch_modification_current_user');
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("fetch_modification_current", {code: 101}, call_back);
+		if(!socket.authenticated) return socket.fail("fetch_modification_current_user", {code: 101}, call_back);
 
 		var modification = {
 			car_id: info.car_id
@@ -105,11 +105,11 @@ module.exports = function(socket,database){
 		}
 
 		database.fetch_car(car, function(err, results){
-			if(err) return socket.fail("fetch_modification_current", {code: 201, error: err}, call_back);
-			if(results[0].owner_id != socket.user.id) return socket.fail("fetch_modification_current", {code: 103}, call_back);
+			if(err) return socket.fail("fetch_modification_current_user", {code: 201, error: err}, call_back);
+			if(results[0].owner_id != socket.user.id) return socket.fail("fetch_modification_current_user", {code: 103}, call_back);
 			database.fetch_modification(modification, function(err, results){
-				if(err) return socket.fail("fetch_modification_current", {code: 201}, call_back);
-				return socket.successful("fetch_modification_current", results, call_back);
+				if(err) return socket.fail("fetch_modification_current_user", {code: 201}, call_back);
+				return socket.successful("fetch_modification_current_user", results, call_back);
 			});
 		});
 
