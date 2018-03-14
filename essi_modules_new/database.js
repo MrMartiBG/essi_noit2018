@@ -49,19 +49,12 @@ var db  = function(mysql,db_user){
 	}
 
 
-	// this.add_modification = function add_modification(modification, func){
-	// 	this.connection.query('INSERT INTO modification SET ?', modification, func);
-	// }
-	// this.add_modification_info = function add_modification_info(modification_info, func){
-	// 	this.connection.query('INSERT INTO modification_info SET ?', modification_info, func);
-	// }
-	//
-	// this.fetch_modification = function fetch_modification(modification, func){
-	// 	this.connection.query("	SELECT * FROM modification \
-	// 						JOIN modification_info ON \
-	// 						modification.id = modification_info.modification_id \
-	// 						WHERE ?", modification, func);
-	// }
+	this.add_modification = function add_modification(modification, func){
+		this.connection.query('INSERT INTO modification SET ?', modification, func);
+	}
+	this.fetch_modification = function fetch_modification(modification, func){
+		this.connection.query("	SELECT * FROM modification WHERE ?", modification, func);
+	}
 
 	return this;
 };
