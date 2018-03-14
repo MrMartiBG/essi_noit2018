@@ -1,5 +1,5 @@
 var      mysql = require('mysql');
-var    db_user = require('./config/database_user_new.js');
+var    db_user = require('./config/database_user.js');
 
 console.log("Config database...");
 

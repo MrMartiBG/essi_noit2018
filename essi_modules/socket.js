@@ -17,12 +17,14 @@ module.exports = function(database){
 			call_back({function_name: function_name, status: "successful", info: info});
 			return info;
 		}
-		socket.client_error = function client_error(function_name, info){
-			console.log(function_name + ' - client_error', info);
-			socket.emit('client_error', {function_name: function_name, info: info});
-			return info;
+		socket.arguments_valid = function arguments_valid(info, call_back){
+			if(info == null || call_back == null){
+				socket.emit('client_error','info or call_back is null(undefined)');
+				return false;
+			}
+			return true;
 		}
-			
+
 		socket.authenticated = false;
 
 		require('./sockets/authentication.js')	(socket, database);
