@@ -1,4 +1,4 @@
-var db  = function(mysql,db_user){
+module.exports = function(mysql,db_user){
 
 	db_user.database = "essi";
 	this.connection = mysql.createConnection(db_user);
@@ -59,4 +59,3 @@ var db  = function(mysql,db_user){
 	return this;
 };
 
-module.exports = db;
