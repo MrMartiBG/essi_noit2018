@@ -1,4 +1,4 @@
-module.exports = function(database){
+module.exports = function(database, validation){
 
 	this.on_connection = function on_connection(socket){
 		console.log('user connected', socket.id);
@@ -27,10 +27,10 @@ module.exports = function(database){
 
 		socket.authenticated = false;
 
-		require('./sockets/authentication.js')	(socket, database);
-		require('./sockets/car.js')				(socket, database);
-		require('./sockets/service.js')			(socket, database);
-		require('./sockets/modification.js')	(socket, database);
+		require('./sockets/authentication.js')	(socket, database, validation);
+		require('./sockets/car.js')				(socket, database, validation);
+		require('./sockets/service.js')			(socket, database, validation);
+		require('./sockets/modification.js')	(socket, database, validation);
 
 	}
 

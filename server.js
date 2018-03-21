@@ -6,7 +6,8 @@ var      mysql = require('mysql');
 
 var    db_user = require('./config/database_user.js');
 var   database = require('./essi_modules/database.js')(mysql,db_user);
-var     socket = require('./essi_modules/socket.js')(database);
+var validation = require('./essi_modules/validation.js')();
+var     socket = require('./essi_modules/socket.js')(database, validation);
 
 var port = 3030;
 

@@ -1,4 +1,4 @@
-module.exports = function(socket,database){
+module.exports = function(socket,database,validation){
 
 	socket.on('register_user', function(info, call_back){ // info: username password email firstname lastname mobile
 		console.log('socket.on register_user', info);

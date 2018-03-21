@@ -1,4 +1,4 @@
-module.exports = function(socket,database){
+module.exports = function(socket,database,validation){
 
 	socket.on('add_modification_current_user', function(info, call_back){
 		console.log('socket.on add_modification_current_user', info);
