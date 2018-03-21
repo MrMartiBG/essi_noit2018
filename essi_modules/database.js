@@ -56,19 +56,5 @@ module.exports = function(mysql,db_user){
 		this.connection.query("	SELECT * FROM modification WHERE ?", modification, func);
 	}
 
-
-
-	// this.validate = {};
-
-	// this.validate.car_user_owner(car_id, user_id, func){
-	// 	this.connection.query("SELECT * FROM car WHERE ?", {id: car_id}, function (err, results){
-	// 		if(err) return func({code: 200});
-	// 		if(results.length == 0) return func({code: 301});
-	// 		if(results[0].owner_id != user_id) return func({code: 103});
-	// 		return func({code: 0, results: results[0]});
-	// 	});
-	// }
-
 	return this;
 };
-
