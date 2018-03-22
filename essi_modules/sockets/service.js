@@ -153,7 +153,7 @@ module.exports = function(socket,database,validation){
 		database.fetch_service_user(service_user, function(err, results){
 			if(err) return socket.fail("fetch_service_car_service", {code: 201}, call_back);
 			if(!validation.user_service_user_in(socket.user, results))
-				return socket.fail("add_service_car", {code: 103}, call_back);
+				return socket.fail("fetch_service_car_service", {code: 103}, call_back);
 			database.fetch_service_car(service_car, function (err, results){
 				if(err) return socket.fail("fetch_service_car_service", {code: 202}, call_back);
 				return socket.successful("fetch_service_car_service", results, call_back);

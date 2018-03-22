@@ -53,9 +53,6 @@ module.exports = function(socket,database,validation){
 		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("fetch_car_service", {code: 101}, call_back);
 
-		car = {
-			id: info.id
-		};
 		service_car = {
 			car_id: info.id
 		};
@@ -73,6 +70,7 @@ module.exports = function(socket,database,validation){
 				service_car = results;
 				if(!validation.service_car_service_user_in(service_car, service_user))
 					return socket.fail("fetch_car_service", {code: 103}, call_back);
+				car = { id: info.id };
 				database.fetch_car(car, function(err, results){
 					if(err) return socket.fail("fetch_car_service", {code: 203}, call_back);
 					return socket.successful("fetch_car_service", results, call_back);
