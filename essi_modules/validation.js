@@ -16,13 +16,13 @@ module.exports = function(){
 			return false;
 		}
 		this.user_service_user_owner = function(user, service_user){
-      console.log(user, service_user);
-				for(var i = 0; i < service_user.length; i++){
-					if(service_user[i].user_id == user.id && service_user[i].user_type == "owner"){
-						return true;
-					}
+			console.log(user, service_user);
+			for(var i = 0; i < service_user.length; i++){
+				if(service_user[i].user_id == user.id && service_user[i].user_type == "owner"){
+					return true;
 				}
-				return false;
+			}
+			return false;
 		}
 		this.service_car_service_user_in = function(service_car, service_user){
 			for(var i = 0; i < service_user.length; i++){
