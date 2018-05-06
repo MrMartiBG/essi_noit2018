@@ -70,4 +70,41 @@ module.exports = function(socket,database,transporter){
 			});
 		});
 	});
+
+
+	socket.on('register_service', function(info, call_back){
+
+		console.log('socket.on register_service', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(socket.authenticated) return socket.fail("register_service", {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail("register_service", {errmsg: "email is undefined"}, call_back);
+		if(info.name == undefined) return socket.fail("register_service", {errmsg: "name is undefined"}, call_back);
+
+		info.password = generate_password();
+
+		var account = 	{
+			email:		info.email,
+			password:	info.password,
+			type: "service"
+		};
+
+		database.add_account(account, function(err, results){
+			if(err) return socket.fail("register_service", {errmsg: "database error add_account", code: err.code}, call_back);
+			
+			var service = {
+				account_id: results.insertId,
+				name: info.name
+			}
+
+			database.add_service(service, function(err, results){
+				if(err){
+					database.delete_account({id: service.account_id}, function(){});
+					return socket.fail("register_service", {errmsg: "database error add_service", code: err.code}, call_back);
+				}
+				send_password_mail(info.email, info.password);
+				return socket.successful("register_service", service, call_back);
+			});
+		});
+	});
 }

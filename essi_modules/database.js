@@ -15,16 +15,15 @@ module.exports = function(mysql,db_user){
 	this.add_account = function add_account(acc, func){
 		this.connection.query('INSERT INTO account SET ?', acc, func);
 	}
-	this.add_user = function add_user(user, func){
-		this.connection.query('INSERT INTO user SET ?', user, func);
-	}
 	this.delete_account = function delete_account(acc, func){
 		this.connection.query("DELETE FROM essi.account WHERE ?", acc, func);
 	}
-
-	// this.fetch_user = function fetch_user(user, func){
-	// 	this.connection.query("SELECT * FROM user WHERE ?", user, func);
-	// }
+	this.add_user = function add_user(user, func){
+		this.connection.query('INSERT INTO user SET ?', user, func);
+	}
+	this.add_service = function add_service(service, func){
+		this.connection.query('INSERT INTO service SET ?', service, func);
+	}
 
 
 	return this;
