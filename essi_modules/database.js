@@ -73,6 +73,9 @@ module.exports = function(mysql,db_user){
 	this.add_modification = function add_modification(modification, func){
 		this.connection.query("INSERT INTO modification SET ?", modification, func);
 	}
+	this.get_modification = function get_modification(user, func){
+		this.connection.query("SELECT * FROM modification JOIN user_car ON modification.car_id = user_car.car_id WHERE ?", user, func);
+	}
 
 	return this;
 };
