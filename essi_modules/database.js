@@ -18,6 +18,9 @@ module.exports = function(mysql,db_user){
 	this.get_account = function get_account(account, func){
 		this.connection.query("SELECT * FROM account WHERE ?", account, func);
 	}
+	this.set_accout_password = function set_accout_password(set, where, func){
+		this.connection.query("UPDATE essi.account SET ? WHERE ?", [set, where], func);
+	}
 	this.delete_account = function delete_account(account, func){
 		this.connection.query("DELETE FROM essi.account WHERE ?", account, func);
 	}
@@ -28,7 +31,6 @@ module.exports = function(mysql,db_user){
 	this.add_service = function add_service(service, func){
 		this.connection.query("INSERT INTO service SET ?", service, func);
 	}
-
 
 	return this;
 };

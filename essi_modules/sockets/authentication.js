@@ -109,7 +109,6 @@ module.exports = function(socket,database,transporter){
 	});
 
 
-
 	socket.on('login_user', function(info, call_back){
 
 		console.log('socket.on login_user', info);
@@ -133,6 +132,33 @@ module.exports = function(socket,database,transporter){
 			socket.authenticated = true;
 
 			return socket.successful("login_user", socket.account, call_back);
+		});
+
+	});
+
+
+	socket.on('generate_new_password', function(info, call_back){
+
+		console.log('socket.on generate_new_password', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(socket.authenticated) return socket.fail("generate_new_password", {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail("generate_new_password", {errmsg: "email is undefined"}, call_back);
+
+		info.password = generate_password();
+
+		var new_pass = {
+			password: info.password
+		}
+		var account = 	{
+			email:	info.email
+		};
+
+		database.set_accout_password(new_pass, account, function(err, results){
+			if(err) return socket.fail("generate_new_password", {errmsg: "database error get_account", code: err.code}, call_back);
+
+			send_password_mail(info.email, info.password);
+			return socket.successful("generate_new_password", {}, call_back);
 		});
 
 	});
