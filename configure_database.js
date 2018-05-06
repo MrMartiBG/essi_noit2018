@@ -165,7 +165,7 @@ function config_tables(){
 						logs,
 	function (err, result) {
 		if (err){
-			console.log("Error: ",	err);
+			console.log("Error: ",	err.code);
 			process.exit(1);
 		}
     	console.log("Tables created!");

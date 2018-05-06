@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Ivan Socket.IO chat</title>
+		<title>essi_TEST</title>
 	</head>
 	<body>
 		<p>user</p>
@@ -17,6 +17,9 @@
 				console.log("client_error", info);
 			});
 
+			function f(fn, i){
+				socket.emit(fn, i, call_back);
+			}
 
 		</script>
 	</body>

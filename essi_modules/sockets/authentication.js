@@ -1,69 +1,73 @@
-module.exports = function(socket,database,validation){
+module.exports = function(socket,database,transporter){
 
-	socket.on('register_user', function(info, call_back){ // info: username password email firstname lastname mobile
-		console.log('socket.on register_user', info);
-
-		if(!socket.arguments_valid(info, call_back)) return false;
-		if(socket.authenticated) return socket.fail("register_user",{code: 100}, call_back);
-
-		var user = 	{
-			username: 	info.username,
-			password: 	info.password,
-			email:		info.email,
-			firstname: 	info.firstname,
-			lastname: 	info.lastname,
-			mobile: 	info.mobile
+	function send_password_mail(to_email, password, call_back){
+		var mailOptions = {
+			to: to_email,
+			subject: 'New password',
+			text: 'Your password for essi is: ' + password
 		};
 
-		database.register_user(user, function(err, results){
-			if(err){
-				return socket.fail("register_user", {code: 201}, call_back);
+		transporter.sendMail(mailOptions, function(error, info){
+			if(error){
+				console.log(error);
 			}else{
-				user.id = results.insertId;
-				delete user.password;
-				return socket.successful("register_user", user, call_back);
+				console.log('Email sent: ' + info.response);
 			}
 		});
-	});
+	}
 
-	socket.on('login_user', function(info, call_back){ //user: username password
-		console.log('socket.on login_user', info);
-
-		if(!socket.arguments_valid(info, call_back)) return false;
-		if(socket.authenticated) return socket.fail("login_user",{code: 100}, call_back);
-
-		var user = {
-			username: info.username
-		};
-
-		database.fetch_user(user, function(err, results){
-			if(err){
-				return socket.fail("login_user",{code: 201}, call_back);
-			}else{
-
-				if(results.length == 0) return socket.fail("login_user",{code: 102}, call_back);
-				if(results[0].password != info.password) return socket.fail("login_user",{code: 102}, call_back);
-
-				delete results[0].password;
-				socket.authenticated = true;
-				socket.user = results[0];
-
-				return socket.successful("login_user", socket.user, call_back);
-			}
-		});
-	});
-
-	socket.on('logout_user', function(info, call_back){
-		console.log('socket.on logout_user', info);
-		
-		if(!socket.arguments_valid(info, call_back)) return false;
-
-		if(!socket.authenticated){
-			return socket.fail("logout_user",{code: 100}, call_back);
-		}else{
-			socket.authenticated = false;
-			return socket.successful("logout_user", true, call_back);
+	function generate_password(){
+		var passkeys = 	[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+		 				  'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z',
+		 				  'x', 'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R',
+		 				  'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F',
+		 				  'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B',
+		 				  'N', 'M', '1', '2', '3', '4', '5', '6', '7', '8',
+		 				  '9', '0', '-', '=', '!', '@', '#', '$', '%', '^',
+		 				  '&', '*', '(', ')', '_', '+' ];
+		var password = "";
+		for(var i = 0; i < 16; i++){
+			password += passkeys[Math.floor(Math.random()*passkeys.length)];
 		}
-	});
 
+		return password;
+	}
+
+	socket.on('register_user', function(info, call_back){
+
+		console.log('socket.on register_user', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(socket.authenticated) return socket.fail("register_user", {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail("register_user", {errmsg: "email is undefined"}, call_back);
+		if(info.first_name == undefined) return socket.fail("register_user", {errmsg: "first_name is undefined"}, call_back);
+		if(info.last_name == undefined) return socket.fail("register_user", {errmsg: "last_name is undefined"}, call_back);
+
+		info.password = generate_password();
+
+		var account = 	{
+			email:		info.email,
+			password:	info.password,
+			type: "user"
+		};
+
+		database.add_account(account, function(err, results){
+			if(err) return socket.fail("register_user", {errmsg: "database error add_account", code: err.code}, call_back);
+			
+			var user = {
+				account_id: results.insertId,
+				first_name: info.first_name,
+				last_name: 	info.last_name
+			}
+
+			database.add_user(user, function(err, results){
+				if(err){
+					database.delete_account({id: user.account_id}, function(){});
+					return socket.fail("register_user", {errmsg: "database error add_user", code: err.code}, call_back);
+				}
+				send_password_mail(info.email, info.password);
+				return socket.successful("register_user", user, call_back);
+			});
+		});
+	});
 }
