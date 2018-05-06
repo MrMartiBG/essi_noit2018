@@ -46,6 +46,9 @@ module.exports = function(mysql,db_user){
 	this.add_car = function add_car(car, func){
 		this.connection.query("INSERT INTO car SET ?", car, func);
 	}
+	this.set_car = function add_car(new_car, car, user, func){
+		this.connection.query("UPDATE car JOIN user_car ON car.id = user_car.car_id SET ? WHERE ? AND ?", [new_car, car, user], func);
+	}
 	this.add_user_car = function add_user_car(user_car, func){
 		this.connection.query("INSERT INTO user_car SET ?", user_car, func);
 	}

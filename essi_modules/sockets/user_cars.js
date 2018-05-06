@@ -57,24 +57,37 @@ module.exports = function(socket,database){
 	});
 
 
-	// socket.on('set_car_data_this_user', function(info, call_back){
+	socket.on('set_car_data_this_user', function(info, call_back){
 
-	// 	console.log('socket.on set_car_data_this_user', info);
-	// 	if(!socket.arguments_valid(info, call_back)) return false;
+		console.log('socket.on set_car_data_this_user', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
 
-	// 	if(!socket.authenticated) return socket.fail("set_car_data_this_user", {errmsg: "You are not in account"}, call_back);
-	// 	if(socket.account.type != "user") return socket.fail("set_car_data_this_user", {errmsg: "You are not user"}, call_back);
+		if(!socket.authenticated) return socket.fail("set_car_data_this_user", {errmsg: "You are not in account"}, call_back);
+		if(socket.account.type != "user") return socket.fail("set_car_data_this_user", {errmsg: "You are not user"}, call_back);
+		if(info.id == undefined) return socket.fail("set_car_data_this_user", {errmsg: "You need to give car.id"}, call_back);
+		
+		var car = {car_id: info.id};
 
-	// 	var  object = {
-	// 		arg:	info.arg
-	// 	};
+		var  new_car = {};
 
-	// 	database.db_func_name(object, function(err, results){
-	// 		if(err) return socket.fail("set_car_data_this_user", {errmsg: "database error db_func_name", code: err.code}, call_back);
-	// 		return socket.successful("set_car_data_this_user", return_value, call_back);
-	// 	});
+			if(info.make != undefined) new_car.make = info.make;
+			if(info.model != undefined) new_car.model = info.model;
+			if(info.generation != undefined) new_car.generation = info.generation;
+			if(info.engine != undefined) new_car.engine = info.engine;
+			if(info.vin_number != undefined) new_car.vin_number = info.vin_number;
+			if(info.registration_number != undefined) new_car.registration_number = info.registration_number;
+			if(info.public != undefined) new_car.public = info.public;
+			if(info.info != undefined) new_car.info = info.info;
+		
 
-	// });
+		database.set_car(new_car, car, {account_user_id: socket.account.id}, function(err, results){
+			if(err) return socket.fail("set_car_data_this_user", {errmsg: "database error set_car", code: err}, call_back);
+			if(results.affectedRows == 0) 
+				return socket.fail("set_car_data_this_user", {errmsg: "affectedRows = 0"}, call_back);
+			return socket.successful("set_car_data_this_user", new_car, call_back);
+		});
+
+	});
 
 
 	// socket.on('delete_car_this_user', function(info, call_back){
