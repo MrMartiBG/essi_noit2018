@@ -26,6 +26,7 @@ module.exports = function(database,transporter){
 		}
 
 		socket.authenticated = false;
+		socket.account = {};
 
 		require('./sockets/authentication.js')	(socket, database, transporter);
 

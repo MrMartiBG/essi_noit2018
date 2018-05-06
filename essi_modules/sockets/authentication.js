@@ -107,4 +107,33 @@ module.exports = function(socket,database,transporter){
 			});
 		});
 	});
+
+
+
+	socket.on('login_user', function(info, call_back){
+
+		console.log('socket.on login_user', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(socket.authenticated) return socket.fail("login_user", {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail("login_user", {errmsg: "email is undefined"}, call_back);
+		if(info.password == undefined) return socket.fail("login_user", {errmsg: "password is undefined"}, call_back);
+
+		var account = 	{
+			email:	info.email
+		};
+
+		database.get_account(account, function(err, results){
+			if(err) return socket.fail("login_user", {errmsg: "database error get_account", code: err.code}, call_back);
+
+			if(results.length == 0 || results[0].password != info.password)
+				return socket.fail("login_user", {errmsg: "wrong email or password"}, call_back);
+			delete results[0].password;
+			socket.account = results[0];
+			socket.authenticated = true;
+
+			return socket.successful("login_user", socket.account, call_back);
+		});
+
+	});
 }
