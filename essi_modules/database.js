@@ -58,6 +58,9 @@ module.exports = function(mysql,db_user){
 	this.delete_car = function delete_car(car, func){
 		this.connection.query("DELETE FROM car WHERE ?", car, func);
 	}
+	this.delete_user_car = function delete_user_car(car, user, func){
+		this.connection.query("DELETE car, user_car FROM user_car JOIN car ON car.id = user_car.car_id WHERE ? AND ?", [car, user], func);
+	}
 
 
 	return this;

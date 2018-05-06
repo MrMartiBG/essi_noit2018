@@ -90,24 +90,27 @@ module.exports = function(socket,database){
 	});
 
 
-	// socket.on('delete_car_this_user', function(info, call_back){
+	socket.on('delete_car_this_user', function(info, call_back){
 
-	// 	console.log('socket.on delete_car_this_user', info);
-	// 	if(!socket.arguments_valid(info, call_back)) return false;
+		console.log('socket.on delete_car_this_user', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
 
-	// 	if(!socket.authenticated) return socket.fail("delete_car_this_user", {errmsg: "You are not in account"}, call_back);
-	// 	if(socket.account.type != "user") return socket.fail("delete_car_this_user", {errmsg: "You are not user"}, call_back);
+		if(!socket.authenticated) return socket.fail("delete_car_this_user", {errmsg: "You are not in account"}, call_back);
+		if(socket.account.type != "user") return socket.fail("delete_car_this_user", {errmsg: "You are not user"}, call_back);
+		if(info.id == undefined) return socket.fail("set_car_data_this_user", {errmsg: "You need to give car.id"}, call_back);
 
-	// 	var  object = {
-	// 		arg:	info.arg
-	// 	};
+		var  car = {
+			id: info.id
+		};
 
-	// 	database.db_func_name(object, function(err, results){
-	// 		if(err) return socket.fail("delete_car_this_user", {errmsg: "database error db_func_name", code: err.code}, call_back);
-	// 		return socket.successful("delete_car_this_user", return_value, call_back);
-	// 	});
+		database.delete_user_car(car, {account_user_id: socket.account.id}, function(err, results){
+			if(err) return socket.fail("delete_car_this_user", {errmsg: "database error delete_user_car", code: err.code}, call_back);
+			if(results.affectedRows == 0) 
+				return socket.fail("set_car_data_this_user", {errmsg: "affectedRows = 0"}, call_back);
+			return socket.successful("delete_car_this_user", results, call_back);
+		});
 
-	// });
+	});
 
 
 	// socket.on('add_car_to_service_this_user', function(info, call_back){
