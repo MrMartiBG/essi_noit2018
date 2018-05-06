@@ -77,5 +77,13 @@ module.exports = function(mysql,db_user){
 		this.connection.query("SELECT * FROM modification JOIN user_car ON modification.car_id = user_car.car_id WHERE ?", user, func);
 	}
 
+
+	this.get_service_data = function get_service_data(service, func){
+		this.connection.query("SELECT * FROM service WHERE ?", service, func);
+	}
+	this.set_service_data = function set_service_data(set, where, func){
+		this.connection.query("UPDATE service SET ? WHERE ?", [set, where], func);
+	}
+
 	return this;
 };

@@ -121,8 +121,8 @@ module.exports = function(socket,database){
 	// 	if(!socket.authenticated) return socket.fail("add_car_to_service_this_user", {errmsg: "You are not in account"}, call_back);
 	// 	if(socket.account.type != "user") return socket.fail("add_car_to_service_this_user", {errmsg: "You are not user"}, call_back);
 
-	// 	var  object = {
-	// 		arg:	info.arg
+	// 	var  car = {
+	// 		car_id:	info.arg
 	// 	};
 
 	// 	database.db_func_name(object, function(err, results){

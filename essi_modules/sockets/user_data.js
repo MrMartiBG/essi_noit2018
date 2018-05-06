@@ -26,6 +26,7 @@ module.exports = function(socket,database){
 		if(!socket.arguments_valid(info, call_back)) return false;
 
 		if(!socket.authenticated) return socket.fail("set_data_this_user", {errmsg: "You are not in account"}, call_back);
+		if(socket.account.type != "user") return socket.fail("set_data_this_user", {errmsg: "You are not user"}, call_back);
 
 		var user = 	{
 			account_id:	socket.account.id
