@@ -2,8 +2,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('add_modification_current_user', function(info, call_back){
 		console.log('socket.on add_modification_current_user', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("add_modification_current_user", {code: 101}, call_back);
 
 		var modification = 	{
@@ -33,8 +33,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('add_modification_service', function(info, call_back){
 		console.log('socket.on add_modification_service', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("add_modification_service", {code: 101}, call_back);
 
 		var today = new Date();
@@ -67,8 +67,8 @@ module.exports = function(socket,database,validation){
 	});
 	socket.on('fetch_modification_service', function(info, call_back){ // info: car_id
 		console.log('socket.on fetch_modification_service');
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("fetch_modification_service", {code: 101}, call_back);
 
 		var modification = {
@@ -105,8 +105,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_modification_current_user', function(info, call_back){ // info: car_id
 		console.log('socket.on fetch_modification_current_user');
+		
 		if(!socket.arguments_valid(info, call_back)) return false;
-
 		if(!socket.authenticated) return socket.fail("fetch_modification_current_user", {code: 101}, call_back);
 
 		var modification = {

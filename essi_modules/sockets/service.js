@@ -2,8 +2,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('add_service', function(info, call_back){ // info: name address email mobile
 		console.log('socket.on add_service', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("add_service", {code: 101}, call_back);
 
 		var service_owner = 	{
@@ -32,6 +32,7 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_service', function(info, call_back){ // info: id
 		console.log('socket.on fetch_service');
+
 		if(!socket.arguments_valid(info, call_back)) return false;
 
 		var service = {
@@ -48,8 +49,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('add_service_user', function(info, call_back){ //info user_id user_type service_id
 		console.log('socket.on add_service_user', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("add_service_user", {code: 101}, call_back);
 
 		var new_service_user = 	{
@@ -75,8 +76,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_service_user_current_user', function(info, call_back){
 		console.log('socket.on fetch_service_user_current_user');
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("fetch_service_user_current_user", {code: 101}, call_back);
 
 		var service_user = {
@@ -95,8 +96,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_service_user_service', function(info, call_back){
 		console.log('socket.on fetch_service_user_current_user');
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("fetch_service_user_current_user", {code: 101}, call_back);
 
 		var service_user = {
@@ -113,8 +114,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('add_service_car', function(info, call_back){ // info: car_id service_id
 		console.log('socket.on add_service_car', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("add_service_car", {code: 101}, call_back);
 
 		var service_car = 	{
@@ -139,8 +140,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_service_car_service', function(info, call_back){
 		console.log('socket.on fetch_service_car_service');
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("fetch_service_car_service", {code: 101}, call_back);
 
 		var service_car = {
@@ -164,8 +165,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_service_car_current_user', function(info, call_back){
 		console.log('socket.on fetch_service_car_current_user');
+		
 		if(!socket.arguments_valid(info, call_back)) return false;
-
 		if(!socket.authenticated) return socket.fail("fetch_service_car_current_user", {code: 101}, call_back);
 
 		var service_car = {

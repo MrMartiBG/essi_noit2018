@@ -2,8 +2,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('register_user', function(info, call_back){ // info: username password email firstname lastname mobile
 		console.log('socket.on register_user', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(socket.authenticated) return socket.fail("register_user",{code: 100}, call_back);
 
 		var user = 	{
@@ -28,8 +28,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('login_user', function(info, call_back){ //user: username password
 		console.log('socket.on login_user', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(socket.authenticated) return socket.fail("login_user",{code: 100}, call_back);
 
 		var user = {
@@ -55,6 +55,7 @@ module.exports = function(socket,database,validation){
 
 	socket.on('logout_user', function(info, call_back){
 		console.log('socket.on logout_user', info);
+		
 		if(!socket.arguments_valid(info, call_back)) return false;
 
 		if(!socket.authenticated){

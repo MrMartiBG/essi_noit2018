@@ -2,8 +2,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('add_car', function(info, call_back){ //info: brand model generation engine vin_number
 		console.log('socket.on add_car', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("add_car", {code: 101}, call_back);
 
 		var car = {
@@ -30,8 +30,8 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_car_current_user', function(info, call_back){ // info
 		console.log('socket.on fetch_car_current_user', info);
-		if(!socket.arguments_valid(info, call_back)) return false;
 
+		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("fetch_car_current_user", {code: 101}, call_back);
 
 		car = {
@@ -50,6 +50,7 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_car_service', function(info, call_back){ // info
 		console.log('socket.on fetch_car_service', info);
+		
 		if(!socket.arguments_valid(info, call_back)) return false;
 		if(!socket.authenticated) return socket.fail("fetch_car_service", {code: 101}, call_back);
 
@@ -81,6 +82,7 @@ module.exports = function(socket,database,validation){
 
 	socket.on('fetch_car_public', function(info, call_back){ // info: id
 		console.log('socket.on fetch_car_public', info);
+		
 		if(!socket.arguments_valid(info, call_back)) return false;
 
 		car = {
