@@ -91,11 +91,11 @@ module.exports = function(mysql,db_user){
 	this.get_service_user = function get_service_user(service_user, func){
 		this.connection.query("SELECT * FROM service_user WHERE ?", service_user, func);
 	}
-	this.set_service_user = function set_service_user(set, where, func){
-		this.connection.query("UPDATE service_user SET ? WHERE ?", [set, where], func);
+	this.set_service_user = function set_service_user(rights, service, user, func){
+		this.connection.query("UPDATE service_user SET ? WHERE ? AND ?", [rights, service, user], func);
 	}
-	this.delete_service_user = function delete_service_user(service_user, func){
-		this.connection.query("DELETE FROM service_user WHERE ?", service_user, func);
+	this.delete_service_user = function delete_service_user(service, user, func){
+		this.connection.query("DELETE FROM service_user WHERE ? AND ?", [service, user], func);
 	}
 
 	return this;
