@@ -97,7 +97,7 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("delete_car_this_user", {errmsg: "You are not in account"}, call_back);
 		if(socket.account.type != "user") return socket.fail("delete_car_this_user", {errmsg: "You are not user"}, call_back);
-		if(info.id == undefined) return socket.fail("set_car_data_this_user", {errmsg: "You need to give car.id"}, call_back);
+		if(info.id == undefined) return socket.fail("delete_car_this_user", {errmsg: "You need to give car.id"}, call_back);
 
 		var  car = {
 			id: info.id
@@ -106,7 +106,7 @@ module.exports = function(socket,database){
 		database.delete_user_car(car, {account_user_id: socket.account.id}, function(err, results){
 			if(err) return socket.fail("delete_car_this_user", {errmsg: "database error delete_user_car", code: err.code}, call_back);
 			if(results.affectedRows == 0) 
-				return socket.fail("set_car_data_this_user", {errmsg: "affectedRows = 0"}, call_back);
+				return socket.fail("delete_car_this_user", {errmsg: "affectedRows = 0"}, call_back);
 			return socket.successful("delete_car_this_user", results, call_back);
 		});
 
@@ -133,22 +133,24 @@ module.exports = function(socket,database){
 	// });
 
 
-	// socket.on('get_public_car', function(info, call_back){
+	socket.on('get_public_car', function(info, call_back){
 
-	// 	console.log('socket.on get_public_car', info);
-	// 	if(!socket.arguments_valid(info, call_back)) return false;
+		console.log('socket.on get_public_car', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
 
-	// 	if(socket.account.type != "user") return socket.fail("get_public_car", {errmsg: "You are not user"}, call_back);
+		if(info.id == undefined) return socket.fail("get_public_car", {errmsg: "You need to give car.id"}, call_back);
 
-	// 	var  object = {
-	// 		arg:	info.arg
-	// 	};
+		var  car = {
+			id:	info.id
+		};
 
-	// 	database.db_func_name(object, function(err, results){
-	// 		if(err) return socket.fail("get_public_car", {errmsg: "database error db_func_name", code: err.code}, call_back);
-	// 		return socket.successful("get_public_car", return_value, call_back);
-	// 	});
+		database.get_car(car, function(err, results){
+			if(err) return socket.fail("get_public_car", {errmsg: "database error db_func_name", code: err.code}, call_back);
+			if(results.length == 0) return socket.fail("get_public_car", {errmsg: "no car with this id"}, call_back);
+			if(!results[0].public) return socket.fail("get_public_car", {errmsg: "this car is not public"}, call_back);
+			return socket.successful("get_public_car", results[0], call_back);
+		});
 
-	// });
+	});
 
 }
