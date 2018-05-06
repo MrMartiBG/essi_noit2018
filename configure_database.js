@@ -40,80 +40,135 @@ connection.connect(function(err) {
 
 function config_tables(){
 
-	// table user
-	var sql_table_user = "	CREATE TABLE `user` (											\
-							`id`			int 			NOT NULL 	AUTO_INCREMENT,		\
-							`username` 		varchar(64) 	NOT NULL 	UNIQUE,				\
-							`password` 		varchar(256)	NOT NULL,						\
-							`email` 		varchar(64) 	NOT NULL 	UNIQUE,				\
-							`firstname` 	varchar(64) 	NOT NULL,						\
-							`lastname` 		varchar(64) 	NOT NULL, 						\
-							`mobile` 		varchar(64), 									\
+	var account = "		CREATE TABLE `account` (											\
+							`id`			int 			NOT NULL 	AUTO_INCREMENT		,\
+							`email` 		varchar(64) 	NOT NULL 	UNIQUE				,\
+							`password` 		varchar(256)	NOT NULL						,\
+							`type` 			varchar(64) 	NOT NULL 						,\
 							PRIMARY KEY (`id`) 												\
-						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
 
-	// table car
-	var sql_table_car = "	CREATE TABLE `car` ( 											\
+
+	var user = "		CREATE TABLE `user` (												\
+							`account_id`	int 			NOT NULL 	UNIQUE				,\
+							`first_name` 	varchar(64) 	NOT NULL						,\
+							`last_name` 	varchar(64) 	NOT NULL						,\
+							`picture` 		varchar(256)				UNIQUE				,\
+							`phone` 		varchar(64)  									,\
+							`birthdate` 	datetime										,\
+							`country` 		varchar(64) 									,\
+							`city` 			varchar(64) 									,\
+							`info` 			varchar(256) 									\
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
+
+
+
+	var service = "		CREATE TABLE `service` (											\
+							`account_id`	int 			NOT NULL 	UNIQUE				,\
+							`name` 			varchar(64) 	NOT NULL 	UNIQUE				,\
+							`country` 		varchar(64) 									,\
+							`city` 			varchar(64) 									,\
+							`address` 		varchar(64)			 							,\
+							`contact_info` 	varchar(256)									,\
+							`info`	 		varchar(256) 									\
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
+
+
+
+	var car = "			CREATE TABLE `car` (												\
 							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
-							`owner_id` 		int 			NOT NULL, 						\
-							`public` 		bool 						DEFAULT false, 		\
-							`brand` 		varchar(64)  	NOT NULL, 						\
-							`model` 		varchar(64)  	NOT NULL, 						\
-							`generation` 	varchar(64)  	NOT NULL, 						\
-							`engine` 		varchar(64)  	NOT NULL, 						\
-							`vin_number` 	varchar(64)  	NOT NULL 	UNIQUE,				\
+							`picture` 		varchar(256)				UNIQUE				,\
+							`make` 			varchar(64) 									,\
+							`model` 		varchar(64) 									,\
+							`generation` 	varchar(64) 									,\
+							`engine` 		varchar(64) 									,\
+							`status` 		varchar(64) 									,\
+							`vin_number` 	varchar(64)					UNIQUE				,\
+							`registration_number`	varchar(64)			UNIQUE				,\
+							`public` 		bool 			NOT NULL	DEFAULT false 		,\
 							PRIMARY KEY (`id`) 												\
-						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
 
-	// table service_info
-	var sql_table_service_info = "	CREATE TABLE `service_info` ( 							\
-							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
-							`name` 			varchar(64) 	NOT NULL, 						\
-							`address` 		varchar(64) 	NOT NULL, 						\
-							`email` 		varchar(64) 	NOT NULL 	UNIQUE, 			\
-							`mobile` 		varchar(64) 	NOT NULL, 						\
-							PRIMARY KEY (`id`) 												\
-						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
-	// table service_user
-	var sql_table_service_user = "	CREATE TABLE `service_user` ( 							\
-							`service_id` 	int 			NOT NULL, 						\
-							`user_id` 		int 			NOT NULL, 						\
-							`user_type` 	varchar(64) 	NOT NULL 						\
-						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
 
-	// table service_car
-	var sql_table_service_car = "	CREATE TABLE `service_car` ( 							\
-							`service_id` 	int 			NOT NULL, 						\
-							`car_id` 		int 			NOT NULL						\
-						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
-
-	// table modification
-	var sql_table_modification = "	CREATE TABLE `modification` ( 							\
-							`id` 			int 			NOT NULL 	AUTO_INCREMENT, 	\
-							`car_id` 		int 			NOT NULL, 						\
-							`service_id` 	int, 			 								\
-							`status` 		varchar(64), 									\
-							`mileage` 		int(64) 		NOT NULL, 						\
-							`date` 			datetime		NOT NULL, 						\
-							`type` 			varchar(64) 	NOT NULL, 						\
-							`part` 			varchar(64) 	NOT NULL, 						\
-							`description` 	varchar(256) 	NOT NULL, 						\
+	var modification = "CREATE TABLE `modification` (										\
+							`id` 			int 			NOT NULL 	AUTO_INCREMENT 		,\
+							`car_id` 		int 			NOT NULL 						,\
+							`worker_id` 	int 			 								,\
+							`service_id` 	int 											,\
+							`type` 			varchar(64) 	NOT NULL 						,\
+							`date` 			datetime		NOT NULL 						,\
+							`mileage` 		int(64) 		NOT NULL 						,\
+							`zone` 			varchar(64) 	NOT NULL 						,\
+							`part` 			varchar(64) 	NOT NULL 						,\
+							`part_make` 	varchar(64) 									,\
+							`info` 			varchar(64) 									,\
 							PRIMARY KEY (`id`)			 									\
-						) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"					;
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
 
-	connection.query(	sql_table_user +
-						sql_table_car +
-						sql_table_service_info +
-						sql_table_service_user +
-						sql_table_service_car +
-						sql_table_modification,
+
+
+	var notification = "CREATE TABLE `notification` (										\
+							`id` 			  int 			NOT NULL 	AUTO_INCREMENT		,\
+							`to_account_id`   int 			NOT NULL 						,\
+							`from_account_id` int 			NOT NULL 						,\
+							`status` 		  varchar(64) 	NOT NULL 						,\
+							`type` 			  varchar(64) 	NOT NULL 						,\
+							`date` 			  datetime		NOT NULL 						,\
+							PRIMARY KEY (`id`)			 									\
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
+
+
+
+	var user_car = "	CREATE TABLE `user_car` (											\
+							`account_user_id`	 int 		NOT NULL 	UNIQUE				,\
+							`account_service_id` int 		NOT NULL 	UNIQUE				\
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
+
+
+
+	var service_car = "	CREATE TABLE `service_car` (										\
+							`account_service_id`  int 		NOT NULL 	UNIQUE				,\
+							`car_id`	 		  int 		NOT NULL 	UNIQUE				\
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
+
+
+
+	var service_user = "CREATE TABLE `service_user` (										\
+							`account_user_id`	  int 		NOT NULL 	UNIQUE				,\
+							`account_service_id`  int 		NOT NULL 	UNIQUE				,\
+							`user_rights`	 	  int 		NOT NULL						\
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
+
+
+	var logs = "		CREATE TABLE `logs` (												\
+							`id` 			  	int 			NOT NULL 	AUTO_INCREMENT	,\
+							`account_service_id`int 			NOT NULL 					,\
+							`user_account_id`   int 			NOT NULL 					,\
+							`car_id`   			int 										,\
+							`modification_id`   int 										,\
+							`notification_id`   int 										,\
+							`date` 			  	datetime		NOT NULL 					,\
+							PRIMARY KEY (`id`)			 									\
+					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
+
+
+	connection.query(	account + 
+						user + 
+						service + 
+						car + 
+						modification + 
+						notification + 
+						user_car + 
+						service_car + 
+						service_user + 
+						logs,
 	function (err, result) {
-			if (err){
-				console.log("Error: ",	err.code);
-				process.exit(1);
-			}
-	    console.log("Tables created!");
-			connection.end();
+		if (err){
+			console.log("Error: ",	err);
+			process.exit(1);
+		}
+    	console.log("Tables created!");
+		connection.end();
 	});
 }
