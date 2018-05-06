@@ -32,5 +32,11 @@ module.exports = function(mysql,db_user){
 		this.connection.query("INSERT INTO service SET ?", service, func);
 	}
 
+
+
+	this.get_user_data = function get_user_data(user, func){
+		this.connection.query("SELECT * FROM user WHERE ?", user, func);
+	}
+
 	return this;
 };

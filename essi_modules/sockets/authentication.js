@@ -127,11 +127,12 @@ module.exports = function(socket,database,transporter){
 
 			if(results.length == 0 || results[0].password != info.password)
 				return socket.fail("login_account", {errmsg: "wrong email or password"}, call_back);
-			delete results[0].password;
+			
 			socket.account = results[0];
 			socket.authenticated = true;
+			delete results[0].password;
 
-			return socket.successful("login_account", socket.account, call_back);
+			return socket.successful("login_account", results[0], call_back);
 		});
 
 	});
