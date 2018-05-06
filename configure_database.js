@@ -121,22 +121,22 @@ function config_tables(){
 
 
 	var user_car = "	CREATE TABLE `user_car` (											\
-							`account_user_id`	 int 		NOT NULL 	UNIQUE				,\
-							`account_service_id` int 		NOT NULL 	UNIQUE				\
+							`account_user_id`	int 		NOT NULL 						,\
+							`car_id` 			int 		NOT NULL 						\
 					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
 
 
 
 	var service_car = "	CREATE TABLE `service_car` (										\
-							`account_service_id`  int 		NOT NULL 	UNIQUE				,\
-							`car_id`	 		  int 		NOT NULL 	UNIQUE				\
+							`account_service_id`  int 		NOT NULL 						,\
+							`car_id`	 		  int 		NOT NULL 						\
 					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
 
 
 
 	var service_user = "CREATE TABLE `service_user` (										\
-							`account_user_id`	  int 		NOT NULL 	UNIQUE				,\
-							`account_service_id`  int 		NOT NULL 	UNIQUE				,\
+							`account_user_id`	  int 		NOT NULL 						,\
+							`account_service_id`  int 		NOT NULL 						,\
 							`user_rights`	 	  int 		NOT NULL						\
 					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
 

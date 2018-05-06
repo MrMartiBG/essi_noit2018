@@ -6,7 +6,7 @@ module.exports = function(socket,database){
 		console.log('socket.on get_data_this_user', info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("set_data_this_user", {errmsg: "You are not in account"}, call_back);
+		if(!socket.authenticated) return socket.fail("get_data_this_user", {errmsg: "You are not in account"}, call_back);
 		if(socket.account.type != "user") return socket.fail("get_data_this_user", {errmsg: "You are not user"}, call_back);
 
 		var user = 	{

@@ -30,6 +30,7 @@ module.exports = function(database,transporter){
 
 		require('./sockets/authentication.js')	(socket, database, transporter);
 		require('./sockets/user_data.js')		(socket, database);
+		require('./sockets/user_cars.js')		(socket, database);
 
 	}
 

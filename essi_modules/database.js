@@ -41,5 +41,18 @@ module.exports = function(mysql,db_user){
 		this.connection.query("UPDATE essi.user SET ? WHERE ?", [set, where], func);
 	}
 
+
+
+	this.add_car = function add_car(car, func){
+		this.connection.query("INSERT INTO car SET ?", car, func);
+	}
+	this.add_user_car = function add_user_car(user_car, func){
+		this.connection.query("INSERT INTO user_car SET ?", user_car, func);
+	}
+	this.delete_car = function delete_car(car, func){
+		this.connection.query("DELETE FROM essi.car WHERE ?", car, func);
+	}
+
+
 	return this;
 };
