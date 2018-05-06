@@ -28,9 +28,10 @@ module.exports = function(database,transporter){
 		socket.authenticated = false;
 		socket.account = {};
 
-		require('./sockets/authentication.js')	(socket, database, transporter);
-		require('./sockets/user_data.js')		(socket, database);
-		require('./sockets/user_cars.js')		(socket, database);
+		require('./sockets/authentication.js')		(socket, database, transporter);
+		require('./sockets/user_data.js')			(socket, database);
+		require('./sockets/user_cars.js')			(socket, database);
+		require('./sockets/user_modifications.js')	(socket, database);
 
 	}
 

@@ -9,6 +9,8 @@
 		<script>
 			var socket = io();
 
+			var today = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
 			function call_back(data) {
 				console.log("call_back - " + data.status + ", " + data.function_name, data.info);
 			}

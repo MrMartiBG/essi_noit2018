@@ -58,6 +58,9 @@ module.exports = function(mysql,db_user){
 	this.get_user_cars = function get_user_cars(user, func){
 		this.connection.query("SELECT * FROM user_car JOIN car ON car.id = user_car.car_id WHERE ?", user, func);
 	}
+	this.get_user_car = function get_user_car(user, car, func){
+		this.connection.query("SELECT * FROM user_car WHERE ? AND ?", [user, car], func);
+	}
 	this.delete_car = function delete_car(car, func){
 		this.connection.query("DELETE FROM car WHERE ?", car, func);
 	}
@@ -65,6 +68,11 @@ module.exports = function(mysql,db_user){
 		this.connection.query("DELETE car, user_car FROM user_car JOIN car ON car.id = user_car.car_id WHERE ? AND ?", [car, user], func);
 	}
 
+
+
+	this.add_modification = function add_modification(modification, func){
+		this.connection.query("INSERT INTO modification SET ?", modification, func);
+	}
 
 	return this;
 };

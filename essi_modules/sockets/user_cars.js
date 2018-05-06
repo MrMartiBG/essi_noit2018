@@ -64,7 +64,7 @@ module.exports = function(socket,database){
 
 		if(!socket.authenticated) return socket.fail("set_car_data_this_user", {errmsg: "You are not in account"}, call_back);
 		if(socket.account.type != "user") return socket.fail("set_car_data_this_user", {errmsg: "You are not user"}, call_back);
-		if(info.id == undefined) return socket.fail("set_car_data_this_user", {errmsg: "You need to give car.id"}, call_back);
+		if(info.id == undefined) return socket.fail("set_car_data_this_user", {errmsg: "car.id is undefined"}, call_back);
 		
 		var car = {car_id: info.id};
 
