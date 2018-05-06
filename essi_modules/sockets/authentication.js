@@ -109,29 +109,29 @@ module.exports = function(socket,database,transporter){
 	});
 
 
-	socket.on('login_user', function(info, call_back){
+	socket.on('login_account', function(info, call_back){
 
-		console.log('socket.on login_user', info);
+		console.log('socket.on login_account', info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(socket.authenticated) return socket.fail("login_user", {errmsg: "already in account"}, call_back);
-		if(info.email == undefined) return socket.fail("login_user", {errmsg: "email is undefined"}, call_back);
-		if(info.password == undefined) return socket.fail("login_user", {errmsg: "password is undefined"}, call_back);
+		if(socket.authenticated) return socket.fail("login_account", {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail("login_account", {errmsg: "email is undefined"}, call_back);
+		if(info.password == undefined) return socket.fail("login_account", {errmsg: "password is undefined"}, call_back);
 
 		var account = 	{
 			email:	info.email
 		};
 
 		database.get_account(account, function(err, results){
-			if(err) return socket.fail("login_user", {errmsg: "database error get_account", code: err.code}, call_back);
+			if(err) return socket.fail("login_account", {errmsg: "database error get_account", code: err.code}, call_back);
 
 			if(results.length == 0 || results[0].password != info.password)
-				return socket.fail("login_user", {errmsg: "wrong email or password"}, call_back);
+				return socket.fail("login_account", {errmsg: "wrong email or password"}, call_back);
 			delete results[0].password;
 			socket.account = results[0];
 			socket.authenticated = true;
 
-			return socket.successful("login_user", socket.account, call_back);
+			return socket.successful("login_account", socket.account, call_back);
 		});
 
 	});
@@ -162,4 +162,19 @@ module.exports = function(socket,database,transporter){
 		});
 
 	});
+
+
+	socket.on('logout_account', function(info, call_back){
+
+		console.log('socket.on logout_account', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(!socket.authenticated) return socket.fail("logout_account", {errmsg: "You are not in account"}, call_back);
+
+		socket.account = {};
+		socket.authenticated = false;
+
+		return socket.successful("logout_account", socket.account, call_back);
+	});
+
 }
