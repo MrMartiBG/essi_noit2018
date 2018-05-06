@@ -33,6 +33,7 @@ module.exports = function(database,transporter){
 		require('./sockets/user_cars.js')			(socket, database);
 		require('./sockets/user_modifications.js')	(socket, database);
 		require('./sockets/service_data.js')		(socket, database);
+		require('./sockets/service_users.js')		(socket, database);
 
 	}
 

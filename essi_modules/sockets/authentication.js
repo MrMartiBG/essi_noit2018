@@ -35,13 +35,15 @@ module.exports = function(socket,database,transporter){
 
 	socket.on('register_user', function(info, call_back){
 
-		console.log('socket.on register_user', info);
+		var func_name = 'register_user';
+
+		console.log('socket.on', func_name, info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(socket.authenticated) return socket.fail("register_user", {errmsg: "already in account"}, call_back);
-		if(info.email == undefined) return socket.fail("register_user", {errmsg: "email is undefined"}, call_back);
-		if(info.first_name == undefined) return socket.fail("register_user", {errmsg: "first_name is undefined"}, call_back);
-		if(info.last_name == undefined) return socket.fail("register_user", {errmsg: "last_name is undefined"}, call_back);
+		if(socket.authenticated) return socket.fail(func_name, {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail(func_name, {errmsg: "email is undefined"}, call_back);
+		if(info.first_name == undefined) return socket.fail(func_name, {errmsg: "first_name is undefined"}, call_back);
+		if(info.last_name == undefined) return socket.fail(func_name, {errmsg: "last_name is undefined"}, call_back);
 
 		info.password = generate_password();
 
@@ -52,7 +54,7 @@ module.exports = function(socket,database,transporter){
 		};
 
 		database.add_account(account, function(err, results){
-			if(err) return socket.fail("register_user", {errmsg: "database error add_account", code: err.code}, call_back);
+			if(err) return socket.fail(func_name, {errmsg: "database error add_account", code: err.code}, call_back);
 			
 			var user = {
 				account_id: results.insertId,
@@ -63,10 +65,10 @@ module.exports = function(socket,database,transporter){
 			database.add_user(user, function(err, results){
 				if(err){
 					database.delete_account({id: user.account_id}, function(){});
-					return socket.fail("register_user", {errmsg: "database error add_user", code: err.code}, call_back);
+					return socket.fail(func_name, {errmsg: "database error add_user", code: err.code}, call_back);
 				}
 				send_password_mail(info.email, info.password);
-				return socket.successful("register_user", user, call_back);
+				return socket.successful(func_name, user, call_back);
 			});
 		});
 	});
@@ -74,12 +76,14 @@ module.exports = function(socket,database,transporter){
 
 	socket.on('register_service', function(info, call_back){
 
-		console.log('socket.on register_service', info);
+		var func_name = 'register_service';
+
+		console.log('socket.on', func_name, info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(socket.authenticated) return socket.fail("register_service", {errmsg: "already in account"}, call_back);
-		if(info.email == undefined) return socket.fail("register_service", {errmsg: "email is undefined"}, call_back);
-		if(info.name == undefined) return socket.fail("register_service", {errmsg: "name is undefined"}, call_back);
+		if(socket.authenticated) return socket.fail(func_name, {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail(func_name, {errmsg: "email is undefined"}, call_back);
+		if(info.name == undefined) return socket.fail(func_name, {errmsg: "name is undefined"}, call_back);
 
 		info.password = generate_password();
 
@@ -90,7 +94,7 @@ module.exports = function(socket,database,transporter){
 		};
 
 		database.add_account(account, function(err, results){
-			if(err) return socket.fail("register_service", {errmsg: "database error add_account", code: err.code}, call_back);
+			if(err) return socket.fail(func_name, {errmsg: "database error add_account", code: err.code}, call_back);
 			
 			var service = {
 				account_id: results.insertId,
@@ -100,10 +104,10 @@ module.exports = function(socket,database,transporter){
 			database.add_service(service, function(err, results){
 				if(err){
 					database.delete_account({id: service.account_id}, function(){});
-					return socket.fail("register_service", {errmsg: "database error add_service", code: err.code}, call_back);
+					return socket.fail(func_name, {errmsg: "database error add_service", code: err.code}, call_back);
 				}
 				send_password_mail(info.email, info.password);
-				return socket.successful("register_service", service, call_back);
+				return socket.successful(func_name, service, call_back);
 			});
 		});
 	});
@@ -111,28 +115,30 @@ module.exports = function(socket,database,transporter){
 
 	socket.on('login_account', function(info, call_back){
 
-		console.log('socket.on login_account', info);
+		var func_name = 'login_account';
+
+		console.log('socket.on', func_name, info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(socket.authenticated) return socket.fail("login_account", {errmsg: "already in account"}, call_back);
-		if(info.email == undefined) return socket.fail("login_account", {errmsg: "email is undefined"}, call_back);
-		if(info.password == undefined) return socket.fail("login_account", {errmsg: "password is undefined"}, call_back);
+		if(socket.authenticated) return socket.fail(func_name, {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail(func_name, {errmsg: "email is undefined"}, call_back);
+		if(info.password == undefined) return socket.fail(func_name, {errmsg: "password is undefined"}, call_back);
 
 		var account = 	{
 			email:	info.email
 		};
 
 		database.get_account(account, function(err, results){
-			if(err) return socket.fail("login_account", {errmsg: "database error get_account", code: err.code}, call_back);
+			if(err) return socket.fail(func_name, {errmsg: "database error get_account", code: err.code}, call_back);
 
 			if(results.length == 0 || results[0].password != info.password)
-				return socket.fail("login_account", {errmsg: "wrong email or password"}, call_back);
+				return socket.fail(func_name, {errmsg: "wrong email or password"}, call_back);
 			
 			socket.account = results[0];
 			socket.authenticated = true;
 			delete results[0].password;
 
-			return socket.successful("login_account", results[0], call_back);
+			return socket.successful(func_name, results[0], call_back);
 		});
 
 	});
@@ -140,11 +146,13 @@ module.exports = function(socket,database,transporter){
 
 	socket.on('generate_new_password', function(info, call_back){
 
-		console.log('socket.on generate_new_password', info);
+		var func_name = 'generate_new_password';
+
+		console.log('socket.on', func_name, info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(socket.authenticated) return socket.fail("generate_new_password", {errmsg: "already in account"}, call_back);
-		if(info.email == undefined) return socket.fail("generate_new_password", {errmsg: "email is undefined"}, call_back);
+		if(socket.authenticated) return socket.fail(func_name, {errmsg: "already in account"}, call_back);
+		if(info.email == undefined) return socket.fail(func_name, {errmsg: "email is undefined"}, call_back);
 
 		info.password = generate_password();
 
@@ -156,10 +164,10 @@ module.exports = function(socket,database,transporter){
 		};
 
 		database.set_accout_password(new_pass, account, function(err, results){
-			if(err) return socket.fail("generate_new_password", {errmsg: "database error set_accout_password", code: err.code}, call_back);
+			if(err) return socket.fail(func_name, {errmsg: "database error set_accout_password", code: err.code}, call_back);
 
 			send_password_mail(info.email, info.password);
-			return socket.successful("generate_new_password", {}, call_back);
+			return socket.successful(func_name, {}, call_back);
 		});
 
 	});
@@ -167,15 +175,17 @@ module.exports = function(socket,database,transporter){
 
 	socket.on('logout_account', function(info, call_back){
 
-		console.log('socket.on logout_account', info);
+		var func_name = 'logout_account';
+
+		console.log('socket.on', func_name, info);
 		if(!socket.arguments_valid(info, call_back)) return false;
 
-		if(!socket.authenticated) return socket.fail("logout_account", {errmsg: "You are not in account"}, call_back);
+		if(!socket.authenticated) return socket.fail(func_name, {errmsg: "You are not in account"}, call_back);
 
 		socket.account = {};
 		socket.authenticated = false;
 
-		return socket.successful("logout_account", socket.account, call_back);
+		return socket.successful(func_name, socket.account, call_back);
 	});
 
 }

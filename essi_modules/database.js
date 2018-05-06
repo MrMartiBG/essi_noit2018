@@ -85,5 +85,18 @@ module.exports = function(mysql,db_user){
 		this.connection.query("UPDATE service SET ? WHERE ?", [set, where], func);
 	}
 
+	this.add_service_user = function add_service_user(service_user, func){
+		this.connection.query("INSERT INTO service_user SET ?", service_user, func);
+	}
+	this.get_service_user = function get_service_user(service_user, func){
+		this.connection.query("SELECT * FROM service_user WHERE ?", service_user, func);
+	}
+	this.set_service_user = function set_service_user(set, where, func){
+		this.connection.query("UPDATE service_user SET ? WHERE ?", [set, where], func);
+	}
+	this.delete_service_user = function delete_service_user(service_user, func){
+		this.connection.query("DELETE FROM service_user WHERE ?", service_user, func);
+	}
+
 	return this;
 };
