@@ -19,10 +19,10 @@ module.exports = function(mysql,db_user){
 		this.connection.query("SELECT * FROM account WHERE ?", account, func);
 	}
 	this.set_accout_password = function set_accout_password(set, where, func){
-		this.connection.query("UPDATE essi.account SET ? WHERE ?", [set, where], func);
+		this.connection.query("UPDATE account SET ? WHERE ?", [set, where], func);
 	}
 	this.delete_account = function delete_account(account, func){
-		this.connection.query("DELETE FROM essi.account WHERE ?", account, func);
+		this.connection.query("DELETE FROM account WHERE ?", account, func);
 	}
 
 	this.add_user = function add_user(user, func){
@@ -38,7 +38,7 @@ module.exports = function(mysql,db_user){
 		this.connection.query("SELECT * FROM user WHERE ?", user, func);
 	}
 	this.set_user_data = function set_user_data(set, where, func){
-		this.connection.query("UPDATE essi.user SET ? WHERE ?", [set, where], func);
+		this.connection.query("UPDATE user SET ? WHERE ?", [set, where], func);
 	}
 
 
@@ -49,8 +49,11 @@ module.exports = function(mysql,db_user){
 	this.add_user_car = function add_user_car(user_car, func){
 		this.connection.query("INSERT INTO user_car SET ?", user_car, func);
 	}
+	this.get_user_cars = function get_user_cars(user, func){
+		this.connection.query("SELECT * FROM user_car JOIN car ON car.id = user_car.car_id WHERE ?", user, func);
+	}
 	this.delete_car = function delete_car(car, func){
-		this.connection.query("DELETE FROM essi.car WHERE ?", car, func);
+		this.connection.query("DELETE FROM car WHERE ?", car, func);
 	}
 
 

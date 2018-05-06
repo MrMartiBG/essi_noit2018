@@ -37,24 +37,24 @@ module.exports = function(socket,database){
 	});
 
 
-	// socket.on('get_cars_this_user', function(info, call_back){
+	socket.on('get_cars_this_user', function(info, call_back){
 
-	// 	console.log('socket.on get_cars_this_user', info);
-	// 	if(!socket.arguments_valid(info, call_back)) return false;
+		console.log('socket.on get_cars_this_user', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
 
-	// 	if(!socket.authenticated) return socket.fail("get_cars_this_user", {errmsg: "You are not in account"}, call_back);
-	// 	if(socket.account.type != "user") return socket.fail("get_cars_this_user", {errmsg: "You are not user"}, call_back);
+		if(!socket.authenticated) return socket.fail("get_cars_this_user", {errmsg: "You are not in account"}, call_back);
+		if(socket.account.type != "user") return socket.fail("get_cars_this_user", {errmsg: "You are not user"}, call_back);
 
-	// 	var  object = {
-	// 		arg:	info.arg
-	// 	};
+		var user = {
+			account_user_id: socket.account.id
+		};
 
-	// 	database.db_func_name(object, function(err, results){
-	// 		if(err) return socket.fail("get_cars_this_user", {errmsg: "database error db_func_name", code: err.code}, call_back);
-	// 		return socket.successful("get_cars_this_user", return_value, call_back);
-	// 	});
+		database.get_user_cars(user, function(err, results){
+			if(err) return socket.fail("get_cars_this_user", {errmsg: "database error get_user_cars", code: err.code}, call_back);
+			return socket.successful("get_cars_this_user", results, call_back);
+		});
 
-	// });
+	});
 
 
 	// socket.on('set_car_data_this_user', function(info, call_back){
