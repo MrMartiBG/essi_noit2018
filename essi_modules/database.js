@@ -37,6 +37,9 @@ module.exports = function(mysql,db_user){
 	this.get_user_data = function get_user_data(user, func){
 		this.connection.query("SELECT * FROM user WHERE ?", user, func);
 	}
+	this.set_user_data = function set_user_data(set, where, func){
+		this.connection.query("UPDATE essi.user SET ? WHERE ?", [set, where], func);
+	}
 
 	return this;
 };

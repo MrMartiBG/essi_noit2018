@@ -156,7 +156,7 @@ module.exports = function(socket,database,transporter){
 		};
 
 		database.set_accout_password(new_pass, account, function(err, results){
-			if(err) return socket.fail("generate_new_password", {errmsg: "database error get_account", code: err.code}, call_back);
+			if(err) return socket.fail("generate_new_password", {errmsg: "database error set_accout_password", code: err.code}, call_back);
 
 			send_password_mail(info.email, info.password);
 			return socket.successful("generate_new_password", {}, call_back);
