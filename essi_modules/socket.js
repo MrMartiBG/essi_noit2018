@@ -73,6 +73,8 @@ module.exports = function(database,transporter){
 
 			database.add_notification(notification, function(error, results){
 
+			if(info.account_service_id == undefined) return true;
+
 				var log = {
 					account_user_id: socket.account.id,
 					account_service_id: info.account_service_id,

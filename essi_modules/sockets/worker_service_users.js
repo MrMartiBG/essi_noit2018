@@ -37,11 +37,15 @@ module.exports = function(socket,database){
 
 				// var notification = {
 				// 	account_service_id: info.account_service_id,
+				
 				// 	to_account_id: info.account_user_id, 
 				// 	from_account_id: info.account_service_id, 
-				// 	status: "info", 
-				// 	type: "added_to_service_user", 
+				// 	status: "", 
+				// 	type: "", 
 				// 	date: new Date
+
+				// 	car_id: ,
+				// 	modification_id: 
 				// };
 
 				// socket.make_notification(notification);

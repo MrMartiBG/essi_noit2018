@@ -51,4 +51,26 @@ module.exports = function(socket,database){
 		});
 	});
 
+
+	socket.on('get_service_logs_this_service', function(info, call_back){
+
+		var func_name = "get_service_logs_this_service";
+
+		console.log('socket.on get_service_logs_this_service', info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(!socket.authenticated) return socket.fail(func_name, {errmsg: "You are not in account"}, call_back);
+		if(socket.account.type != "service") return socket.fail(func_name, {errmsg: "You are not service"}, call_back);
+
+		var service = 	{
+			account_service_id:	socket.account.id
+		};
+
+		database.get_service_logs(service, function(err, results){
+			if(err) return socket.fail(func_name, {errmsg: "database error get_service_logs", code: err.code}, call_back);
+			return socket.successful(func_name, results, call_back);
+		});
+
+	});
+
 }

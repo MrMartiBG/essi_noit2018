@@ -98,6 +98,9 @@ module.exports = function(mysql,db_user){
 	this.set_service_data = function set_service_data(set, where, func){
 		this.connection.query("UPDATE service SET ? WHERE ?", [set, where], func);
 	}
+	this.get_service_logs = function get_service_logs(service, func){
+		this.connection.query("SELECT * FROM logs WHERE ?", service, func);
+	}
 
 	this.add_service_user = function add_service_user(service_user, func){
 		this.connection.query("INSERT INTO service_user SET ?", service_user, func);
