@@ -39,3 +39,25 @@ module.exports = function(database,transporter){
 
 	return this;
 }
+
+
+	// socket.on('add_car_to_service_this_user', function(info, call_back){
+
+	// 	var func_name = "add_car_to_service_this_user"
+
+	// 	console.log('socket.on', func_name, info);
+	// 	if(!socket.arguments_valid(info, call_back)) return false;
+
+	// 	if(!socket.authenticated) return socket.fail(func_name, {errmsg: "You are not in account"}, call_back);
+	// 	if(socket.account.type != "user") return socket.fail(func_name, {errmsg: "You are not user"}, call_back);
+
+	// 	var object = {
+	// 		args: info.args
+	// 	};
+
+	// 	database.db_func_name(object, function(err, results){
+	// 		if(err) return socket.fail(func_name, {errmsg: "database error db_func_name", code: err.code}, call_back);
+	// 		return socket.successful(func_name, results, call_back);
+	// 	});
+
+	// });

@@ -78,6 +78,16 @@ module.exports = function(mysql,db_user){
 	}
 
 
+
+	this.add_notification = function add_notification(notification, func){
+		this.connection.query("INSERT INTO notification SET ?", notification, func);
+	}
+	// this.get_modification = function get_modification(user, func){
+	// 	this.connection.query("SELECT * FROM modification JOIN user_car ON modification.car_id = user_car.car_id WHERE ?", user, func);
+	// }
+
+
+
 	this.get_service_data = function get_service_data(service, func){
 		this.connection.query("SELECT * FROM service WHERE ?", service, func);
 	}

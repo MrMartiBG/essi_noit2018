@@ -19,6 +19,7 @@ module.exports = function(socket,database){
 			if(info.vin_number != undefined) car.vin_number = info.vin_number;
 			if(info.registration_number != undefined) car.registration_number = info.registration_number;
 			if(info.public != undefined) car.public = info.public;
+			else car.public = false;
 			if(info.info != undefined) car.info = info.info;
 		
 
@@ -140,6 +141,46 @@ module.exports = function(socket,database){
 			if(results.length == 0) return socket.fail(func_name, {errmsg: "no car with this id"}, call_back);
 			if(!results[0].public) return socket.fail(func_name, {errmsg: "this car is not public"}, call_back);
 			return socket.successful(func_name, results[0], call_back);
+		});
+
+	});
+
+
+	socket.on('add_car_to_service_this_user', function(info, call_back){
+
+		var func_name = "add_car_to_service_this_user"
+
+		console.log('socket.on', func_name, info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(!socket.authenticated) return socket.fail(func_name, {errmsg: "You are not in account"}, call_back);
+		if(socket.account.type != "user") return socket.fail(func_name, {errmsg: "You are not user"}, call_back);
+		if(info.car_id == undefined) return socket.fail(func_name, {errmsg: "You need to give car_id"}, call_back);
+		if(info.account_service_id == undefined) return socket.fail(func_name, {errmsg: "You need to give account_service_id"}, call_back);
+
+		var notification = {
+			to_account_id: info.account_service_id,
+			from_account_id: socket.account.id,
+			car_id: info.car_id,
+			status: "waiting",
+			type: "user_to_service_add_car",
+			date: new Date()
+		};
+
+		var user = {
+			account_user_id: socket.account.id
+		}
+		var car = {
+			car_id: info.car_id
+		}
+
+		database.get_user_car(user, car, function(err, results){
+			if(err) return socket.fail(func_name, {errmsg: "database error get_user_car", code: err.code}, call_back);
+			if(results.length == 0) return socket.fail(func_name, {errmsg: "you are not the owner of this car"}, call_back);
+			database.add_notification(notification, function(err, results){
+				if(err) return socket.fail(func_name, {errmsg: "database error add_notification", code: err}, call_back);
+				return socket.successful(func_name, notification, call_back);
+			});
 		});
 
 	});

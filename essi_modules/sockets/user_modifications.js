@@ -73,22 +73,3 @@ module.exports = function(socket,database){
 }
 
 
-
-	// socket.on('func_name', function(info, call_back){
-
-	// 	console.log('socket.on func_name', info);
-	// 	if(!socket.arguments_valid(info, call_back)) return false;
-
-	// 	if(!socket.authenticated) return socket.fail("func_name", {errmsg: "You are not in account"}, call_back);
-	// 	if(socket.account.type != "user") return socket.fail("func_name", {errmsg: "You are not user"}, call_back);
-
-	// 	var  object = {
-	// 		args:	info.args
-	// 	};
-
-	// 	database.db_func_name(object, function(err, results){
-	// 		if(err) return socket.fail("func_name", {errmsg: "database error db_func_name", code: err.code}, call_back);
-	// 		return socket.successful("func_name", return_value, call_back);
-	// 	});
-
-	// });
