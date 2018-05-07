@@ -3,7 +3,7 @@ module.exports = function(socket,database){
 
 	socket.on('get_service_users_by_worker', function(info, call_back){
 		
-		socket.validate_worker_rights("get_service_users_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
+		socket.validate_worker_rights("get_service_users_by_worker", info, call_back, 0b001, function(func_name, info, call_back){
 
 			var serivce = {
 				account_service_id: info.account_service_id
@@ -21,7 +21,7 @@ module.exports = function(socket,database){
 
 	socket.on('add_service_user_by_worker', function(info, call_back){
 		
-		socket.validate_worker_rights("add_service_user_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
+		socket.validate_worker_rights("add_service_user_by_worker", info, call_back, 0b001, function(func_name, info, call_back){
 
 			if(info.account_user_id == undefined) return socket.fail(func_name, {errmsg: "account_user_id is undefined"}, call_back);
 			if(info.user_rights == undefined) return socket.fail(func_name, {errmsg: "user_rights is undefined"}, call_back);
@@ -44,7 +44,7 @@ module.exports = function(socket,database){
 
 	socket.on('set_service_user_rights_by_worker', function(info, call_back){
 		
-		socket.validate_worker_rights("set_service_user_rights_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
+		socket.validate_worker_rights("set_service_user_rights_by_worker", info, call_back, 0b001, function(func_name, info, call_back){
 
 			if(info.account_user_id == undefined) return socket.fail(func_name, {errmsg: "account_user_id is undefined"}, call_back);
 			if(info.user_rights == undefined) return socket.fail(func_name, {errmsg: "user_rights is undefined"}, call_back);
@@ -73,7 +73,7 @@ module.exports = function(socket,database){
 
 	socket.on('delete_service_user_by_worker', function(info, call_back){
 		
-		socket.validate_worker_rights("delete_service_user_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
+		socket.validate_worker_rights("delete_service_user_by_worker", info, call_back, 0b001, function(func_name, info, call_back){
 
 			if(info.account_user_id == undefined) return socket.fail(func_name, {errmsg: "account_user_id is undefined"}, call_back);
 
@@ -94,3 +94,4 @@ module.exports = function(socket,database){
 	});
 
 }
+

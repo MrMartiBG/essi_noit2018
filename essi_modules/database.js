@@ -158,5 +158,12 @@ module.exports = function(mysql,db_user){
 	this.delete_service_user_by_worker = function delete_service_user_by_worker(user, service, func){
 		this.connection.query("DELETE FROM service_user WHERE ? AND ?", [user, service], func);
 	}
+
+
+	this.get_notifications_by_worker = function get_notifications_by_worker(service, func){
+		this.connection.query("SELECT * FROM notification WHERE ?", service, func);
+	}
+
+
 	return this;
 };

@@ -3,7 +3,7 @@ module.exports = function(socket,database){
 
 	socket.on('get_car_modifications_by_worker', function(info, call_back){
 		
-		socket.validate_worker_rights("get_car_modifications_by_worker", info, call_back, 0b0010, function(func_name, info, call_back){
+		socket.validate_worker_rights("get_car_modifications_by_worker", info, call_back, 0b010, function(func_name, info, call_back){
 
 			if(info.car_id == undefined) return socket.fail(func_name, {errmsg: "car_id is undefined"}, call_back);
 
@@ -32,7 +32,7 @@ module.exports = function(socket,database){
 
 	socket.on('add_car_modification_by_worker', function(info, call_back){
 		
-		socket.validate_worker_rights("add_car_modification_by_worker", info, call_back, 0b0010, function(func_name, info, call_back){
+		socket.validate_worker_rights("add_car_modification_by_worker", info, call_back, 0b010, function(func_name, info, call_back){
 
 			if(info.car_id == undefined) return socket.fail(func_name, {errmsg: "car_id is undefined"}, call_back);
 
@@ -81,7 +81,7 @@ module.exports = function(socket,database){
 
 	socket.on('set_car_modification_by_worker', function(info, call_back){
 		
-		socket.validate_worker_rights("set_car_modification_by_worker", info, call_back, 0b0110, function(func_name, info, call_back){
+		socket.validate_worker_rights("set_car_modification_by_worker", info, call_back, 0b010, function(func_name, info, call_back){
 
 			if(info.car_id == undefined) return socket.fail(func_name, {errmsg: "car_id is undefined"}, call_back);
 
