@@ -10,7 +10,7 @@ module.exports = function(mysql,db_user){
 		console.log("Connected to database!");
 	});
 
-	
+
 
 	this.add_account = function add_account(account, func){
 		this.connection.query("INSERT INTO account SET ?", account, func);
@@ -122,6 +122,9 @@ module.exports = function(mysql,db_user){
 
 	this.get_user_car_by_worker = function get_user_car_by_worker(car, func){
 		this.connection.query("SELECT * FROM user_car WHERE ?", car, func);
+	}
+	this.delete_service_car_by_worker = function delete_service_car_by_worker(car, service, func){
+		this.connection.query("DELETE FROM service_car WHERE ? AND ?", [car, service], func);
 	}
 	this.get_cars_by_worker = function get_cars_by_worker(service, func){
 		this.connection.query("SELECT * FROM service_car JOIN car ON car.id = service_car.car_id WHERE ?", service, func);
