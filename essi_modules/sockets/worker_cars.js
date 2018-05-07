@@ -38,7 +38,16 @@ module.exports = function(socket,database){
 	socket.on('get_service_cars_by_worker', function(info, call_back){
 		
 		socket.validate_worker_rights("get_service_cars_by_worker", info, call_back, 0b1000, function(func_name, info, call_back){
-			return socket.successful(func_name, true, call_back);
+			get_cars_by_worker
+
+			var serivce = {
+				account_service_id: info.account_service_id
+			}
+
+			database.get_cars_by_worker(serivce, function(err, results){
+				if(err) return socket.fail(func_name, {errmsg: "database error get_cars_by_worker", code: err}, call_back);
+				return socket.successful(func_name, results, call_back);
+			});
 		});
 
 	});
