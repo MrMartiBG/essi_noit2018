@@ -118,5 +118,11 @@ module.exports = function(mysql,db_user){
 		this.connection.query("SELECT user_rights FROM service_user WHERE ? AND ?", [service, user], func);
 	}
 
+
+
+	this.get_user_car_by_worker = function get_user_car_by_worker(car, func){
+		this.connection.query("SELECT * FROM user_car WHERE ?", car, func);
+	}
+
 	return this;
 };

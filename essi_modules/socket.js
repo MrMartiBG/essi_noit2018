@@ -26,6 +26,9 @@ module.exports = function(database,transporter){
 		}
 
 		socket.validate_worker_rights = function validate_worker_rights(func_name, info, call_back, user_rights, return_function){
+			
+			console.log('socket.on', func_name, info);
+
 			if(!socket.arguments_valid(info, call_back)) return false;
 
 			if(!socket.authenticated) return socket.fail(func_name, {errmsg: "You are not in account"}, call_back);
@@ -45,7 +48,7 @@ module.exports = function(database,transporter){
 					return socket.fail(func_name, {errmsg: "You are not in this service"}, call_back);
 				if(!(results[0].user_rights & user_rights))
 					return socket.fail(func_name, {errmsg: "You are not allowed to perform this action!"}, call_back);
-				return return_function();
+				return return_function(func_name, info, call_back);
 			});
 		}
 
