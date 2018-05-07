@@ -156,7 +156,7 @@ module.exports = function(mysql,db_user){
 		this.connection.query("UPDATE service_user SET ? WHERE ? AND ?", [set, where1, where2], func);
 	}
 	this.delete_service_user_by_worker = function delete_service_user_by_worker(user, service, func){
-		this.connection.query("DELETE FROM service_car WHERE ? AND ?", [user, service], func);
+		this.connection.query("DELETE FROM service_user WHERE ? AND ?", [user, service], func);
 	}
 	return this;
 };

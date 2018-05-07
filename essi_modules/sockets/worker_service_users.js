@@ -71,21 +71,26 @@ module.exports = function(socket,database){
 	});
 
 
-	// socket.on('delete_service_user_by_worker', function(info, call_back){
+	socket.on('delete_service_user_by_worker', function(info, call_back){
 		
-	// 	socket.validate_worker_rights("delete_service_user_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
+		socket.validate_worker_rights("delete_service_user_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
 
-	// 		var serivce = {
-	// 			account_service_id: info.account_service_id
-	// 		}
+			if(info.account_user_id == undefined) return socket.fail(func_name, {errmsg: "account_user_id is undefined"}, call_back);
 
-	// 		database.delete_service_user_by_worker(serivce, function(err, results){
-	// 			if(err) return socket.fail(func_name, {errmsg: "database error delete_service_user_by_worker", code: err}, call_back);
-	// 			return socket.successful(func_name, results, call_back);
-	// 		});
+			var serivce = {
+				account_service_id: info.account_service_id
+			}
+			var user = {
+				account_user_id: info.account_user_id
+			}
 
-	// 	});
+			database.delete_service_user_by_worker(user, serivce, function(err, results){
+				if(err) return socket.fail(func_name, {errmsg: "database error delete_service_user_by_worker", code: err}, call_back);
+				return socket.successful(func_name, user, call_back);
+			});
 
-	// });
+		});
+
+	});
 
 }
