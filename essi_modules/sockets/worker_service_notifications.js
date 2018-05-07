@@ -9,6 +9,7 @@ module.exports = function(socket,database){
 				to_account_id: info.account_service_id
 			}
 
+
 			database.get_notifications_by_worker(serivce, function(err, results){
 				if(err) return socket.fail(func_name, {errmsg: "database error get_notifications_by_worker", code: err}, call_back);
 				return socket.successful(func_name, results, call_back);
