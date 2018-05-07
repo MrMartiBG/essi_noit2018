@@ -42,22 +42,33 @@ module.exports = function(socket,database){
 	});
 
 
-	// socket.on('set_service_user_rights_by_worker', function(info, call_back){
+	socket.on('set_service_user_rights_by_worker', function(info, call_back){
 		
-	// 	socket.validate_worker_rights("set_service_user_rights_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
+		socket.validate_worker_rights("set_service_user_rights_by_worker", info, call_back, 0b0001, function(func_name, info, call_back){
 
-	// 		var serivce = {
-	// 			account_service_id: info.account_service_id
-	// 		}
+			if(info.account_user_id == undefined) return socket.fail(func_name, {errmsg: "account_user_id is undefined"}, call_back);
+			if(info.user_rights == undefined) return socket.fail(func_name, {errmsg: "user_rights is undefined"}, call_back);
 
-	// 		database.set_service_user_by_worker(serivce, function(err, results){
-	// 			if(err) return socket.fail(func_name, {errmsg: "database error set_service_user_by_worker", code: err}, call_back);
-	// 			return socket.successful(func_name, results, call_back);
-	// 		});
+			var serivce_user_new = {
+				account_service_id: info.account_service_id,
+				account_user_id: info.account_user_id,
+				user_rights: info.user_rights
+			}
+			var user = {
+				account_user_id: info.account_user_id
+			}
+			var serivce = {
+				account_service_id: info.account_service_id
+			}
 
-	// 	});
+			database.set_service_user_by_worker(serivce_user_new, user, serivce, function(err, results){
+				if(err) return socket.fail(func_name, {errmsg: "database error set_service_user_by_worker", code: err}, call_back);
+				return socket.successful(func_name, serivce_user_new, call_back);
+			});
 
-	// });
+		});
+
+	});
 
 
 	// socket.on('delete_service_user_by_worker', function(info, call_back){
