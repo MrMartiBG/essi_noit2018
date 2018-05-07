@@ -97,6 +97,7 @@ module.exports = function(socket,database){
 				to_account_id: results[0].service_id,
 				from_account_id: socket.account.id,
 				car_id: results[0].car_id,
+				modification_id: info.modification_id,
 				status: "waiting",
 				type: "user_to_service_report_modification_problem",
 				date: new Date()

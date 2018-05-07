@@ -82,6 +82,9 @@ module.exports = function(mysql,db_user){
 	this.add_notification = function add_notification(notification, func){
 		this.connection.query("INSERT INTO notification SET ?", notification, func);
 	}
+	this.get_notifications = function get_notifications(notification, func){
+		this.connection.query("SELECT * FROM notification WHERE ?", notification, func);
+	}
 	this.get_user_car_modification = function get_user_car_modification(user, mod, func){
 		this.connection.query("SELECT * FROM modification JOIN user_car ON modification.car_id = user_car.car_id WHERE ? AND ?",
 																											 [user, mod], func);
