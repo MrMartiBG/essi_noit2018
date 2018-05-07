@@ -144,5 +144,19 @@ module.exports = function(mysql,db_user){
 	this.set_modification_by_worker = function set_modification_by_worker(set, where1, where2, func){
 		this.connection.query("UPDATE modification SET ? WHERE ? AND ?", [set, where1, where2], func);
 	}
+
+
+	this.get_service_users_by_worker = function get_service_users_by_worker(service, func){
+		this.connection.query("SELECT * FROM service_user WHERE ?", service, func);
+	}
+	this.add_service_user_by_worker = function add_service_user_by_worker(service_user, func){
+		this.connection.query("INSERT INTO service_user SET ?", service_user, func);
+	}
+	this.set_service_user_by_worker = function set_service_user_by_worker(set, where1, where2, func){
+		this.connection.query("UPDATE service_user SET ? WHERE ? AND ?", [set, where1, where2], func);
+	}
+	this.delete_service_user_by_worker = function delete_service_user_by_worker(user, service, func){
+		this.connection.query("DELETE FROM service_car WHERE ? AND ?", [user, service], func);
+	}
 	return this;
 };
