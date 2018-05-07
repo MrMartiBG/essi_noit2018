@@ -113,6 +113,7 @@ function config_tables(){
 							`to_account_id`   int 			NOT NULL 						,\
 							`from_account_id` int 			NOT NULL 						,\
 							`car_id`		  int			NOT NULL 						,\
+							`modification_id` int					 						,\
 							`status` 		  varchar(64) 	NOT NULL 						,\
 							`type` 			  varchar(64) 	NOT NULL 						,\
 							`date` 			  datetime		NOT NULL 						,\

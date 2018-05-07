@@ -63,9 +63,49 @@ module.exports = function(socket,database){
 			account_user_id: socket.account.id
 		};
 
-		database.get_modification(user, function(err, results){
-			if(err) return socket.fail("get_modification_this_user", {errmsg: "database error get_modification", code: err.code}, call_back);
+		database.get_modifications(user, function(err, results){
+			if(err) return socket.fail("get_modification_this_user", {errmsg: "database error get_modifications", code: err.code}, call_back);
 			return socket.successful("get_modification_this_user", results, call_back);
+		});
+
+	});
+
+
+	socket.on('report_modification_problem', function(info, call_back){
+
+		var func_name = "report_modification_problem";
+
+		console.log('socket.on', func_name, info);
+		if(!socket.arguments_valid(info, call_back)) return false;
+
+		if(!socket.authenticated) return socket.fail(func_name, {errmsg: "You are not in account"}, call_back);
+		if(socket.account.type != "user") return socket.fail(func_name, {errmsg: "You are not user"}, call_back);
+		if(info.modification_id == undefined) return socket.fail(func_name, {errmsg: "You need to give modification_id"}, call_back);
+
+		var user = {
+			account_user_id: socket.account.id
+		}
+		var modification = {
+			id: info.modification_id
+		}
+
+		database.get_user_car_modification(user, modification, function(err, results){
+			if(err) return socket.fail(func_name, {errmsg: "database error get_user_car_modification", code: err.code}, call_back);
+			if(results.length == 0) return socket.fail(func_name, {errmsg: "you are not the owner of this car"}, call_back);
+
+			var notification = {
+				to_account_id: results[0].service_id,
+				from_account_id: socket.account.id,
+				car_id: results[0].car_id,
+				status: "waiting",
+				type: "user_to_service_report_modification_problem",
+				date: new Date()
+			};
+
+			database.add_notification(notification, function(err, results){
+				if(err) return socket.fail(func_name, {errmsg: "database error add_notification", code: err}, call_back);
+				return socket.successful(func_name, notification, call_back);
+			});
 		});
 
 	});
