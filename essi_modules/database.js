@@ -141,8 +141,8 @@ module.exports = function(mysql,db_user){
 	this.add_modification_by_worker = function add_modification_by_worker(modification, func){
 		this.connection.query("INSERT INTO modification SET ?", modification, func);
 	}
-	this.set_modification_by_worker = function set_modification_by_worker(set, where, func){
-		this.connection.query("UPDATE modification SET ? WHERE ?", [set, where], func);
+	this.set_modification_by_worker = function set_modification_by_worker(set, where1, where2, func){
+		this.connection.query("UPDATE modification SET ? WHERE ? AND ?", [set, where1, where2], func);
 	}
 	return this;
 };
