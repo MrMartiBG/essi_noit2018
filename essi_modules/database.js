@@ -10,7 +10,6 @@ module.exports = function(mysql,db_user){
 		console.log("Connected to database!");
 	});
 
-	// this.connection.query("INSERT INTO service_car SET ?", {account_service_id: 2, car_id: 2}, function(){});
 
 	this.add_account = function add_account(account, func){
 		this.connection.query("INSERT INTO account SET ?", account, func);
@@ -84,6 +83,12 @@ module.exports = function(mysql,db_user){
 	}
 	this.get_notifications = function get_notifications(notification, func){
 		this.connection.query("SELECT * FROM notification WHERE ?", notification, func);
+	}
+	this.get_notification = function get_notification(notification, account, func){
+		this.connection.query("SELECT * FROM notification WHERE ? AND ?", [notification, account], func);
+	}
+	this.set_notifications = function set_notifications(set, where, func){
+		this.connection.query("UPDATE notification SET ? WHERE ?", [set, where], func);
 	}
 	this.get_user_car_modification = function get_user_car_modification(user, mod, func){
 		this.connection.query("SELECT * FROM modification JOIN user_car ON modification.car_id = user_car.car_id WHERE ? AND ?",
@@ -173,6 +178,11 @@ module.exports = function(mysql,db_user){
 		this.connection.query("INSERT INTO logs SET ?", log, func);
 	}
 
+
+
+	this.add_service_car = function add_service_car(service_car, func){
+		this.connection.query("INSERT INTO service_car SET ?", service_car, func);
+	}
 
 	return this;
 };
