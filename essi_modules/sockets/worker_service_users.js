@@ -34,6 +34,18 @@ module.exports = function(socket,database){
 
 			database.add_service_user_by_worker(serivce_user, function(err, results){
 				if(err) return socket.fail(func_name, {errmsg: "database error add_service_user_by_worker", code: err}, call_back);
+
+				// var notification = {
+				// 	account_service_id: info.account_service_id,
+				// 	to_account_id: info.account_user_id, 
+				// 	from_account_id: info.account_service_id, 
+				// 	status: "info", 
+				// 	type: "added_to_service_user", 
+				// 	date: new Date
+				// };
+
+				// socket.make_notification(notification);
+
 				return socket.successful(func_name, serivce_user, call_back);
 			});
 

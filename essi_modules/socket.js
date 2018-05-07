@@ -52,6 +52,66 @@ module.exports = function(database,transporter){
 			});
 		}
 
+		socket.make_notification = function make_notification(info){
+
+			if(info.to_account_id == undefined) return console.log("error - make_notification - to_account_id is undefined");
+			if(info.from_account_id == undefined) return console.log("error - make_notification - from_account_id is undefined");
+			if(info.status == undefined) return console.log("error - make_notification - status is undefined");
+			if(info.type == undefined) return console.log("error - make_notification - type is undefined");
+
+			var notification = {
+				to_account_id: info.to_account_id, 
+				from_account_id: info.from_account_id, 
+				car_id: info.car_id, 
+				status: info.status, 
+				type: info.type, 
+				date: new Date
+			};
+
+			if(info.car_id != undefined) notification.car_id = info.car_id;
+			if(info.modification_id != undefined) notification.modification_id = info.modification_id;
+
+			database.add_notification(notification, function(error, results){
+
+				var log = {
+					account_user_id: socket.account.id,
+					account_service_id: info.account_service_id,
+					date: new Date
+				};
+
+				if(results.insertId != undefined) log.notification_id = results.insertId;
+
+				console.log(log);
+
+				database.add_log(log, function(error, results){
+					if(error) return console.log("error - make_service_log - " + error.code);
+					return console.log("successful - make_service_log");
+				});
+
+				if(error) return console.log("error - make_notification - " + error.code);
+				return console.log("successful - make_notification");
+			});
+
+		}
+
+		socket.make_service_log = function make_service_log(info){
+
+			if(info.account_service_id == undefined) return console.log("error - make_service_log - account_service_id is undefined");
+
+			var log = {
+				account_user_id: socket.account.id,
+				account_service_id: info.account_service_id,
+				date: new Date
+			};
+
+			if(info.notification_id != undefined) log.notification_id = info.notification_id;
+
+			database.add_log(log, function(error){
+				if(error) return console.log("error - make_service_log - " + error.code);
+				return console.log("successful - make_service_log");
+			});
+		}
+
 		socket.authenticated = false;
 		socket.account = {};
 

@@ -165,5 +165,11 @@ module.exports = function(mysql,db_user){
 	}
 
 
+
+	this.add_log = function add_log(log, func){
+		this.connection.query("INSERT INTO logs SET ?", log, func);
+	}
+
+
 	return this;
 };

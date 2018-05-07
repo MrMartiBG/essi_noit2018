@@ -112,7 +112,7 @@ function config_tables(){
 							`id` 			  int 			NOT NULL 	AUTO_INCREMENT		,\
 							`to_account_id`   int 			NOT NULL 						,\
 							`from_account_id` int 			NOT NULL 						,\
-							`car_id`		  int			NOT NULL 						,\
+							`car_id`		  int					 						,\
 							`modification_id` int					 						,\
 							`status` 		  varchar(64) 	NOT NULL 						,\
 							`type` 			  varchar(64) 	NOT NULL 						,\
@@ -146,9 +146,7 @@ function config_tables(){
 	var logs = "		CREATE TABLE `logs` (												\
 							`id` 			  	int 			NOT NULL 	AUTO_INCREMENT	,\
 							`account_service_id`int 			NOT NULL 					,\
-							`user_account_id`   int 			NOT NULL 					,\
-							`car_id`   			int 										,\
-							`modification_id`   int 										,\
+							`account_user_id`   int 			NOT NULL 					,\
 							`notification_id`   int 										,\
 							`date` 			  	datetime		NOT NULL 					,\
 							PRIMARY KEY (`id`)			 									\
