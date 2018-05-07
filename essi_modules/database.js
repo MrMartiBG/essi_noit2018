@@ -112,5 +112,11 @@ module.exports = function(mysql,db_user){
 		this.connection.query("DELETE FROM service_user WHERE ? AND ?", [service, user], func);
 	}
 
+
+
+	this.get_service_user_rights = function get_service_user_rights(service, user, func){
+		this.connection.query("SELECT user_rights FROM service_user WHERE ? AND ?", [service, user], func);
+	}
+
 	return this;
 };
