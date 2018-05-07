@@ -112,6 +112,7 @@ function config_tables(){
 							`id` 			  int 			NOT NULL 	AUTO_INCREMENT		,\
 							`to_account_id`   int 			NOT NULL 						,\
 							`from_account_id` int 			NOT NULL 						,\
+							`car_id`		  int			NOT NULL 						,\
 							`status` 		  varchar(64) 	NOT NULL 						,\
 							`type` 			  varchar(64) 	NOT NULL 						,\
 							`date` 			  datetime		NOT NULL 						,\
