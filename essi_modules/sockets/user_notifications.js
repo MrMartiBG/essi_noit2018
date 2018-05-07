@@ -44,8 +44,8 @@ module.exports = function(socket,database){
 		}
 
 		database.get_notification(notification, account, function(err, results){
-			if(err) return socket.fail(func_name, {errmsg: "database error get_notifications", code: err.code}, call_back);
-			if(results.length == 0) return socket.fail(func_name, {errmsg: "no notification with this id"}, call_back);
+			if(err) return socket.fail(func_name, {errmsg: "database error get_notification", code: err.code}, call_back);
+			if(results.length == 0) return socket.fail(func_name, {errmsg: "no notification with this id for this account"}, call_back);
 			if(results[0].status != "waiting") return socket.fail(func_name, {errmsg: "notification is not waiting"}, call_back);
 			if(info.status != "accept"){
 				database.set_notifications({status: "decline"}, {id: info.id}, function(){});
