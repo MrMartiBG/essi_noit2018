@@ -62,6 +62,7 @@ module.exports = function(socket,database){
 					if(err) 
 						return socket.fail(func_name, {errmsg: "database error add_service_car", code: err.code}, call_back);
 					database.set_notifications({status: "accept"}, {id: info.id}, function(){});
+					socket.make_service_log({account_service_id: service_car.account_service_id, notification_id: info.id});
 					return socket.successful(func_name, service_car, call_back);
 				});
 			}else{

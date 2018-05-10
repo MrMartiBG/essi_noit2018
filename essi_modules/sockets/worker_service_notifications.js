@@ -21,7 +21,7 @@ module.exports = function(socket,database){
 
 	socket.on('set_status_notification_by_worker', function(info, call_back){
 
-		socket.validate_worker_rights("get_notifications_by_worker", info, call_back, 0b100, function(func_name, info, call_back){
+		socket.validate_worker_rights("set_status_notification_by_worker", info, call_back, 0b100, function(func_name, info, call_back){
 
 			if(info.id == undefined) return socket.fail(func_name, {errmsg: "id is undefined"}, call_back);
 			if(info.status == undefined) return socket.fail(func_name, {errmsg: "status is undefined"}, call_back);
@@ -52,6 +52,7 @@ module.exports = function(socket,database){
 						if(err) 
 							return socket.fail(func_name, {errmsg: "database error add_service_car", code: err.code}, call_back);
 						database.set_notifications({status: "accept"}, {id: info.id}, function(){});
+						socket.make_service_log({account_service_id: info.account_service_id, notification_id: info.id});
 						return socket.successful(func_name, service_car, call_back);
 					});
 				}else{
