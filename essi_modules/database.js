@@ -113,6 +113,9 @@ module.exports = function(mysql,db_user){
 	this.get_service_user = function get_service_user(service_user, func){
 		this.connection.query("SELECT * FROM service_user WHERE ?", service_user, func);
 	}
+	this.get_service_user_this_user = function get_service_user_this_user(service_user, func){
+		this.connection.query("SELECT * FROM service_user JOIN service ON service_user.account_service_id = service.account_id WHERE ?", service_user, func);
+	}
 	this.set_service_user = function set_service_user(rights, service, user, func){
 		this.connection.query("UPDATE service_user SET ? WHERE ? AND ?", [rights, service, user], func);
 	}

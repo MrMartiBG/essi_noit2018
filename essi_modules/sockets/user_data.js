@@ -67,8 +67,8 @@ module.exports = function(socket,database){
 			account_user_id: socket.account.id
 		};
 
-		database.get_service_user(user, function(err, results){
-			if(err) return socket.fail(func_name, {errmsg: "database error get_service_user", code: err.code}, call_back);
+		database.get_service_user_this_user(user, function(err, results){
+			if(err) return socket.fail(func_name, {errmsg: "database error get_service_user_this_user", code: err.code}, call_back);
 			return socket.successful(func_name, results, call_back);
 		});
 
