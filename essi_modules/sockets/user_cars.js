@@ -21,10 +21,10 @@ module.exports = function(socket,database){
 			if(info.public != undefined) car.public = info.public;
 			else car.public = false;
 			if(info.info != undefined) car.info = info.info;
-		
+
 
 		database.add_car(car, function(err, results){
-			if(err) return socket.fail(func_name, {errmsg: "database error add_car", code: err.code}, call_back);
+			if(err) return socket.fail(func_name, {errmsg: "database error add_car", code: err}, call_back);
 
 			car.id = results.insertId;
 
@@ -72,7 +72,7 @@ module.exports = function(socket,database){
 		if(!socket.authenticated) return socket.fail(func_name, {errmsg: "You are not in account"}, call_back);
 		if(socket.account.type != "user") return socket.fail(func_name, {errmsg: "You are not user"}, call_back);
 		if(info.id == undefined) return socket.fail(func_name, {errmsg: "car.id is undefined"}, call_back);
-		
+
 		var car = {car_id: info.id};
 
 		var  new_car = {};
@@ -85,11 +85,11 @@ module.exports = function(socket,database){
 			if(info.registration_number != undefined) new_car.registration_number = info.registration_number;
 			if(info.public != undefined) new_car.public = info.public;
 			if(info.info != undefined) new_car.info = info.info;
-		
+
 
 		database.set_car(new_car, car, {account_user_id: socket.account.id}, function(err, results){
 			if(err) return socket.fail(func_name, {errmsg: "database error set_car", code: err}, call_back);
-			if(results.affectedRows == 0) 
+			if(results.affectedRows == 0)
 				return socket.fail(func_name, {errmsg: "affectedRows = 0"}, call_back);
 			return socket.successful(func_name, new_car, call_back);
 		});
@@ -114,7 +114,7 @@ module.exports = function(socket,database){
 
 		database.delete_user_car(car, {account_user_id: socket.account.id}, function(err, results){
 			if(err) return socket.fail(func_name, {errmsg: "database error delete_user_car", code: err.code}, call_back);
-			if(results.affectedRows == 0) 
+			if(results.affectedRows == 0)
 				return socket.fail(func_name, {errmsg: "affectedRows = 0"}, call_back);
 			return socket.successful(func_name, results, call_back);
 		});

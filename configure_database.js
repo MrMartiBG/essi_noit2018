@@ -83,6 +83,7 @@ function config_tables(){
 							`generation` 	varchar(64) 									,\
 							`engine` 		varchar(64) 									,\
 							`status` 		varchar(64) 									,\
+							`info` 		varchar(256) 									,\
 							`vin_number` 	varchar(64)					UNIQUE				,\
 							`registration_number`	varchar(64)			UNIQUE				,\
 							`public` 		bool 			NOT NULL	DEFAULT false 		,\
@@ -153,15 +154,15 @@ function config_tables(){
 					) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"						;
 
 
-	connection.query(	account + 
-						user + 
-						service + 
-						car + 
-						modification + 
-						notification + 
-						user_car + 
-						service_car + 
-						service_user + 
+	connection.query(	account +
+						user +
+						service +
+						car +
+						modification +
+						notification +
+						user_car +
+						service_car +
+						service_user +
 						logs,
 	function (err, result) {
 		if (err){
